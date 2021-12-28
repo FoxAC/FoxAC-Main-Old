@@ -32,7 +32,9 @@ public final class FastPlaceA extends Check {
                     double stDev = MathUtil.getStandardDeviation(delays);
 
                     if (avg < 4 && stDev < 0.15) {
-                        fail();
+                        if  (increaseBuffer() > 2) {
+                            fail();
+                        }
                     }
 
                     delays.clear();

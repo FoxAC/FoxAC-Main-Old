@@ -35,7 +35,7 @@ public final class AlertManager {
         }
     }
 
-    public static void handleAlert(final Check check, final PlayerData data, final String info) {
+    public static void handleAlert(final Check check, final PlayerData data, final String colour, String info) {
 
         if(check.getCheckInfo() != null) {
             if (Config.LOGGING_ENABLED) {
@@ -58,6 +58,7 @@ public final class AlertManager {
                     .replaceAll("%check%", check.getCheckInfo().name())
                     .replaceAll("%dev%", check.getCheckInfo().experimental() ? ColorUtil.translate("&7*") : "")
                     .replaceAll("%vl%", Integer.toString(check.getVl()))
+                    .replaceAll("%colour%", colour)
                     .replaceAll("%type%", check.getCheckInfo().type())
                     .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
@@ -110,6 +111,7 @@ public final class AlertManager {
                         .replaceAll("%check%", "Speed")
                         .replaceAll("%dev%", "")
                         .replaceAll("%vl%", Integer.toString(check.getVl()))
+                        .replaceAll("%colour%", colour)
                         .replaceAll("%type%", "F")
                         .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
@@ -128,6 +130,7 @@ public final class AlertManager {
                         .replaceAll("%dev%", "")
                         .replaceAll("%vl%", Integer.toString(check.getVl()))
                         .replaceAll("%type%", "A")
+                        .replaceAll("%colour%", colour)
                         .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
                 alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));

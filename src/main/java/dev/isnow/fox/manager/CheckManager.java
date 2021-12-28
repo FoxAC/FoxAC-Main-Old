@@ -12,17 +12,13 @@ import dev.isnow.fox.check.impl.player.inventory.*;
 import dev.isnow.fox.check.impl.player.post.*;
 import dev.isnow.fox.check.impl.player.scaffold.*;
 import dev.isnow.fox.check.impl.player.timer.*;
-import dev.isnow.fox.check.impl.combat.angle.AngleA;
 import dev.isnow.fox.check.impl.combat.autoblock.AutoBlockA;
 import dev.isnow.fox.check.impl.combat.autoblock.AutoBlockB;
 import dev.isnow.fox.check.impl.combat.autoblock.AutoBlockC;
 import dev.isnow.fox.check.impl.combat.hitbox.HitboxA;
 import dev.isnow.fox.check.impl.combat.reach.ReachA;
 import dev.isnow.fox.check.impl.combat.reach.ReachB;
-import dev.isnow.fox.check.impl.combat.reach.ReachC;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
-import dev.isnow.fox.check.impl.combat.velocity.VelocityB;
-import dev.isnow.fox.check.impl.combat.velocity.VelocityC;
 import dev.isnow.fox.check.impl.movement.bowfly.BowFlyA;
 import dev.isnow.fox.check.impl.movement.fastclimb.FastClimbA;
 import dev.isnow.fox.check.impl.movement.fastclimb.FastClimbB;
@@ -47,7 +43,6 @@ import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofA;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofB;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofC;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofD;
-import dev.isnow.fox.check.impl.player.pingspoof.PingSpoofA;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -75,7 +70,6 @@ public final class CheckManager {
             AimL.class,
             AimM.class,
             AimN.class,
-            AimO.class,
             AuraAA.class,
             AuraA.class,
             AuraB.class,
@@ -95,12 +89,8 @@ public final class CheckManager {
             AutoBlockC.class,
             ReachA.class,
             ReachB.class,
-            ReachC.class,
             HitboxA.class,
-            AngleA.class,
             VelocityA.class,
-            VelocityB.class,
-            VelocityC.class,
             BowFlyA.class,
             SpeedA.class,
             SpeedB.class,
@@ -161,7 +151,6 @@ public final class CheckManager {
             InventoryE.class,
             InventoryF.class,
             InventoryG.class,
-            PingSpoofA.class,
             FastPlaceA.class,
             ScaffoldA.class,
             ScaffoldB.class,
@@ -181,6 +170,7 @@ public final class CheckManager {
             BadPacketsA.class,
             BadPacketsB.class,
             BadPacketsC.class,
+            BadPacketsD.class,
             BadPacketsE.class,
             BadPacketsF.class,
             BadPacketsG.class,
@@ -191,8 +181,6 @@ public final class CheckManager {
             BadPacketsL.class,
             BadPacketsM.class,
             BadPacketsN.class,
-            BadPacketsO.class,
-            BadPacketsP.class
     };
 
     private static final List<Constructor<?>> CONSTRUCTORSALL = new ArrayList<>();

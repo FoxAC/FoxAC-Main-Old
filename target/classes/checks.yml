@@ -85,12 +85,6 @@ checks:
         punish-commands:
           - ''
           - ''
-      o:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     autoblock:
       a:
         enabled: true
@@ -212,41 +206,15 @@ checks:
           - ''
       b:
         enabled: true
-        max-violations: 2
+        max-violations: 1
         punish-commands:
           - ''
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 2
-        punish-commands:
-          - ''
-          - ''
-          - ''
-    angle:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
           - ''
           - ''
     velocity:
       a:
         enabled: true
-        max-violations: 1
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 1
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 1
+        max-violations: 5
         punish-commands:
           - ''
           - ''
@@ -633,23 +601,9 @@ checks:
         punish-commands:
           - ''
           - ''
-    pingspoof:
-      a:
-        enabled: true
-        max-violations: 50
-        punish-commands:
-          - ''
-          - ''
-    fastplace:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     anticactus:
       a:
-        enabled: true
+        enabled: false
         max-violations: 8
         punish-commands:
           - ''
@@ -841,18 +795,6 @@ checks:
           - ''
           - ''
       n:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      o:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      p:
         enabled: true
         max-violations: 8
         punish-commands:

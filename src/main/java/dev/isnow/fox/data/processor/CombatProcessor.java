@@ -56,8 +56,10 @@ public final class CombatProcessor {
 
         if(target != null && target instanceof Player && !target.isDead()) {
             PlayerData pd = PlayerDataManager.getInstance().getPlayerData((Player) target);
-            pd.getCombatProcessor().attackedTicks = 0;
-            pd.getCombatProcessor().attackedHits++;
+            if (pd != null) {
+                pd.getCombatProcessor().attackedTicks = 0;
+                pd.getCombatProcessor().attackedHits++;
+            }
         }
         ++hits;
 

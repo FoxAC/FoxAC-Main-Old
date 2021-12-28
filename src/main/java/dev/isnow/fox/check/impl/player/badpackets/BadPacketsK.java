@@ -10,7 +10,7 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
-@CheckInfo(name = "BadPackets", type = "K", description = "")
+@CheckInfo(name = "BadPackets", type = "K", description = "Checks for retards not swinging.")
 public final class BadPacketsK extends Check {
 
     private boolean swung;

@@ -20,6 +20,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="craftbukkit-1.8.8-R0.1-SNAPSHOT-latest" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
@@ -37,7 +38,7 @@
     <orderEntry type="module-library">
       <library name="Maven: groupid:artifact:1.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../JDKS/craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

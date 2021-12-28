@@ -3,7 +3,6 @@ package dev.isnow.fox;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
 import dev.isnow.fox.command.CommandManager;
-import dev.isnow.fox.command.VerusCommand;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.gui.GuiManager;
 import dev.isnow.fox.listener.bukkit.BukkitEventManager;
@@ -14,7 +13,6 @@ import dev.isnow.fox.packet.processor.ReceivingPacketProcessor;
 import dev.isnow.fox.packet.processor.SendingPacketProcessor;
 import dev.isnow.fox.update.UpdateChecker;
 import dev.isnow.fox.check.impl.movement.speed.SpeedF;
-import dev.isnow.fox.check.impl.player.fastbow.FastBowA;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
@@ -82,7 +80,6 @@ public enum Fox {
 
         guiManager = new GuiManager();
         getPlugin().getCommand("fox").setExecutor(commandManager);
-        getPlugin().getCommand("verus").setExecutor(new VerusCommand());
 
         tickManager.start();
 
@@ -127,7 +124,6 @@ public enum Fox {
         Bukkit.getServer().getPluginManager().registerEvents(new BukkitEventManager(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new SpeedF(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new ClientBrandListener(), plugin);
-        Bukkit.getServer().getPluginManager().registerEvents(new FastBowA(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new GuiManager(), plugin);
         PacketEvents.get().getEventManager().registerListener(new NetworkManager());
     }

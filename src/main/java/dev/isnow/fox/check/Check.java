@@ -94,7 +94,9 @@ public abstract class Check {
                         data.setPlayerViolations(data.getPlayerViolations() + 1);
                         break;
                 }
-                AlertManager.handleAlert(this, data, Objects.toString(info));
+                String colour = (vl > 0 && vl < 6 ? ChatColor.GREEN + Integer.toString(vl) : (vl > 5 && vl < 11 ? ChatColor.YELLOW + Integer.toString(vl) : ChatColor.RED + Integer.toString(vl)));
+
+                AlertManager.handleAlert(this, data, colour, Objects.toString(info));
                 if(this.getVl() == 3 && !PlayerDataManager.getInstance().suspectedPlayers.contains(data.getPlayer())) {
                     PlayerDataManager.getInstance().suspectedPlayers.add(data.getPlayer());
                 }
