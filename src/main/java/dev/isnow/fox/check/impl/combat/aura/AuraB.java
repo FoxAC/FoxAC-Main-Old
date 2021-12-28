@@ -1,39 +1,34 @@
-
-
 package dev.isnow.fox.check.impl.combat.aura;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
-import org.bukkit.entity.Entity;
+import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Aura", type = "B", description = "Checks for multi-aura.")
-public final class AuraB extends Check {
-    public AuraB(final PlayerData data) {
+@CheckInfo(name = "Aura", type = "B", description = "Invalid ARM ANIMATION order")
+public class AuraB extends Check {
+    public AuraB(PlayerData data) {
         super(data);
     }
 
+    private final EvictingList<Packet> packetOrder = new EvictingList<>(3);
+
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isUseEntity()) {
-            final WrappedPacketInUseEntity wrapper = new WrappedPacketInUseEntity(packet.getRawPacket());
+    public void handle(Packet packet) {
+        if (packet.isFlyingType() || packet.isArmAnimation() || packet.isTransaction()) {
+            packetOrder.add(packet);
 
-            if (wrapper.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
-                final Entity target = data.getCombatProcessor().getTarget();
-                final Entity lastTarget = data.getCombatProcessor().getLastTarget();
+            if (packetOrder.size() == 3) {
 
-                final boolean exempt = target == lastTarget;
+                boolean flag = packetOrder.get(2).isTransaction() &&
+                        packetOrder.get(1).isArmAnimation() &&
+                        packetOrder.get(0).isFlyingType();
 
-                if (!exempt) {
-                    if (increaseBuffer() > 1) {
-                        fail();
-                    }
-                }
+                if (flag)
+                    fail();
             }
-        } else if (packet.isFlying()) {
-            resetBuffer();
+
         }
     }
 }

@@ -24,6 +24,7 @@ public final class CombatProcessor {
     private double hitMissRatio, distance;
     private Entity target, lastTarget;
     private long LastUseEntityPacket;
+    private long lastAttack, lastAttackTick;
     private final List<AxisAlignedBB> pastVictimBoxes = new ArrayList<>();
 
     public CombatProcessor(final PlayerData data) {
@@ -41,6 +42,13 @@ public final class CombatProcessor {
                 }
             }
         }.runTaskTimerAsynchronously(Fox.INSTANCE.getPlugin(),0L,1L);
+    }
+
+    public void onHitTarget(WrappedPacketInUseEntity packet) {
+        if (packet.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
+            lastAttack = System.currentTimeMillis();
+            this.lastAttackTick = Fox.INSTANCE.getTickManager().getTicks();
+        }
     }
 
     public void handleUseEntity(final WrappedPacketInUseEntity wrapper) {

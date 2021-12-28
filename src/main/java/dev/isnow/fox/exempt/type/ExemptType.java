@@ -2,9 +2,9 @@
 
 package dev.isnow.fox.exempt.type;
 
-import dev.isnow.fox.listener.bukkit.BukkitEventManager;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.listener.bukkit.BukkitEventManager;
 import dev.isnow.fox.manager.AFKManager;
 import dev.isnow.fox.util.ServerUtil;
 import io.github.retrooper.packetevents.PacketEvents;

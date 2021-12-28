@@ -1,15 +1,15 @@
 package dev.isnow.fox.check;
 
+import dev.isnow.fox.Fox;
+import dev.isnow.fox.api.APIManager;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.config.Config;
+import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.manager.PunishmentManager;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.Fox;
-import dev.isnow.fox.api.APIManager;
-import dev.isnow.fox.data.PlayerData;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

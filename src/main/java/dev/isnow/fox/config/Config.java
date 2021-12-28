@@ -1,9 +1,9 @@
 package dev.isnow.fox.config;
 
+import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.processor.GhostBlockProcessor;
 import dev.isnow.fox.manager.CheckManager;
-import dev.isnow.fox.Fox;
 import dev.isnow.fox.util.ColorUtil;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;

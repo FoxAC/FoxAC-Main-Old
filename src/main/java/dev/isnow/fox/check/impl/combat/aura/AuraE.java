@@ -4,52 +4,31 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Aura", type = "E", description = "Checks for hit occlusion (wallhit).")
+@CheckInfo(name = "Aura", type = "E", description = "Invalid BLOCK PLACE order")
 public class AuraE extends Check {
-
-    private Location lastAttackerLocation;
-    private float lastYaw, lastPitch;
-
     public AuraE(PlayerData data) {
         super(data);
     }
 
+    private final EvictingList<Packet> packetOrder = new EvictingList<>(3);
+
     @Override
     public void handle(Packet packet) {
-        if (packet.isUseEntity()) {
-            final Entity target = data.getCombatProcessor().getTarget();
-            final Player attacker = data.getPlayer();
+        if (packet.isFlyingType() || packet.isBlockPlace() || packet.isTransaction()) {
+            packetOrder.add(packet);
 
-            if (target == null || attacker == null) return;
-            if (target.getWorld() != attacker.getWorld()) return;
+            if (packetOrder.size() == 3) {
 
-            final Location attackerLocation = attacker.getLocation();
+                boolean flag = packetOrder.get(2).isTransaction() &&
+                        packetOrder.get(1).isBlockPlace() &&
+                        packetOrder.get(0).isFlyingType();
 
-            final float yaw = data.getRotationProcessor().getYaw() % 360F;
-            final float pitch = data.getRotationProcessor().getPitch();
-
-            if (lastAttackerLocation != null) {
-                final boolean check = yaw != lastYaw &&
-                        pitch != lastPitch &&
-                        attackerLocation.distance(lastAttackerLocation) > 0.1;
-
-                if (check && !attacker.hasLineOfSight(target)) {
-                    if (increaseBuffer() > 20) {
-                        fail("pitch=" + pitch);
-                    }
-                } else {
-                    decreaseBuffer();
-                }
+                if (flag)
+                    fail();
             }
 
-            lastAttackerLocation = attacker.getLocation();
-
-            lastYaw = yaw;
-            lastPitch = pitch;
         }
     }
 }

@@ -2,9 +2,9 @@
 
 package dev.isnow.fox.manager;
 
-import dev.isnow.fox.util.type.Pair;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.util.type.Pair;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
 import lombok.Getter;

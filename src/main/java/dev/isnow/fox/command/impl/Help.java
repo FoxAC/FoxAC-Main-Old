@@ -1,8 +1,8 @@
 package dev.isnow.fox.command.impl;
 
-import dev.isnow.fox.command.FoxCommand;
 import dev.isnow.fox.command.CommandInfo;
 import dev.isnow.fox.command.CommandManager;
+import dev.isnow.fox.command.FoxCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

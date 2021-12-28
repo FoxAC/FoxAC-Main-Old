@@ -1,12 +1,12 @@
 package dev.isnow.fox.gui;
 
+import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.listener.bukkit.BukkitEventManager;
 import dev.isnow.fox.manager.CheckManager;
 import dev.isnow.fox.manager.PlayerDataManager;
-import dev.isnow.fox.Fox;
 import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

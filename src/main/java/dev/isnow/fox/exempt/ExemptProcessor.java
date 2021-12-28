@@ -2,8 +2,8 @@
 
 package dev.isnow.fox.exempt;
 
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;

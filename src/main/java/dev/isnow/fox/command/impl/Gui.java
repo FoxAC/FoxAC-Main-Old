@@ -1,8 +1,8 @@
 package dev.isnow.fox.command.impl;
 
 import dev.isnow.fox.Fox;
-import dev.isnow.fox.command.FoxCommand;
 import dev.isnow.fox.command.CommandInfo;
+import dev.isnow.fox.command.FoxCommand;
 import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

@@ -2,6 +2,7 @@ package dev.isnow.fox;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
+import dev.isnow.fox.check.impl.movement.speed.SpeedF;
 import dev.isnow.fox.command.CommandManager;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.gui.GuiManager;
@@ -12,7 +13,6 @@ import dev.isnow.fox.manager.*;
 import dev.isnow.fox.packet.processor.ReceivingPacketProcessor;
 import dev.isnow.fox.packet.processor.SendingPacketProcessor;
 import dev.isnow.fox.update.UpdateChecker;
-import dev.isnow.fox.check.impl.movement.speed.SpeedF;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;

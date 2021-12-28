@@ -2,8 +2,8 @@
 
 package dev.isnow.fox.command.impl;
 
-import dev.isnow.fox.command.FoxCommand;
 import dev.isnow.fox.command.CommandInfo;
+import dev.isnow.fox.command.FoxCommand;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.manager.PlayerDataManager;
 import org.bukkit.Bukkit;

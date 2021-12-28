@@ -1,11 +1,11 @@
 package dev.isnow.fox.manager;
 
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.api.APIManager;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.util.ColorUtil;
 import dev.isnow.fox.util.LogUtil;
 import dev.isnow.fox.util.ServerUtil;

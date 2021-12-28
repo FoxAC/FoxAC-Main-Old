@@ -2,9 +2,9 @@
 
 package dev.isnow.fox.command;
 
-import dev.isnow.fox.command.impl.*;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.FoxPlugin;
+import dev.isnow.fox.command.impl.*;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.ChatColor;
@@ -73,7 +73,7 @@ public final class CommandManager implements CommandExecutor {
             }
         }
         else {
-            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by RealTrippy/5170 :goodangel: (" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion() + ")"));
+            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by Tecnio/5170 :goodangel: (" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion() + ")"));
             return true;
         }
         return false;

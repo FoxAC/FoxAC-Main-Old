@@ -2,10 +2,10 @@
 
 package dev.isnow.fox.data.processor;
 
-import dev.isnow.fox.exempt.type.ExemptType;
-import dev.isnow.fox.util.type.EvictingList;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.util.MathUtil;
+import dev.isnow.fox.util.type.EvictingList;
 import lombok.Getter;
 
 @Getter

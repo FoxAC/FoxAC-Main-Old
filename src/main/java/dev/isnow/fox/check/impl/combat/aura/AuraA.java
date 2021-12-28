@@ -1,43 +1,32 @@
-
-
 package dev.isnow.fox.check.impl.combat.aura;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.PlayerUtil;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Aura", type = "A", description = "Checks if player is sprinting after attack.")
-public final class AuraA extends Check {
-    public AuraA(final PlayerData data) {
+@CheckInfo(name = "Aura", type = "A", description = "Invalid USE ENTITY order.")
+public class AuraA extends Check {
+    public AuraA(PlayerData data) {
         super(data);
     }
 
+    private final EvictingList<Packet> packetOrder = new EvictingList<>(3);
+
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isFlying() && hitTicks() < 2) {
-            final Entity target = data.getCombatProcessor().getTarget();
+    public void handle(Packet packet) {
+        if (packet.isFlyingType() || packet.isUseEntityAttack() || packet.isTransaction()) {
+            packetOrder.add(packet);
 
-            final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
-            final double lastDeltaXZ = data.getPositionProcessor().getLastDeltaXZ();
+            if (packetOrder.size() == 3) {
 
-            final double baseSpeed = PlayerUtil.getBaseSpeed(data.getPlayer(), 0.22F);
-            final boolean sprinting = data.getActionProcessor().isSprinting();
+                boolean flag = packetOrder.get(2).isTransaction() &&
+                        packetOrder.get(1).isUseEntityAttack() &&
+                        packetOrder.get(0).isFlyingType();
 
-            final double acceleration = Math.abs(deltaXZ - lastDeltaXZ);
-
-            final boolean exempt = !(target instanceof Player);
-            final boolean invalid = acceleration < 0.0027 && sprinting && deltaXZ > baseSpeed;
-
-            if (invalid && !exempt) {
-                if (increaseBuffer() > 2) {
+                if (flag)
                     fail();
-                }
-            } else {
-                decreaseBufferBy(0.05);
             }
         }
     }

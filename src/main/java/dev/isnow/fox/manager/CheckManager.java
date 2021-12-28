@@ -4,24 +4,14 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.impl.combat.aim.*;
 import dev.isnow.fox.check.impl.combat.aura.*;
 import dev.isnow.fox.check.impl.combat.autoclicker.*;
-import dev.isnow.fox.check.impl.movement.flight.*;
-import dev.isnow.fox.check.impl.movement.motion.*;
-import dev.isnow.fox.check.impl.movement.speed.*;
-import dev.isnow.fox.check.impl.player.badpackets.*;
-import dev.isnow.fox.check.impl.player.inventory.*;
-import dev.isnow.fox.check.impl.player.post.*;
-import dev.isnow.fox.check.impl.player.scaffold.*;
-import dev.isnow.fox.check.impl.player.timer.*;
-import dev.isnow.fox.check.impl.combat.autoblock.AutoBlockA;
-import dev.isnow.fox.check.impl.combat.autoblock.AutoBlockB;
-import dev.isnow.fox.check.impl.combat.autoblock.AutoBlockC;
+import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitboxA;
-import dev.isnow.fox.check.impl.combat.reach.ReachA;
-import dev.isnow.fox.check.impl.combat.reach.ReachB;
+import dev.isnow.fox.check.impl.combat.reach.ReachX;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.movement.bowfly.BowFlyA;
 import dev.isnow.fox.check.impl.movement.fastclimb.FastClimbA;
 import dev.isnow.fox.check.impl.movement.fastclimb.FastClimbB;
+import dev.isnow.fox.check.impl.movement.flight.*;
 import dev.isnow.fox.check.impl.movement.jesus.JesusA;
 import dev.isnow.fox.check.impl.movement.jesus.JesusB;
 import dev.isnow.fox.check.impl.movement.jesus.JesusC;
@@ -30,19 +20,25 @@ import dev.isnow.fox.check.impl.movement.largemove.LargeMoveB;
 import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedA;
 import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedB;
 import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedC;
+import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.noslow.NoSlowA;
 import dev.isnow.fox.check.impl.movement.noslow.NoSlowB;
 import dev.isnow.fox.check.impl.movement.noslow.NoSlowC;
 import dev.isnow.fox.check.impl.movement.noslow.NoSlowD;
 import dev.isnow.fox.check.impl.movement.omnisprint.OmniSprintA;
+import dev.isnow.fox.check.impl.movement.speed.*;
 import dev.isnow.fox.check.impl.movement.strafe.StrafeA;
 import dev.isnow.fox.check.impl.player.anticactus.AntiCactusA;
+import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofA;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofB;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofC;
 import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofD;
+import dev.isnow.fox.check.impl.player.inventory.*;
+import dev.isnow.fox.check.impl.player.scaffold.*;
+import dev.isnow.fox.check.impl.player.timer.*;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -70,7 +66,6 @@ public final class CheckManager {
             AimL.class,
             AimM.class,
             AimN.class,
-            AuraAA.class,
             AuraA.class,
             AuraB.class,
             AuraC.class,
@@ -78,17 +73,23 @@ public final class CheckManager {
             AuraE.class,
             AuraF.class,
             AuraG.class,
+            AuraH.class,
+            AuraI.class,
+            AuraJ.class,
+            AuraK.class,
+            AuraL.class,
+            AuraM.class,
+            AuraN.class,
+            AuraO.class,
+            AuraR.class,
+            EntityA.class,
             AutoClickerF.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,
             AutoClickerD.class,
             AutoClickerE.class,
-            AutoBlockA.class,
-            AutoBlockB.class,
-            AutoBlockC.class,
-            ReachA.class,
-            ReachB.class,
+            ReachX.class,
             HitboxA.class,
             VelocityA.class,
             BowFlyA.class,
@@ -137,13 +138,6 @@ public final class CheckManager {
             TimerC.class,
             TimerD.class,
             TimerE.class,
-            PostA.class,
-            PostB.class,
-            PostC.class,
-            PostD.class,
-            PostE.class,
-            PostF.class,
-            PostG.class,
             InventoryA.class,
             InventoryB.class,
             InventoryC.class,

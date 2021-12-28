@@ -21,7 +21,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.NoSuchElementException;
 
 @UtilityClass
 public class PlayerUtil {
@@ -71,6 +74,18 @@ public class PlayerUtil {
             return player.getInventory().getBoots().getEnchantmentLevel(Enchantment.DEPTH_STRIDER);
         }
         return 0;
+    }
+
+    public boolean isHoldingSword(final Player player) {
+        return player.getItemInHand().getType().toString().toLowerCase().contains("sword");
+    }
+
+    public boolean is1_7(final Player player) {
+        return !is1_8(player);
+    }
+
+    public boolean is1_8(final Player player) {
+        return PacketEvents.getAPI().getPlayerUtils().getClientVersion(player).getProtocolVersion() >= 47;
     }
 
     public float getBaseSpeed(final Player player, final float base) {

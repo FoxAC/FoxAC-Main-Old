@@ -1,4 +1,4 @@
-package dev.isnow.fox.check.impl.combat.aura;
+package dev.isnow.fox.check.impl.combat.entity;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
@@ -16,10 +16,10 @@ import org.bukkit.entity.Player;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-@CheckInfo(name = "Aura", type = "AA", description = "Checks if player is wearing china hat.                   (Its a bot check)")
-public class AuraAA extends Check {
+@CheckInfo(name = "Entity", type = "A", description = "Checks for attacking aura bot.")
+public class EntityA extends Check {
 
-    public AuraAA(PlayerData data) {
+    public EntityA(PlayerData data) {
         super(data);
     }
 

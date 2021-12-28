@@ -2,13 +2,14 @@
 
 package dev.isnow.fox.data.processor;
 
-import dev.isnow.fox.util.type.BoundingBox;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.PlayerUtil;
+import dev.isnow.fox.util.type.BoundingBox;
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -62,6 +63,9 @@ public final class PositionProcessor {
     private List<Block> blocksAbove = new ArrayList<>();
 
     private List<Entity> nearbyEntities = new ArrayList<>();
+
+    @Setter
+    private double lastMoveAngle;
 
     public PositionProcessor(final PlayerData data) {
         this.data = data;

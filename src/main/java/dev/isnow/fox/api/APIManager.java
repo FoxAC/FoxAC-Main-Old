@@ -2,11 +2,11 @@
 
 package dev.isnow.fox.api;
 
+import dev.isnow.fox.Fox;
 import dev.isnow.fox.api.impl.FoxFlagEvent;
 import dev.isnow.fox.api.impl.FoxPunishEvent;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
-import dev.isnow.fox.Fox;
 import org.bukkit.Bukkit;
 
 public final class APIManager {

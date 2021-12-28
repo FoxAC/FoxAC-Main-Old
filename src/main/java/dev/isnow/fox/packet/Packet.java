@@ -4,6 +4,9 @@ package dev.isnow.fox.packet;
 
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
+import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
+import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
+import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +42,43 @@ public final class Packet {
     public boolean isPosition() {
         return isReceiving() && (packetId == PacketType.Play.Client.POSITION || packetId == PacketType.Play.Client.POSITION_LOOK);
     }
+
+    public boolean isStopSprinting() {
+        return (isAction() && new WrappedPacketInEntityAction(rawPacket).getAction() == WrappedPacketInEntityAction.PlayerAction.STOP_SPRINTING);
+    }
+
+    public boolean isAction() {
+        return (packetId == PacketType.Play.Client.ENTITY_ACTION);
+    }
+
+    public boolean isUseEntityInteract() {
+        return (isUseEntity() && new WrappedPacketInUseEntity(rawPacket).getAction() == WrappedPacketInUseEntity.EntityUseAction.INTERACT);
+    }
+
+    public boolean isUseEntityInteractAt() {
+        return (isUseEntity() && new WrappedPacketInUseEntity(rawPacket).getAction() == WrappedPacketInUseEntity.EntityUseAction.INTERACT_AT);
+    }
+
+    public boolean isTransaction() {
+        return (packetId == PacketType.Play.Client.TRANSACTION && new WrappedPacketInTransaction(rawPacket).getActionNumber() < 0);
+    }
+
+    public boolean isFlyingType() {
+        return PacketType.Play.Client.Util.isInstanceOfFlying(packetId);
+    }
+
+    public boolean isUseEntityAttack() {
+        return (isUseEntity() && new WrappedPacketInUseEntity(rawPacket).getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK);
+    }
+
+    public boolean isLook() {
+        return (packetId == PacketType.Play.Client.LOOK || packetId == PacketType.Play.Client.POSITION_LOOK);
+    }
+
+    public boolean isPositionLook() {
+        return (packetId == PacketType.Play.Client.POSITION_LOOK);
+    }
+
 
     public boolean isArmAnimation() {
         return isReceiving() && packetId == PacketType.Play.Client.ARM_ANIMATION;
