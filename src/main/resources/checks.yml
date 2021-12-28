@@ -375,6 +375,12 @@ checks:
         punish-commands:
           - ''
           - ''
+      i:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     noslow:
       a:
         enabled: true
@@ -397,19 +403,6 @@ checks:
       d:
         enabled: true
         max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-    largemove:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
         punish-commands:
           - ''
           - ''

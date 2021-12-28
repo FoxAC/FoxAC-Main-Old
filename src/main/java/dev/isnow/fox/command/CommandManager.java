@@ -52,7 +52,7 @@ public final class CommandManager implements CommandExecutor {
                     final String commandName = Fox.getCommandInfo().name();
                     if (commandName.equals(args[0])) {
                         if (!Fox.handle(commandSender, command, string, args)) {
-                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', Config.PREFIX) + " Usage: /Fox " +
+                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', Config.PREFIX) + " Usage: /fox " +
                                     Fox.getCommandInfo().name() + " " +
                                     Fox.getCommandInfo().syntax());
                         }
@@ -61,7 +61,7 @@ public final class CommandManager implements CommandExecutor {
                 }
             } else {
                 commandSender.sendMessage(ColorUtil.translate("&8&m--------------------------------------------------"));
-                commandSender.sendMessage(ColorUtil.translate("&cfox Commands:\n" + " \n"));
+                commandSender.sendMessage(ColorUtil.translate("&cFox Commands:\n" + " \n"));
                 for (final FoxCommand Foxcommand : commands) {
                     commandSender.sendMessage(ColorUtil.translate("&c/fox " +
                             Foxcommand.getCommandInfo().name() + " " +

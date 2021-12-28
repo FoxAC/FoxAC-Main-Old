@@ -18,7 +18,7 @@ public class MotionH extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if(packet.isFlying() && !isExempt(ExemptType.PEARL, ExemptType.NEARCACTUS, ExemptType.FIRE, ExemptType.RESPAWN, ExemptType.JOINED, ExemptType.UNDERBLOCK, ExemptType.UNDERBLOCKWAS)) {
+        if(packet.isFlying() && !isExempt(ExemptType.PEARL, ExemptType.TELEPORT, ExemptType.NEARCACTUS, ExemptType.FIRE, ExemptType.RESPAWN, ExemptType.JOINED, ExemptType.UNDERBLOCK, ExemptType.UNDERBLOCKWAS)) {
             if(data.getPositionProcessor().isInAir() && data.getPositionProcessor().getDeltaY() < 0  && data.getPositionProcessor().getSinceGroundTicks() > 3 && data.getPositionProcessor().getSinceJumpingTicks() < 8) {
                 debug(data.getPositionProcessor().getDeltaY());
                 if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_16) && data.getPositionProcessor().getBlocks().stream().anyMatch(block -> block.getType() == Material.SNOW)) {
