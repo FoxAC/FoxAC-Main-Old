@@ -14,8 +14,6 @@ public final class AimA extends Check {
         super(data);
     }
 
-
-
     @Override
     public void handle(final Packet packet) {
         if (packet.isRotation() && hitTicks() < 3) {

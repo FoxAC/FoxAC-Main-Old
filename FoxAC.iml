@@ -38,7 +38,7 @@
     <orderEntry type="module-library">
       <library name="Maven: groupid:artifact:1.0">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../JDKS/craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

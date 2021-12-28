@@ -3,29 +3,33 @@ package dev.isnow.fox.check.impl.combat.aim;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
+import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aim", type = "C", description = "Checks for invalid sensitivity.")
-public final class AimC extends Check {
-    public AimC(final PlayerData data) {
+@CheckInfo(name = "Aim", type = "C", description = "Checks for low yaw change.")
+public class AimC extends Check {
+
+    public AimC(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isRotation()) {
-            final double sensitivity = data.getRotationProcessor().getSensitivity();
+    public void handle(Packet packet) {
+        if(packet.isUseEntity()) {
+            WrappedPacketInUseEntity useEntityPacket = new WrappedPacketInUseEntity(packet.getRawPacket());
 
-            final boolean exempt = data.getRotationProcessor().isCinematic() && isExempt(ExemptType.CINEMATIC_TIME);
-            final boolean invalid = sensitivity < 0.0F;
+            if (useEntityPacket.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
 
-            if (invalid && !exempt) {
-                if (increaseBuffer() > 5) {
-                    fail();
+                double pitch = Math.abs(data.getRotationProcessor().getPitch() - data.getRotationProcessor().getLastPitch());
+                double yaw = Math.abs(data.getRotationProcessor().getPitch() - data.getRotationProcessor().getLastPitch());
+
+                if (pitch > 3.0 && yaw < 0.0001D) {
+                    if (increaseBuffer() > 3) {
+                        fail();
+                    }
+                } else {
+                    decreaseBuffer();
                 }
-            } else {
-                decreaseBufferBy(2);
             }
         }
     }
