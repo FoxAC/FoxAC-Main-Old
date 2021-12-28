@@ -1,0 +1,17 @@
+name: Fox
+version: 0.1-ALPHA
+main: dev.isnow.fox.FoxPlugin
+authors: ["5170", RealTrippy]
+description: Fox AntiCheat
+
+commands:
+  fox:
+    description: Commands for Fox Anticheat.
+    usage: /fox
+    aliases: [foxac, fac]
+    permission: fox.commands
+softdepend:
+  - ProtocolLib
+  - ProtocolSupport
+  - ViaVersion
+  - Geyser-Spigot
