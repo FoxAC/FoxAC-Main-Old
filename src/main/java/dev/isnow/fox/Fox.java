@@ -148,6 +148,14 @@ public enum Fox {
         }
     }
 
+    public void saveConfig() {
+        try {
+            yaml.save(new File(getPlugin().getDataFolder(), "checks.yml"));
+        } catch (IOException e) {
+
+        }
+    }
+
     public void reloadConfig() {
         yaml = YamlConfiguration.loadConfiguration(new File(Fox.INSTANCE.getPlugin().getDataFolder(), "checks.yml"));
 

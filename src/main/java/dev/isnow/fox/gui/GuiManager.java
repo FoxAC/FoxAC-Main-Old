@@ -321,6 +321,7 @@ public class GuiManager implements Listener {
                     if (check.getFullName().equals(ChatColor.stripColor(check_name))) {
                         if (Fox.INSTANCE.getYaml().getBoolean("checks." + check.getCheckType().toString().toLowerCase() + "." + check.getCheckInfo().name().toLowerCase() + "." + check.getCheckInfo().type().toLowerCase() + ".enabled")) {
                             Fox.INSTANCE.getYaml().set("checks." + check.getCheckType().toString().toLowerCase() + "." + check.getCheckInfo().name().toLowerCase() + "." + check.getCheckInfo().type().toLowerCase() + ".enabled", false);
+                            Fox.INSTANCE.saveConfig();
                             Fox.INSTANCE.reloadConfig();
                             for(PlayerData data : PlayerDataManager.getInstance().getAllData()) {
                                 data.getChecks().stream().filter(check1 -> check1.getFullName().equals(check.getFullName())).findFirst().get().setEnabled(false);
@@ -330,6 +331,7 @@ public class GuiManager implements Listener {
                             return;
                         }
                         Fox.INSTANCE.getYaml().set("checks." + check.getCheckType().toString().toLowerCase() + "." + check.getCheckInfo().name().toLowerCase() + "." + check.getCheckInfo().type().toLowerCase() + ".enabled", true);
+                        Fox.INSTANCE.saveConfig();
                         Fox.INSTANCE.reloadConfig();
                         for(PlayerData data : PlayerDataManager.getInstance().getAllData()) {
                             data.getChecks().stream().filter(check1 -> check1.getFullName().equals(check.getFullName())).findFirst().get().setEnabled(true);

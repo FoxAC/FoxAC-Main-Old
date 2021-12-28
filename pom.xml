@@ -101,8 +101,7 @@
             <artifactId>artifact</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>C:\Users\ryand\Documents\craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar
-            </systemPath>
+            <systemPath>C:\Users\5170\Desktop\Development\JDKS\craftbukkit-1.8.8-R0.1-SNAPSHOT-latest.jar</systemPath>
         </dependency>
     </dependencies>
 
