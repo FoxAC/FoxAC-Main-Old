@@ -15,8 +15,6 @@ import dev.isnow.fox.check.impl.movement.flight.*;
 import dev.isnow.fox.check.impl.movement.jesus.JesusA;
 import dev.isnow.fox.check.impl.movement.jesus.JesusB;
 import dev.isnow.fox.check.impl.movement.jesus.JesusC;
-import dev.isnow.fox.check.impl.movement.largemove.LargeMoveA;
-import dev.isnow.fox.check.impl.movement.largemove.LargeMoveB;
 import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedA;
 import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedB;
 import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedC;
@@ -119,8 +117,6 @@ public final class CheckManager {
             NoSlowC.class,
             NoSlowD.class,
             OmniSprintA.class,
-            LargeMoveA.class,
-            LargeMoveB.class,
             FastClimbA.class,
             FastClimbB.class,
             JesusA.class,

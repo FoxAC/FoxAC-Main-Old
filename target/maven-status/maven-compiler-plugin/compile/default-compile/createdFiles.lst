@@ -16,6 +16,7 @@ dev\isnow\fox\check\impl\player\badpackets\BadPacketsG.class
 dev\isnow\fox\check\impl\player\inventory\InventoryB.class
 dev\isnow\fox\util\type\WrappedEntity.class
 dev\isnow\fox\packet\Packet.class
+dev\isnow\fox\check\impl\movement\motion\MotionI.class
 dev\isnow\fox\check\impl\player\scaffold\ScaffoldM.class
 dev\isnow\fox\check\impl\player\groundspoof\GroundSpoofD.class
 dev\isnow\fox\data\processor\CombatProcessor$1.class
@@ -135,7 +136,6 @@ dev\isnow\fox\check\impl\player\badpackets\BadPacketsJ.class
 dev\isnow\fox\manager\AlertManager.class
 dev\isnow\fox\util\type\WrappedEntityHuman.class
 dev\isnow\fox\check\impl\movement\motion\MotionA.class
-dev\isnow\fox\check\impl\movement\largemove\LargeMoveA.class
 dev\isnow\fox\check\impl\combat\aura\AuraN.class
 dev\isnow\fox\manager\PunishmentManager$2.class
 dev\isnow\fox\check\impl\combat\aura\AuraI.class
@@ -167,7 +167,6 @@ dev\isnow\fox\exempt\type\ExemptType.class
 dev\isnow\fox\data\processor\GhostBlockProcessor$1.class
 dev\isnow\fox\check\impl\player\inventory\InventoryD.class
 dev\isnow\fox\check\impl\combat\aura\AuraD.class
-dev\isnow\fox\check\impl\movement\largemove\LargeMoveB.class
 dev\isnow\fox\config\ConfigValue$ValueType.class
 dev\isnow\fox\check\impl\movement\speed\SpeedB.class
 dev\isnow\fox\util\type\Velocity.class
