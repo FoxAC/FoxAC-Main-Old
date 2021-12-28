@@ -298,6 +298,13 @@ checks:
         punish-commands:
           - ''
           - ''
+    fastplace:
+      a:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     fastclimb:
       a:
         enabled: true
@@ -311,7 +318,8 @@ checks:
         punish-commands:
           - ''
           - ''
-    flight:
+    0:
+      3631249999999966:    flight:
       a:
         enabled: true
         max-violations: 3
