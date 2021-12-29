@@ -5,7 +5,7 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Packet", type = "D", description = "Invalid Game Speed")
+@CheckInfo(name = "BadPackets", type = "D", description = "Invalid Game Speed")
 public class BadPacketsD extends Check {
     public BadPacketsD(PlayerData data) {
         super(data);

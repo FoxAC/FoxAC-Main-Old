@@ -79,6 +79,7 @@ checks:
         punish-commands:
           - ''
           - ''
+          -
     aura:
       a:
         enabled: true
@@ -351,7 +352,7 @@ checks:
           - ''
     fastplace:
       a:
-        enabled: false
+        enabled: true
         max-violations: 8
         punish-commands:
           - ''
@@ -360,13 +361,6 @@ checks:
       a:
         enabled: true
         max-violations: 2
-        punish-commands:
-          - ''
-          - ''
-    tower:
-      a:
-        enabled: true
-        max-violations: 8
         punish-commands:
           - ''
           - ''
