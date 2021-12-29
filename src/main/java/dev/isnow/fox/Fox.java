@@ -80,6 +80,8 @@ public enum Fox {
         yaml = YamlConfiguration.loadConfiguration(checks);
         Config.updateConfig();
 
+        boolean fullyLoaded = false;
+
         try {
             URL url = new URL("api.foxac.xyz:3000/api/checkkey");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -98,6 +100,7 @@ public enum Fox {
                 JsonObject jsonObject = new JsonParser().parse(String.valueOf(response)).getAsJsonObject();
                 if(jsonObject.get("key").getAsString().equals(Config.KEY)) {
                     Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "License check passed, Welcome " + jsonObject.get("username") + "!");
+                    fullyLoaded = true;
                     return;
                 }
                 if(jsonObject.get("error").getAsString().equals("invalid key")) {
@@ -120,23 +123,25 @@ public enum Fox {
             Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
             Bukkit.getPluginManager().disablePlugin(getPlugin());
         }
-        CheckManager.setup();
-        Bukkit.getOnlinePlayers().forEach(player -> PlayerDataManager.getInstance().add(player));
+        if(fullyLoaded) {
+            CheckManager.setup();
+            Bukkit.getOnlinePlayers().forEach(player -> PlayerDataManager.getInstance().add(player));
 
-        guiManager = new GuiManager();
-        getPlugin().getCommand("fox").setExecutor(commandManager);
-        getPlugin().getCommand("alerts").setExecutor(new Alerts());
+            guiManager = new GuiManager();
+            getPlugin().getCommand("fox").setExecutor(commandManager);
+            getPlugin().getCommand("alerts").setExecutor(new Alerts());
 
-        tickManager.start();
+            tickManager.start();
 
-        new AFKManager();
+            new AFKManager();
 
-        final Messenger messenger = Bukkit.getMessenger();
-        messenger.registerIncomingPluginChannel(plugin, "MC|Brand", new ClientBrandListener());
+            final Messenger messenger = Bukkit.getMessenger();
+            messenger.registerIncomingPluginChannel(plugin, "MC|Brand", new ClientBrandListener());
 
-        startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
 
-        registerEvents();
+            registerEvents();
+        }
 
     }
 
