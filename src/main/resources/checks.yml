@@ -186,7 +186,7 @@ checks:
     entity:
       a:
         enabled: true
-        max-violations: 12
+        max-violations: 15
         punish-commands:
           - ''
           - ''
@@ -264,7 +264,13 @@ checks:
           - ''
       c:
         enabled: true
-        max-violations: 8
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
+      d:
+        enabled: true
+        max-violations: 10
         punish-commands:
           - ''
           - ''
@@ -328,39 +334,39 @@ checks:
     inventory:
       a:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''
       b:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''
       c:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''
       d:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''
     fastplace:
       a:
         enabled: true
-        max-violations: 8
+        max-violations: 12
         punish-commands:
           - ''
           - ''
     breaker:
       a:
         enabled: true
-        max-violations: 2
+        max-violations: 3
         punish-commands:
           - ''
           - ''

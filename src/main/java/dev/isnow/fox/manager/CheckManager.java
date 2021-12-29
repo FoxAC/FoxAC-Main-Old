@@ -5,6 +5,7 @@ import dev.isnow.fox.check.impl.combat.aim.*;
 import dev.isnow.fox.check.impl.combat.aura.*;
 import dev.isnow.fox.check.impl.combat.autoclicker.*;
 import dev.isnow.fox.check.impl.combat.entity.EntityA;
+import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitboxA;
 import dev.isnow.fox.check.impl.combat.reach.ReachB;
 import dev.isnow.fox.check.impl.combat.reach.ReachX;
@@ -12,6 +13,7 @@ import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
 import dev.isnow.fox.check.impl.movement.flight.FlightB;
 import dev.isnow.fox.check.impl.movement.flight.FlightC;
+import dev.isnow.fox.check.impl.movement.flight.FlightD;
 import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.movement.speed.SpeedB;
@@ -74,13 +76,14 @@ public final class CheckManager {
             AutoClickerE.class,
             ReachX.class,
             ReachB.class,
-            HitboxA.class,
+            HitBoxA.class,
             VelocityA.class,
             SpeedA.class,
             SpeedB.class,
             FlightA.class,
             FlightB.class,
             FlightC.class,
+            FlightD.class,
             MotionA.class,
             MotionB.class,
             MotionC.class,
