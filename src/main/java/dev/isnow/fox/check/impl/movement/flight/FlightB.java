@@ -7,7 +7,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
 @CheckInfo(name = "Flight", type = "B", description = "Checks for invalid gravity.")
-public class FlightB extends Check {
+public final class FlightB extends Check {
     private double minDelta;
 
     public FlightB(PlayerData data) {

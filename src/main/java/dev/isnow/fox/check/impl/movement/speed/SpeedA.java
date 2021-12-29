@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage")
-public class SpeedA extends Check {
+public final class SpeedA extends Check {
     public SpeedA(PlayerData data) {
         super(data);
     }

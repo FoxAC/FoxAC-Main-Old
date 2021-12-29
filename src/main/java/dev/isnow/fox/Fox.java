@@ -2,6 +2,8 @@ package dev.isnow.fox;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dev.isnow.fox.command.CommandManager;
 import dev.isnow.fox.command.impl.Alerts;
 import dev.isnow.fox.config.Config;
@@ -19,19 +21,21 @@ import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginAwareness;
 import org.bukkit.plugin.messaging.Messenger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -76,6 +80,46 @@ public enum Fox {
         yaml = YamlConfiguration.loadConfiguration(checks);
         Config.updateConfig();
 
+        try {
+            URL url = new URL("api.foxac.xyz:3000/api/checkkey");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json; utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.addRequestProperty("API-Key", Config.KEY);
+            conn.setDoOutput(true);
+            try(BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                JsonObject jsonObject = new JsonParser().parse(String.valueOf(response)).getAsJsonObject();
+                if(jsonObject.get("key").getAsString().equals(Config.KEY)) {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "License check passed, Welcome " + jsonObject.get("username") + "!");
+                    return;
+                }
+                if(jsonObject.get("error").getAsString().equals("invalid key")) {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "License check not passed! Invalid key!");
+                    Bukkit.getPluginManager().disablePlugin(getPlugin());
+                    return;
+                }
+                if(jsonObject.get("error").getAsString().equals("internal server error")) {
+                    Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
+                    Bukkit.getPluginManager().disablePlugin(getPlugin());
+                }
+
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, DNS Error?");
+            Bukkit.getPluginManager().disablePlugin(getPlugin());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
+            Bukkit.getPluginManager().disablePlugin(getPlugin());
+        }
         CheckManager.setup();
         Bukkit.getOnlinePlayers().forEach(player -> PlayerDataManager.getInstance().add(player));
 

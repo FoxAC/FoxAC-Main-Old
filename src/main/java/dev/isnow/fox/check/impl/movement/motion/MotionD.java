@@ -11,7 +11,7 @@ import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import org.bukkit.Material;
 
 @CheckInfo(name = "Motion", type = "D", description = "Checks for invalid motion of liquids.")
-public class MotionD extends Check {
+public final class MotionD extends Check {
 
     public MotionD(PlayerData data) {
         super(data);
