@@ -152,6 +152,17 @@ public final class Packet {
         return isSending() && packetId == PacketType.Play.Server.ENTITY_VELOCITY;
     }
 
+    public boolean isSpawnEntity() {
+        return isSending() && packetId == PacketType.Play.Server.SPAWN_ENTITY;
+    }
+
+    public boolean isEntityRem() {
+        return isSending() && packetId == PacketType.Play.Server.REL_ENTITY_MOVE;
+    }
+
+    public boolean isEntityTeleport() {
+        return isSending() && packetId == PacketType.Play.Server.ENTITY_TELEPORT;
+    }
     public boolean isRelEntityMove() {
         return isSending() && packetId == PacketType.Play.Server.REL_ENTITY_MOVE;
     }

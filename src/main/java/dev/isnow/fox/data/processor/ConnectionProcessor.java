@@ -5,6 +5,7 @@ package dev.isnow.fox.data.processor;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.util.type.EvictingMap;
+import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.keepalive.WrappedPacketInKeepAlive;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.packetwrappers.play.out.keepalive.WrappedPacketOutKeepAlive;
@@ -13,6 +14,7 @@ import lombok.Getter;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Getter
 public final class ConnectionProcessor {
@@ -49,6 +51,9 @@ public final class ConnectionProcessor {
         });
     }
 
+    public void sendTransaction() {
+        PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, (short) ThreadLocalRandom.current().nextInt(32767), false));
+    }
     public void handleIncomingKeepAlive(final WrappedPacketInKeepAlive wrapper) {
         final long now = System.currentTimeMillis();
         keepAliveUpdates.computeIfPresent(wrapper.getId(), (id, time) -> {
@@ -79,7 +84,6 @@ public final class ConnectionProcessor {
         keepAliveId = id;
         keepAliveUpdates.put(id, System.currentTimeMillis());
 
-        final long calc3 = now - lastKeepAliveReceived;
         final long calc4 = now - data.getJoinTime();
         final long calc = now - lastTransactionReceived;
         final long calc2 = now - data.getJoinTime();
@@ -89,16 +93,6 @@ public final class ConnectionProcessor {
         if(lastTransactionReceived == 0 && calc2 < 1000L) {
             return;
         }
-//        if(calc3 > 200L) {
-//            AlertManager.sendMessage("Warning! " + data.getPlayer().getName() + " Canceled Transaction Packets for over " + calc3 + "MS!");
-//        }
-//        if(calc3 > 2000L) {
-//            Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), new Runnable() {
-//                public void run() {
-//                    data.getPlayer().kickPlayer("KeepAlive Packet Disabler isnt halal mode. It doesnt bypass fox, but fox is better with this check.");
-//                }
-//            });
-//        }
 
         if(calc > 2000L) {
             AlertManager.sendMessage("Warning! " + data.getPlayer().getName() + " Canceled Transaction Packets for over " + calc + "MS!");
