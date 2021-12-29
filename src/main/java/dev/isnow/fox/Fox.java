@@ -17,8 +17,11 @@ import dev.isnow.fox.packet.processor.SendingPacketProcessor;
 import dev.isnow.fox.update.UpdateChecker;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
+import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -26,19 +29,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginAwareness;
 import org.bukkit.plugin.messaging.Messenger;
-import org.restlet.data.Header;
-import org.restlet.representation.Representation;
-import org.restlet.resource.ClientResource;
-import org.restlet.util.Series;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.io.*;
+import java.net.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -86,11 +82,17 @@ public enum Fox {
         boolean fullyLoaded = false;
 
         try {
-            ClientResource resource = new ClientResource("http://api.foxac.xyz:3000/api/checkkey");
-            Series<Header> headers = (Series<Header>) resource.getRequestAttributes().get("org.restlet.http.headers");
-            headers.set("API-Key", Config.KEY);
-            Representation response = resource.post(headers);
-            JsonObject jsonObject = new JsonParser().parse(response.getText()).getAsJsonObject();
+            URL myURL = new URL("http://158.69.123.172:3000/api/checkkey");
+            HttpURLConnection conn = (HttpURLConnection)myURL.openConnection();
+            conn.setRequestProperty("API-Key", Config.KEY);
+            conn.setRequestMethod("POST");
+            conn.setUseCaches(false);
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            InputStream inputStr = conn.getInputStream();
+            String encoding = conn.getContentEncoding() == null ? "UTF-8"
+                    : conn.getContentEncoding();
+            JsonObject jsonObject = new JsonParser().parse(IOUtils.toString(inputStr, encoding)).getAsJsonObject();
             if(jsonObject.get("key") != null && jsonObject.get("key").getAsString().equals(Config.KEY)) {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "License check passed, Welcome " + jsonObject.get("username") + "!");
                 fullyLoaded = true;
