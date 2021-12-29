@@ -119,7 +119,7 @@ public class EntityA extends Check {
         if (packet.isUseEntity()) {
             WrappedPacketInUseEntity wrappedInUseEntityPacket = new WrappedPacketInUseEntity(packet.getRawPacket());
             if (wrappedInUseEntityPacket.getEntity() != null && wrappedInUseEntityPacket.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
-                if (data.getBotViolations() >= 3 && wrappedInUseEntityPacket.getEntity() instanceof Player) {
+                if (data.getBotViolations() >= 2 && wrappedInUseEntityPacket.getEntity() instanceof Player) {
                     data.setBotViolations(0);
                     BotUtils.spawnBotEntity(data);
                 }

@@ -107,7 +107,7 @@ public abstract class Check {
                 }
                 if (vl == maxVl) {
                     if (Config.BROADCASTBAN) {
-                        Bukkit.broadcastMessage(ColorUtil.translate(Config.BROADCASTMESSAGE));
+                        Bukkit.broadcastMessage(ColorUtil.translate(Config.BROADCASTMESSAGE).replaceAll("%player%", data.getPlayer().getName()).replaceAll("%nl%", "\n"));
                     }
                 }
             }
