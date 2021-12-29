@@ -80,7 +80,7 @@ public enum Fox {
         boolean fullyLoaded = false;
 
         try {
-            URL url = new URL("http", "api.foxac.xyz", 3000, "api/checkkey");
+            URL url = new URL("http", "http://api.foxac.xyz", 3000, "api/checkkey");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
