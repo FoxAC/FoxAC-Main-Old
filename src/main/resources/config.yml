@@ -1,50 +1,65 @@
-
-testmode: true
-response:
-  anticheat:
-    prefix: '&c&lFOX &8>> &e'
-  command:
-    prefix: '&c&lFOX &8>> &e'
-  gui:
-    prefix: '&c&lFOX &8>> &e'
-logging:
-  enabled: false
-  log-format: '[%date%] %player% failed %check% (Type %type%)%dev% VL: %vl% [TPS: %tps%] [tPing: %tping% kaPing: %kaping%] [Info: %info%] [DATE: %date]'
-client:
-  enabled: true
-
-  # This just makes the comparison case sensitive.
-  case-sensitive: false
-  kick-message: 'The client you are using is currently blocked. Please join with vanilla or a non blocked client in order to join.'
-  blocked:
-    - 'wurst [this wont work :trolled:]'
-    - 'sigma [this wont work either :trolled:]'
+#──────────────────────────────────────────────────
+#─██████████████─██████████████─████████──████████─
+#─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░██──██░░░░██─
+#─██░░██████████─██░░██████░░██─████░░██──██░░████─
+#─██░░██─────────██░░██──██░░██───██░░░░██░░░░██───
+#─██░░██████████─██░░██──██░░██───████░░░░░░████───
+#─██░░░░░░░░░░██─██░░██──██░░██─────██░░░░░░██─────
+#─██░░██████████─██░░██──██░░██───████░░░░░░████───
+#─██░░██─────────██░░██──██░░██───██░░░░██░░░░██───
+#─██░░██─────────██░░██████░░██─████░░██──██░░████─
+#─██░░██─────────██░░░░░░░░░░██─██░░░░██──██░░░░██─
+#─██████─────────██████████████─████████──████████─
+#──────────────────────────────────────────────────
 
 api:
-  enabled: false
+  key: ''
 
-violations:
-  alert-format: '&c&lFOX &8>> &e&o%player% &7is using %check% &8[&7%type%&8] &8(#%colour%&8)'
-  clear-violations-delay: 15
-  alert-console: true
+settings:
+  api: false
+  vpn: true'
 
-ghost-block-handler:
+clients:
   enabled: true
+  sensitive: true
+  blocked:
+    - 'Vanilla'
+
+ghost-block:
+  enabled: true
+  mode: 'FOX'
   strict: true
-  lag-back: true
-  mode: 'LIGHT'
-  max-ping: 400
+  max-ms: 450
 
-global-punish: true
-global-punish-commands:
-  - "say creating reply for %player%!"
-  - ""
-punish-timer: true
-punish-timer-time: 5
-punish-timer-commands:
-  - "ban %player% you have been banned for cheating! check %check% Type %type% VL: %vl% MaxVL: %maxvl%"
-  - ""
+alerts:
+  message: '&c&lFOX &8>> &e&o%player% &7is using %check% &8[&7%type%&8] &8(#%colour%&8)'
+  click-command: '/teleport %player%'
+  clear-violations-delay: 15
+  console: true
+  log: false
+  log-format: ''
 
-vpn:
+
+messages:
+  prefix: '&c&lFOX &8>> &e'
+  alerts-on: '&c&lFOX &8>> &eAlerts toggled &dOn'
+  alerts-off: '&c&lFOX &8>> &eAlerts toggled &cOff'
+  vpn-kick: '&c&lFOX &8>> &cVpns are blacklisted on this server!'
+  banning: '&c&lFOX &8>> &eBanning %player%'
+  join-message: '&c&lFOX &8>> &7%player% &ejoined with &6%client%'
+  client-kick: '&c&lFOX &8>> &cThis client isnt supported!'
+
+bans:
   enabled: true
-  message: "&8&lfox &7| &rAntiVPN Detection.%nl%%nl%&7Your IP has been detected as a VPN/Proxy [%country%]. %nl%&7Please disconnect from your VPN/Proxy to continiue playing.%nl%%nl%&8&oIf you believe this is a mistake, contact staff at our discord."
+  timer: false
+  time: 3
+  first-commands:
+    - 'kick %player% &c&lFOX &8>> &cCheating'
+    - ''
+  timer-commands:
+    - ''
+    - ''
+
+broadcast:
+  enabled: true
+  message: '%nl% &c&lFOX &8>> &7%player% &cWas banned for &c&lCheating! %nl%'

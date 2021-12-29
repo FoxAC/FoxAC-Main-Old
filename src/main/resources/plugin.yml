@@ -10,6 +10,12 @@ commands:
     usage: /fox
     aliases: [foxac, fac]
     permission: fox.commands
+  alerts:
+    description: toggle alerts
+    usage: /alerts
+    aliases:
+      - notify
+    permission: fox.alerts
 softdepend:
   - ProtocolLib
   - ProtocolSupport

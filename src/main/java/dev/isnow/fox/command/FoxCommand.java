@@ -1,4 +1,3 @@
-
 package dev.isnow.fox.command;
 
 import dev.isnow.fox.util.ColorUtil;

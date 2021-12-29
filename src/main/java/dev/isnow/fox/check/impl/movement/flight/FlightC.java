@@ -37,6 +37,7 @@ public final class FlightC
                 if (increaseBuffer() > 2) {
                     if (Config.STRICTAF_GHOSTBLOCK_MODE && Config.GHOST_BLOCK_ENABLED) {
                         data.dragDown();
+                        data.getPlayer().sendMessage("Lagged Back for ghost blocks.");
                     }
                 } else {
                     decreaseBufferBy(0.01);

@@ -60,6 +60,7 @@ public final class CheckManager {
             AuraN.class,
             AuraO.class,
             AuraR.class,
+            AuraP.class,
             EntityA.class,
             AutoClickerF.class,
             AutoClickerA.class,

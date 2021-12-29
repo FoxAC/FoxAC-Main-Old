@@ -53,24 +53,8 @@ public final class GhostBlockProcessor {
         if (Config.GHOST_BLOCK_LAG_BACK) {
             int ticks = 1;
 
-            final int ping = MathUtil.msToTicks(PlayerUtil.getPing(data.getPlayer()));
-
-            switch (Config.GHOST_BLOCK_MODE) {
-                case STRICT:
-                    ticks = 0;
-                    break;
-                case LENIENT:
-                    ticks = ping;
-                    break;
-                case NORMAL:
-                    ticks = Math.min(ping, Math.round(Config.GHOST_BLOCK_MAX_PING / 50F));
-                    break;
-                case LIGHT:
-                    ticks = Math.min(ping + 1, Math.round(Config.GHOST_BLOCK_MAX_PING / 50F));
-                    break;
-                case EXTRA_LENIENT:
-                    ticks = ping + 1;
-                    break;
+            if (Config.GHOST_BLOCK_MODE == Mode.FOX) {
+                ticks = 4;
             }
 
             if (ghostTicks > ticks && lastGroundLocation != null) {
@@ -91,6 +75,6 @@ public final class GhostBlockProcessor {
     }
 
     public enum Mode {
-        NORMAL, STRICT, LENIENT, LIGHT, EXTRA_LENIENT
+        FOX
     }
 }

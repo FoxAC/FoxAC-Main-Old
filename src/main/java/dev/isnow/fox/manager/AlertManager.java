@@ -64,7 +64,7 @@ public final class AlertManager {
                     .replaceAll("%type%", check.getCheckInfo().type())
                     .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
-            alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));
+            alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.CLICKCOMMAND.replaceAll("%player%", data.getPlayer().getName())));
             alertMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ColorUtil.translate(
                     "&cDescription: &f" + check.getCheckInfo().description() +
                             "\n&cInfo: &b" + info +
@@ -119,7 +119,7 @@ public final class AlertManager {
                         .replaceAll("%type%", "F")
                         .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
-                alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));
+                alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.CLICKCOMMAND.replaceAll("%player%", data.getPlayer().getName())));
                 alertMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ColorUtil.translate(
                         "&cDescription: &f" + "Checks for ZoneCraft speed (And some other speeds too!)." +
                                 "\n&cInfo: &7" + info +
@@ -138,7 +138,7 @@ public final class AlertManager {
                         .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                         .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
-                alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));
+                alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,  Config.CLICKCOMMAND.replaceAll("%player%", data.getPlayer().getName())));
                 alertMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ColorUtil.translate(
                         "&cDescription: &f" + "Checks for FastBow (Bow Timer)." +
                                 "\n&cInfo: &7" + info +

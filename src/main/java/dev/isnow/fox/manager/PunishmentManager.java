@@ -18,9 +18,6 @@ import java.util.ArrayList;
 public final class PunishmentManager {
     public static void punish(final Check check, final PlayerData data) {
         APIManager.callPunishEvent(check);
-        if(Config.TESTMODE) {
-            return;
-        }
         check.setPunishCommands((ArrayList<String>) Config.PUNISH_COMMANDS.get(check.getClass().getSimpleName()));
         if(check.custom == 0) {
             if(!Config.GLOBALCMD) {

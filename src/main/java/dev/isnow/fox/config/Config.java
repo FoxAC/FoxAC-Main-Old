@@ -17,9 +17,7 @@ import java.util.Map;
 @UtilityClass
 public final class Config {
 
-    public boolean TESTMODE;
-
-    public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, GUIPREFIX, VPN_MESSAGE;
+    public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, GUIPREFIX, VPN_MESSAGE, ALERTSON, ALERTSOFF, CLICKCOMMAND;
 
     public boolean LOGGING_ENABLED, VPN_ENABLED, STRICTAF_GHOSTBLOCK_MODE, API_ENABLED, GHOST_BLOCK_ENABLED, GHOST_BLOCK_LAG_BACK, GLOBALCMD, BANTIMER, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
 
@@ -36,37 +34,38 @@ public final class Config {
 
     public void updateConfig() {
         try {
-            TESTMODE = getBoolean("testmode");
+            LOGGING_ENABLED = getBoolean("alerts.log");
+            LOG_FORMAT = getString("alerts.log-format");
 
-            LOGGING_ENABLED = getBoolean("logging.enabled");
-            LOG_FORMAT = getString("logging.log-format");
+            ALERT_FORMAT = getString("alerts.message");
 
-            ALERT_FORMAT = getString("violations.alert-format");
+            KEY = getString("api.key");
 
-            GHOST_BLOCK_ENABLED = getBoolean("ghost-block-handler.enabled");
-            GHOST_BLOCK_LAG_BACK = getBoolean("ghost-block-handler.lag-back");
-            GHOST_BLOCK_MAX_PING = getInteger("ghost-block-handler.max-ping");
-            GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block-handler.mode"));
+            GHOST_BLOCK_ENABLED = getBoolean("ghost-block.enabled");
+            GHOST_BLOCK_MAX_PING = getInteger("ghost-block.max-ms");
+            STRICTAF_GHOSTBLOCK_MODE = getBoolean("ghost-block.strict");
+            GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block.mode"));
 
-            STRICTAF_GHOSTBLOCK_MODE = getBoolean("ghost-block-handler.strict");
+            GLOBALCMD = getBoolean("bans.enabled");
+            GLOBAL_COMMANDS = getList("bans.first-commands");
+            BANTIMER = getBoolean("bans.timer");
+            BANTIMERTIME = getInteger("bans.time");
+            TIMER_COMMANDS = getList("bans.timer-commands");
 
-            GLOBALCMD = getBoolean("global-punish");
-            GLOBAL_COMMANDS = getList("global-punish-commands");
+            CLIENT_ENABLED = getBoolean("clients.enabled");
+            CLIENT_CASE_SENSITIVE = getBoolean("clients.sensitive");
+            BLOCKED_CLIENTS = getList("clients.blocked");
+            CLIENT_KICK_MESSAGE = getString("messages.client-kick");
 
-            BANTIMER = getBoolean("punish-timer");
-            BANTIMERTIME = getInteger("punish-timer-time");
-            TIMER_COMMANDS = getList("punish-timer-commands");
+            PREFIX = getString("messages.prefix");
 
-            CLIENT_ENABLED = getBoolean("client.enabled");
-            CLIENT_CASE_SENSITIVE = getBoolean("client.case-sensitive");
-            BLOCKED_CLIENTS = getList("client.blocked");
-            CLIENT_KICK_MESSAGE = getString("client.kick-message");
+            CLICKCOMMAND = getString("alerts.click-command");
 
-            PREFIX = getString("response.anticheat.prefix");
-            GUIPREFIX = getString("response.gui.prefix");
+            ALERTSON = getString("messages.alerts-on");
+            ALERTSOFF = getString("messages.alerts-off");
 
-            VPN_ENABLED = getBoolean("vpn.enabled");
-            VPN_MESSAGE = ColorUtil.translate(getString("vpn.message").replaceAll("%nl%", "\n"));
+            VPN_ENABLED = getBoolean("settings.vpn");
+            VPN_MESSAGE = ColorUtil.translate(getString("messages.vpn-kick").replaceAll("%nl%", "\n"));
 
             for (final Class<?> check : CheckManager.CHECKS) {
                 final CheckInfo checkInfo = check.getAnnotation(CheckInfo.class);

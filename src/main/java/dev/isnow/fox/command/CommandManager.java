@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.command;
 
 import dev.isnow.fox.Fox;
@@ -73,7 +71,7 @@ public final class CommandManager implements CommandExecutor {
             }
         }
         else {
-            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by Tecnio/5170 :goodangel: (" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion() + ")"));
+            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by RealTrippy & 5170 (" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion() + ")"));
             return true;
         }
         return false;
