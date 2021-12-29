@@ -86,22 +86,17 @@ public enum Fox {
             conn.setDoInput(true);
             conn.setDoOutput(true);
             InputStream inputStr = conn.getInputStream();
+            if(conn.getResponseCode() == 401 || conn.getResponseCode() == 500) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "License check not passed! Invalid key!");
+                Bukkit.getPluginManager().disablePlugin(getPlugin());
+                return;
+            }
             String encoding = conn.getContentEncoding() == null ? "UTF-8"
                     : conn.getContentEncoding();
             JsonObject jsonObject = new JsonParser().parse(IOUtils.toString(inputStr, encoding)).getAsJsonObject();
             if(jsonObject.get("key") != null && jsonObject.get("key").getAsString().equals(Config.KEY)) {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "License check passed, Welcome " + jsonObject.get("username") + "!");
                 fullyLoaded = true;
-                return;
-            }
-            if(jsonObject.get("error").getAsString().equals("invalid key")) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "License check not passed! Invalid key!");
-                Bukkit.getPluginManager().disablePlugin(getPlugin());
-                return;
-            }
-            if(jsonObject.get("error").getAsString().equals("internal server error")) {
-                Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
-                Bukkit.getPluginManager().disablePlugin(getPlugin());
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -112,6 +107,7 @@ public enum Fox {
             Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
             Bukkit.getPluginManager().disablePlugin(getPlugin());
         }
+
         setupPacketEvents();
     }
 
@@ -152,13 +148,13 @@ public enum Fox {
 
     private void setupPacketEvents() {
         PacketEvents.create(plugin).getSettings()
-                .backupServerVersion(ServerVersion.v_1_8_8);
+                .fallbackServerVersion(ServerVersion.v_1_8_8);
 
         PacketEvents.get().load();
     }
 
     private void runPacketEvents() {
-        PacketEvents.get().init(plugin);
+        PacketEvents.get().init();
     }
 
     private void stopPacketEvents() {
