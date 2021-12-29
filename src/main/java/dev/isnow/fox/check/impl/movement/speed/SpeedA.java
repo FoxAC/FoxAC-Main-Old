@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.movement.speed;
 
 import dev.isnow.fox.check.Check;
@@ -8,74 +6,89 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
-import dev.isnow.fox.util.type.BlockUtil;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed", type = "A", description = "Detects speed cheats based on friction.")
-public final class SpeedA extends Check {
-
-    private double blockSlipperiness = 0.91;
-    private double lastHorizontalDistance = 0.0;
-
-    public SpeedA(final PlayerData data) {
+@CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage")
+public class SpeedA extends Check {
+    public SpeedA(PlayerData data) {
         super(data);
     }
 
+    private boolean prevPrevOnGround, prevOnGround, onGround, flying;
+    private int teleportTicks, buffer;
+
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isFlying()) {
+    public void handle(Packet packet) {
+        if (packet.isTeleport()) {
+            teleportTicks = 0;
+        }
+        if (packet.isFlyingType()) {
+            if (data.getPlayer().isFlying()) flying = true;
+            if (onGround
+                    && prevOnGround
+                    && prevPrevOnGround) flying = false;
+        }
+        if(packet.isFlyingType()) {
+
+            teleportTicks++;
+
             final Player player = data.getPlayer();
+            prevPrevOnGround = prevOnGround;
+            prevOnGround = onGround;
+            onGround = data.getPositionProcessor().isOnGround();
+            double friction;
+            double prevFriction;
 
-            final double deltaY = data.getPositionProcessor().getDeltaY();
-
-            double blockSlipperiness = this.blockSlipperiness;
-            double attributeSpeed = 1.d;
-
-            final boolean lastOnGround = data.getPositionProcessor().isLastOnGround();
-
-            final boolean exempt = this.isExempt(ExemptType.WEB, ExemptType.WEBRN, ExemptType.TELEPORT_DELAY, ExemptType.PISTON, ExemptType.VELOCITY_ON_TICK,
-                    ExemptType.FLYING, ExemptType.VEHICLE, ExemptType.CLIMBABLE, ExemptType.LIQUID, ExemptType.CHUNK, ExemptType.GHOST_BLOCK);
+            float attributeSpeed = 1;
 
             attributeSpeed += PlayerUtil.getPotionLevel(player, PotionEffectType.SPEED) * (float) 0.2 * attributeSpeed;
             attributeSpeed += PlayerUtil.getPotionLevel(player, PotionEffectType.SLOW) * (float) -.15 * attributeSpeed;
 
-            if (lastOnGround) {
-                blockSlipperiness *= 0.91f;
+            friction = data.getPositionProcessor().getFriction() / 0.91;
+            prevFriction = data.getPositionProcessor().getPrevFriction() / 0.91;
 
-                attributeSpeed *= 1.3;
-                attributeSpeed *= 0.16277136 / Math.pow(blockSlipperiness, 3);
+            final double prevDeltaXZ = data.getPositionProcessor().getLastDeltaXZ();
+            final double momentum = prevDeltaXZ * (prevFriction * 0.91);
+            double acceleration = 0;
 
-                if (deltaY > 0.0) {
-                    attributeSpeed += 0.2;
-                }
+            int calculation = 0;
+            double movementType = 1.3;
+
+            if (onGround && prevOnGround) {
+                calculation = 1;
+                acceleration = 0.1 * movementType * attributeSpeed * Math.pow(0.6 / friction, 3);
+            } else if (onGround || prevOnGround) {
+                calculation = 2;
+                acceleration = 0.1 * movementType * attributeSpeed * Math.pow(0.6 / 0.91, 3) + 0.2 + 0.26;
             } else {
-                attributeSpeed = 0.026f;
-                blockSlipperiness = 0.91f;
+                calculation = 3;
+                acceleration = 0.026;
             }
 
-            final double horizontalDistance = data.getPositionProcessor().getDeltaXZ();
-            final double movementSpeed = (horizontalDistance - lastHorizontalDistance) / attributeSpeed;
-
-            if (movementSpeed > 1.0 && !exempt) {
-                increaseBufferBy(10);
-
-                if (getBuffer() > 20) {
-                    fail();
-                }
-            } else {
-                decreaseBufferBy(1);
+            if (onGround && prevOnGround && !prevPrevOnGround) {
+                acceleration += 0.13 * attributeSpeed;
             }
 
-            final double x = data.getPositionProcessor().getX();
-            final double y = data.getPositionProcessor().getY();
-            final double z = data.getPositionProcessor().getZ();
+            if (data.getVelocityProcessor().getTicksSinceVelocity() <= 2) {
+                acceleration += data.getVelocityProcessor().getVelocityXZ();
+            }
 
-            final Location blockLocation = new Location(data.getPlayer().getWorld(), x, Math.floor(y) - 1, z);
+            double limit = Math.max(momentum + acceleration, 0.26);
 
-            this.blockSlipperiness = BlockUtil.getBlockFriction(blockLocation);
-            this.lastHorizontalDistance = horizontalDistance * blockSlipperiness;
+            if (teleportTicks < 10) return;
+
+            if (data.getPositionProcessor().getDeltaXZ() - limit > 0.0001 && !flying) {
+
+                if ((buffer += 5) > 15 && !isExempt(ExemptType.FLYING, ExemptType.CREATIVE, ExemptType.TELEPORT_DELAY)) {
+                    buffer = Math.max(30, buffer);
+                    fail(data.getPositionProcessor().getDeltaXZ() - limit + " \nPrevGround: " + prevOnGround + "\nGround: " + onGround + "\nCalculation: " + calculation);
+                } else {
+                    buffer = Math.max(0, buffer - 1);
+                }
+
+            }
+
         }
     }
 }

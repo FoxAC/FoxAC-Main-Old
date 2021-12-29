@@ -119,6 +119,20 @@ public abstract class Check {
         }
     }
 
+    public String getBar() {
+        double percent =  ((double) getVl() / getMaxVl() * 10);
+        StringBuilder result = new StringBuilder("&8[");
+        for(int i = 0; i < 10; i++) {
+            if(i < percent) {
+                result.append("&f:");
+            } else {
+                result.append("&7:");
+            }
+        }
+        result.append("&8]");
+        return result.toString();
+    }
+
     public final void bannofail() {
         if (!data.isExempt()) {
             PunishmentManager.punish(this, data);

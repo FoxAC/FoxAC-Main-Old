@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.movement.jesus;
 
 import dev.isnow.fox.check.Check;
@@ -7,39 +5,37 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import org.bukkit.block.Block;
-
-import java.util.List;
+import dev.isnow.fox.util.BlockUtil;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
+import org.bukkit.Material;
 
 @CheckInfo(name = "Jesus", type = "A", description = "Checks if player is walking on liquids.")
-public final class JesusA extends Check {
-    public JesusA(final PlayerData data) {
+public class JesusA extends Check {
+
+    public JesusA(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isFlying()) {
-            final List<Block> blocks = data.getPositionProcessor().getBlocks();
-            final List<Block> blocksBelow = data.getPositionProcessor().getBlocksBelow();
+    public void handle(Packet packet) {
+        if(packet.isFlying()) {
+            if (BlockUtil.isLiquid(data.getPlayer().getLocation().subtract(0, 0.1, 0).getBlock())
+                    && !BlockUtil.isLiquid(data.getPlayer().getLocation().clone().add(0, 0.2, 0).getBlock())
+                    && !data.getVelocityProcessor().isTakingVelocity()
+                    && data.getPositionProcessor().getBlocksBelow().stream().noneMatch(block -> block.getType() == Material.WATER_LILY)
+                    && data.getPositionProcessor().getWebTicks() == 0) {
 
-            if (blocks == null || blocksBelow == null) return;
-
-            final boolean onLiquid = blocksBelow.stream().allMatch(Block::isLiquid);
-            final boolean noBlock = blocksBelow.stream().anyMatch(block -> block.getType().isSolid());
-
-            final boolean clientGround = data.getPositionProcessor().isOnGround();
-            final boolean serverGround = data.getPositionProcessor().isMathematicallyOnGround();
-
-            final boolean exempt = isExempt(ExemptType.BOAT, ExemptType.VEHICLE, ExemptType.FLYING, ExemptType.CHUNK);
-            final boolean invalid = (clientGround || serverGround) && onLiquid && !noBlock;
-
-            if (invalid && !exempt) {
-                if (increaseBuffer() > 5) {
-                    fail();
+                if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_13)) {
+                    return;
                 }
-            } else {
-                decreaseBufferBy(0.50);
+
+                if (!data.getPositionProcessor().isOnGround() && increaseBuffer() > 9 && !isExempt(ExemptType.FLYING)) {
+                    fail("DeltaY:" + data.getPositionProcessor().getDeltaY());
+                }
+                else {
+                    decreaseBufferBy(0.5);
+                }
             }
         }
     }

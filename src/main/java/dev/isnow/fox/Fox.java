@@ -2,7 +2,6 @@ package dev.isnow.fox;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteStreams;
-import dev.isnow.fox.check.impl.movement.speed.SpeedF;
 import dev.isnow.fox.command.CommandManager;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.gui.GuiManager;
@@ -122,7 +121,6 @@ public enum Fox {
     private void registerEvents() {
         Bukkit.getServer().getPluginManager().registerEvents(new RegistrationListener(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new BukkitEventManager(), plugin);
-        Bukkit.getServer().getPluginManager().registerEvents(new SpeedF(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new ClientBrandListener(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new GuiManager(), plugin);
         PacketEvents.get().getEventManager().registerListener(new NetworkManager());

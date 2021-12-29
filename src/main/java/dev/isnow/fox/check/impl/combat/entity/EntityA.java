@@ -31,7 +31,7 @@ public class EntityA extends Check {
                 if (data.getBotProcessor().getEntityHitTime() > 0) data.getBotProcessor().entityHitTime--;
             }
 
-            if (data.getBotProcessor().getEntityHitTime() > 7 && (System.currentTimeMillis() - data.getBotProcessor().lastEntityBotHit) < 320L) {
+            if (data.getBotProcessor().getEntityHitTime() > 5 && (System.currentTimeMillis() - data.getBotProcessor().lastEntityBotHit) < 320L) {
                 if (data.getBotProcessor().getForcedUser() == null) {
                     fail("HitTime: " + data.getBotProcessor().getEntityHitTime());
                 } else {

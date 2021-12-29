@@ -8,35 +8,16 @@ import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitboxA;
 import dev.isnow.fox.check.impl.combat.reach.ReachX;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
-import dev.isnow.fox.check.impl.movement.bowfly.BowFlyA;
-import dev.isnow.fox.check.impl.movement.fastclimb.FastClimbA;
-import dev.isnow.fox.check.impl.movement.fastclimb.FastClimbB;
-import dev.isnow.fox.check.impl.movement.flight.*;
+import dev.isnow.fox.check.impl.movement.flight.FlightA;
 import dev.isnow.fox.check.impl.movement.jesus.JesusA;
-import dev.isnow.fox.check.impl.movement.jesus.JesusB;
-import dev.isnow.fox.check.impl.movement.jesus.JesusC;
-import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedA;
-import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedB;
-import dev.isnow.fox.check.impl.movement.liquidspeed.LiquidSpeedC;
-import dev.isnow.fox.check.impl.movement.motion.*;
-import dev.isnow.fox.check.impl.movement.noslow.NoSlowA;
-import dev.isnow.fox.check.impl.movement.noslow.NoSlowB;
-import dev.isnow.fox.check.impl.movement.noslow.NoSlowC;
-import dev.isnow.fox.check.impl.movement.noslow.NoSlowD;
-import dev.isnow.fox.check.impl.movement.omnisprint.OmniSprintA;
-import dev.isnow.fox.check.impl.movement.speed.*;
-import dev.isnow.fox.check.impl.movement.strafe.StrafeA;
+import dev.isnow.fox.check.impl.movement.motion.MotionA;
+import dev.isnow.fox.check.impl.movement.motion.MotionB;
+import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.player.anticactus.AntiCactusA;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
-import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofA;
-import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofB;
-import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofC;
-import dev.isnow.fox.check.impl.player.groundspoof.GroundSpoofD;
 import dev.isnow.fox.check.impl.player.inventory.*;
-import dev.isnow.fox.check.impl.player.scaffold.*;
-import dev.isnow.fox.check.impl.player.timer.*;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -89,71 +70,16 @@ public final class CheckManager {
             ReachX.class,
             HitboxA.class,
             VelocityA.class,
-            BowFlyA.class,
             SpeedA.class,
-            SpeedB.class,
-            SpeedC.class,
-            SpeedD.class,
-            SpeedE.class,
-            SpeedG.class,
             FlightA.class,
-            FlightB.class,
-            FlightC.class,
-            FlightD.class,
-            FlightE.class,
-            StrafeA.class,
             MotionA.class,
             MotionB.class,
-            MotionC.class,
-            MotionD.class,
-            MotionE.class,
-            MotionE.class,
-            MotionF.class,
-            MotionG.class,
-            MotionH.class,
-            NoSlowA.class,
-            NoSlowB.class,
-            NoSlowC.class,
-            NoSlowD.class,
-            OmniSprintA.class,
-            FastClimbA.class,
-            FastClimbB.class,
             JesusA.class,
-            JesusB.class,
-            JesusC.class,
-            LiquidSpeedA.class,
-            LiquidSpeedB.class,
-            LiquidSpeedC.class,
-            GroundSpoofA.class,
-            GroundSpoofB.class,
-            GroundSpoofC.class,
-            GroundSpoofD.class,
-            TimerA.class,
-            TimerB.class,
-            TimerC.class,
-            TimerD.class,
-            TimerE.class,
             InventoryA.class,
             InventoryB.class,
             InventoryC.class,
             InventoryD.class,
-            InventoryE.class,
-            InventoryF.class,
-            InventoryG.class,
             FastPlaceA.class,
-            ScaffoldA.class,
-            ScaffoldB.class,
-            ScaffoldC.class,
-            ScaffoldD.class,
-            ScaffoldE.class,
-            ScaffoldF.class,
-            ScaffoldG.class,
-            ScaffoldH.class,
-            ScaffoldI.class,
-            ScaffoldJ.class,
-            ScaffoldK.class,
-            ScaffoldL.class,
-            ScaffoldM.class,
             AntiCactusA.class,
             BreakerA.class,
             BadPacketsA.class,

@@ -32,6 +32,7 @@ public final class PlayerData {
     private EntityHelper entityHelper;
     public int existedTicks;
     private LogUtil.TextFile logFile;
+    @Setter private int ticks;
 
     private final List<Check> checks = CheckManager.loadChecks(this);
     private final Map<Check, Integer> mapchecks = CheckManager.loadChecksMap(this, checks);

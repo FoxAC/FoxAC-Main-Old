@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.movement.motion;
 
 import dev.isnow.fox.check.Check;
@@ -7,49 +5,90 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.PlayerUtil;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.player.ClientVersion;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import dev.isnow.fox.util.BlockUtil;
+import dev.isnow.fox.util.MathUtil;
+import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
+import org.bukkit.block.Block;
+import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Motion", type = "A", description = "Checks for invalid jump motion.")
-public final class MotionA extends Check {
-    public MotionA(final PlayerData data) {
+@CheckInfo(name = "Motion", type = "A", description = "Invalid Strafe Angle")
+public class MotionA extends Check {
+    private final double THRESHOLD;
+
+    public MotionA(PlayerData data) {
         super(data);
+        THRESHOLD = Math.toRadians(0.5);
     }
 
+    private boolean hitSlow;
+    private float lastFriction;
+    private int lastIdleTick, buffer;
+
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isFlying()) {
-            final boolean onGround = data.getPositionProcessor().isOnGround();
+    public void handle(Packet packet) {
+        if (packet.isPosition()) {
+            Block footBlock = BlockUtil.getBlockAsync(data.getPlayer().getLocation().clone().add(0, -0.2, 0));
+            if (footBlock == null)
+                return;
 
-            final double deltaY = data.getPositionProcessor().getDeltaY();
+            double dX = data.getPositionProcessor().getX() - data.getPositionProcessor().getLastX();
+            double dZ = data.getPositionProcessor().getZ() - data.getPositionProcessor().getLastZ();
 
-            final double y = data.getPositionProcessor().getY();
-            final double lastY = data.getPositionProcessor().getLastY();
+            final Vector vector = new Vector(data.getPositionProcessor().getLastlastX(), 0, data.getPositionProcessor().getLastDeltaZ());
 
-            final boolean step = y % 0.015625 == 0.0 && lastY % 0.015625 == 0.0;
-
-            final double modifierJump = PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP) * 0.1F;
-            final double expectedJumpMotion = 0.42F + modifierJump;
-
-            final boolean exempt = isExempt(ExemptType.BOAT, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.NEARSLIME, ExemptType.RESPAWN, ExemptType.VEHICLE, ExemptType.CLIMBABLE, ExemptType.VELOCITY, ExemptType.PISTON,
-                    ExemptType.LIQUID, ExemptType.TELEPORT, ExemptType.WEB, ExemptType.BOAT, ExemptType.FLYING, ExemptType.SLIME,
-                    ExemptType.UNDERBLOCK, ExemptType.CHUNK) || data.getPositionProcessor().getSinceBlockNearHeadTicks() < 5;
-            final boolean invalid = deltaY != expectedJumpMotion && deltaY > 0.0 && !onGround && lastY % 0.015625 == 0.0 && !step && deltaY != 0.36075000000000035;
-            if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_12)) {
-                if(this.isExempt(ExemptType.ONBED)) {
-                    return;
-                }
+            if (Math.abs(vector.getX() * lastFriction) < 0.005) {
+                vector.setX(0);
             }
-            for(PotionEffect pot : data.getPlayer().getActivePotionEffects()) {
-                if(pot.getAmplifier() > 200){
-                    return;
-                }
+            if (Math.abs(vector.getZ() * lastFriction) < 0.005) {
+                vector.setZ(0);
             }
-            if (invalid && !exempt) fail("DeltaY: " + deltaY + " Velocity: " + isExempt(ExemptType.VELOCITY));
-            if (step && deltaY > 0.6F && !exempt) fail();
+
+            if (hitSlow) vector.multiply(0.6);
+            hitSlow = false;
+
+            dX /= lastFriction;
+            dZ /= lastFriction;
+            dX -= vector.getX();
+            dZ -= vector.getZ();
+            float lastFriction = data.getPositionProcessor().getFriction();
+            if (this.lastFriction != lastFriction) {
+                lastIdleTick = data.getTicks();
+            }
+            this.lastFriction = lastFriction;
+
+            Vector accelDir = new Vector(dX, 0, dZ);
+            if (accelDir.lengthSquared() < 0.03) return;//Screw .03
+            if (data.getTicks() - lastIdleTick <= 2 || data.getVelocityProcessor().getTicksSinceVelocity() < 2)
+                return;
+
+            Vector yaw = MathUtil.getDirection(data.getRotationProcessor().getYaw(), 0);
+            boolean vectorDir = accelDir.clone().crossProduct(yaw).dot(new Vector(0, 1, 0)) >= 0;
+            double angle = (vectorDir ? 1 : -1) * MathUtil.angle(accelDir, yaw);
+            if (Double.isNaN(angle)) return;
+
+            data.getPositionProcessor().setLastMoveAngle(angle);
+
+            if (!isValidStrafe(angle) && !isExempt(ExemptType.TELEPORT, ExemptType.NEAR_WALL)) {
+                buffer += 5;
+                if (buffer > 20) {
+                    fail("angle=" + angle);
+                }
+            } else {
+                buffer = Math.max(0, buffer - 5);
+            }
+
+
+        } else if (packet.isFlyingType()) {
+            WrappedPacketInFlying flying = new WrappedPacketInFlying(packet.getRawPacket());
+            if (!flying.isPosition()) lastIdleTick = data.getTicks();
+        } else if(packet.isUseEntityAttack() && data.getActionProcessor().isSprinting()) {
+            hitSlow = true;
         }
+    }
+
+    private boolean isValidStrafe(double angle) {
+        double modulo = (angle % (Math.PI / 4)) * (4 / Math.PI); //scaled so that legit values should be close to either 0 or +/-1
+        double error = Math.abs(modulo - Math.round(modulo)) * (Math.PI / 4); //compute error (and then scale back to radians)
+        return error <= THRESHOLD; //in radians
     }
 }

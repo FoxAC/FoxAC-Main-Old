@@ -42,6 +42,11 @@ public class MathUtil {
         return variance;
     }
 
+    public static double angle(Vector a, Vector b) {
+        double dot = Math.min(Math.max(a.dot(b) / (a.length() * b.length()), -1), 1);
+        return Math.acos(dot);
+    }
+
     public double preciseRound(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;

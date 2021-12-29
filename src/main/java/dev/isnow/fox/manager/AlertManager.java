@@ -45,6 +45,7 @@ public final class AlertManager {
                         .replaceAll("%vl%", Integer.toString(check.getVl()))
                         .replaceAll("%type%", check.getCheckInfo().type())
                         .replaceAll("%date%", new Date().toString())
+                        .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                         .replaceAll("%tps%", String.valueOf(Math.min(ServerUtil.getTPS(), 20.0)))
                         .replaceAll("%info%", info)
                         .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()))
@@ -59,6 +60,7 @@ public final class AlertManager {
                     .replaceAll("%dev%", check.getCheckInfo().experimental() ? ColorUtil.translate("&7*") : "")
                     .replaceAll("%vl%", Integer.toString(check.getVl()))
                     .replaceAll("%colour%", colour)
+                    .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                     .replaceAll("%type%", check.getCheckInfo().type())
                     .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
@@ -96,6 +98,7 @@ public final class AlertManager {
                             .replaceAll("%vl%", Integer.toString(check.getVl()))
                             .replaceAll("%type%", "A")
                             .replaceAll("%date%", new Date().toString())
+                            .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                             .replaceAll("%tps%", String.valueOf(Math.min(ServerUtil.getTPS(), 20.0)))
                             .replaceAll("%info%", info)
                             .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()))
@@ -112,6 +115,7 @@ public final class AlertManager {
                         .replaceAll("%dev%", "")
                         .replaceAll("%vl%", Integer.toString(check.getVl()))
                         .replaceAll("%colour%", colour)
+                        .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                         .replaceAll("%type%", "F")
                         .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
@@ -131,6 +135,7 @@ public final class AlertManager {
                         .replaceAll("%vl%", Integer.toString(check.getVl()))
                         .replaceAll("%type%", "A")
                         .replaceAll("%colour%", colour)
+                        .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                         .replaceAll("%maxvl%", String.valueOf(check.getMaxVl())));
 
                 alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + data.getPlayer().getName()));

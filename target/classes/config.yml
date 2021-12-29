@@ -47,7 +47,7 @@ api:
 
 violations:
   # The format of violations can be set here. Fully customizable and all available placeholders are in the default below.
-  alert-format: '&c&lFOX &8>> &e&o%player% &7is using %check% &8(#%colour%&8)'
+  alert-format: '&c&lFOX &8>> &e&o%player% &7is using %check% &8[&7%type%&8] &8(#%colour%&8)'
   # Currently not implemented.
   clear-violations-delay: 15
   # When enabled if a player fails a check it is gonna be logged to the console.

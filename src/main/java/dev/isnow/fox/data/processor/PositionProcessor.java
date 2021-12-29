@@ -3,6 +3,7 @@
 package dev.isnow.fox.data.processor;
 
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.BoundingBox;
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
@@ -13,10 +14,7 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Boat;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Vehicle;
+import org.bukkit.entity.*;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
@@ -36,16 +34,18 @@ public final class PositionProcessor {
             lastX, lastY, lastZ,
             lastlastX, lastlastZ,
             deltaX, deltaY, deltaZ, deltaXZ,
-            lastDeltaX, lastDeltaZ, lastDeltaY, lastDeltaXZ;
+            lastDeltaX, lastDeltaZ, lastDeltaY, lastDeltaXZ, prevX, prevY, prevZ;
 
     private BoundingBox boundingBox;
 
     private long lastMovePacket;
 
+    private float friction, prevFriction, prevPrevFriction;
+
     private float jumpPadTime;
     private boolean flying, jumping, inVehicle, inWater, inLava, inLiquid, fullySubmergedInLiquidStat, inAir, inWeb,
             blockNearHead, wasblockNearHead, onClimbable, onSolidGround, nearVehicle, onSlime,
-            onIce, aroundIce, nearPiston, nearStair, nearCactus;
+            onIce, nearPiston, nearStair, nearCactus;
 
     private int ticks, airTicks, clientAirTicks, sinceVehicleTicks, sinceFlyingTicks,
             liquidTicks, sinceLiquidTicks, climbableTicks, sinceClimbableTicks,
@@ -84,6 +84,14 @@ public final class PositionProcessor {
             lastX = this.x;
             lastY = this.y;
             lastZ = this.z;
+
+            this.prevX = this.x;
+            this.prevY = this.y;
+            this.prevZ = this.z;
+
+            this.prevPrevFriction = prevFriction;
+            this.prevFriction = friction;
+            friction = handleFriction();
 
             this.x = wrapper.getX();
             this.y = wrapper.getY();
@@ -331,5 +339,27 @@ public final class PositionProcessor {
 
     public enum CollisionType {
         ANY, ALL
+    }
+
+    public float handleFriction() {
+        Player player = data.getPlayer();
+        float friction = 0.91F;
+        if (onGround) {
+            Location location = player.getLocation();
+            Block block = BlockUtil.getBlockAsync(new Location(player.getWorld(), location.getX(), location.getY() - 1, location.getZ()));
+            float sliperiness = 0.6f;
+            if (block != null) {
+
+                if (block.getType().toString().equalsIgnoreCase("SLIME_BLOCK")) {
+                    sliperiness = 0.8f;
+                }
+                if (block.getType() == Material.ICE || block.getType() == Material.PACKED_ICE) {
+                    sliperiness = 0.98f;
+                }
+            }
+            friction *= sliperiness;
+
+        }
+        return friction;
     }
 }

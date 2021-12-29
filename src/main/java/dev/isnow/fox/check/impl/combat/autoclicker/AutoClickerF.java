@@ -38,11 +38,11 @@ public final class AutoClickerF extends Check {
 
                         if (invalid >= 40) {
                             if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_17)) {
-                                if(increaseBuffer() > 10) {
+                                if(increaseBuffer() > 15) {
                                     fail();
                                 }
                                 else {
-                                    decreaseBufferBy(0.02);
+                                    decreaseBufferBy(0.05);
                                 }
                             } else {
                                 fail();

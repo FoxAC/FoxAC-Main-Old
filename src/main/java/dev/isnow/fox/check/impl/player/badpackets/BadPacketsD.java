@@ -4,31 +4,48 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
-import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
-
-@CheckInfo(name = "BadPackets", type = "D", description = "Validates block dig packets.")
+@CheckInfo(name = "Packet", type = "D", description = "Invalid Game Speed")
 public class BadPacketsD extends Check {
-
     public BadPacketsD(PlayerData data) {
         super(data);
     }
 
+    private int sentFlying;
+
+    private long currentFlying;
+    private long balance;
+    private double buffer;
+
     @Override
     public void handle(Packet packet) {
-        if (packet.isUseEntity()) {
-            if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThan(ClientVersion.v_1_8)) {
+        if (packet.isFlyingType()) {
+
+            sentFlying++;
+            long lastFlying = 0;
+
+            if(currentFlying != 0) {
+                lastFlying = currentFlying;
+            } else {
+                currentFlying = System.currentTimeMillis();
                 return;
             }
-            final WrappedPacketInUseEntity wrapper = new WrappedPacketInUseEntity(packet.getRawPacket());
-            if (wrapper.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
-                final boolean invalid = this.data.getActionProcessor().isBlocking();
-                if (invalid) {
+            currentFlying = System.currentTimeMillis();
 
+            balance += 50 - (currentFlying - lastFlying);
+
+            if (balance > 8) {
+                if (buffer++ > 1  && sentFlying > 100) {
+                    fail();
+                    buffer = 0;
                 }
+                balance = 0;
+            } else {
+                buffer = Math.max(0, buffer - 0.01);
             }
+
+        } else if (packet.isTeleport()) {
+            balance -= 50;
         }
     }
 }

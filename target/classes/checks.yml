@@ -79,12 +79,6 @@ checks:
         punish-commands:
           - ''
           - ''
-      n:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     aura:
       a:
         enabled: true
@@ -248,116 +242,8 @@ checks:
           - ''
           - ''
   movement:
-    bowfly:
+    flight:
       a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    speed:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 2
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      e:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      f:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      g:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    fastplace:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    fastclimb:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    0:
-      3631249999999966:    flight:
-      a:
-        enabled: true
-        max-violations: 3
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      e:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    strafe:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
         enabled: true
         max-violations: 8
         punish-commands:
@@ -376,70 +262,10 @@ checks:
         punish-commands:
           - ''
           - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      e:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      f:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      g:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      h:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      i:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    noslow:
+    speed:
       a:
         enabled: true
         max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 20
         punish-commands:
           - ''
           - ''
@@ -450,101 +276,7 @@ checks:
         punish-commands:
           - ''
           - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    liquidspeed:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    omnisprint:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
   player:
-    groundspoof:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    timer:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      e:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     inventory:
       a:
         enabled: true
@@ -570,25 +302,14 @@ checks:
         punish-commands:
           - ''
           - ''
-      e:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      f:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      g:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     anticactus:
+      a:
+        enabled: false
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+    fastplace:
       a:
         enabled: false
         max-violations: 8
@@ -602,101 +323,8 @@ checks:
         punish-commands:
           - ''
           - ''
-    fastbow:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    speedmine:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     tower:
       a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    scaffold:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      b:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      c:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      d:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      e:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      f:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      g:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      h:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      i:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      j:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      k:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      l:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      m:
         enabled: true
         max-violations: 8
         punish-commands:
