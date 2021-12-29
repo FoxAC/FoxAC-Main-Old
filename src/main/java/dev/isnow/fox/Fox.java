@@ -100,11 +100,12 @@ public enum Fox {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, DNS Error?");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "FoxAC Couldn't connect to license server, DNS Error?");
             Bukkit.getPluginManager().disablePlugin(getPlugin());
         } catch (IOException e) {
             e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "FoxAC Couldn't validate your key, Invalid Key?");
+            Bukkit.shutdown();
             Bukkit.getPluginManager().disablePlugin(getPlugin());
         }
 
