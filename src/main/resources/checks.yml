@@ -603,13 +603,6 @@ checks:
         punish-commands:
           - ''
           - ''
-    speedmine:
-      a:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     tower:
       a:
         enabled: true
