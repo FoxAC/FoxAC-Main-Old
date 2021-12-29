@@ -8,9 +8,6 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.type.EvictingList;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
-import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
 @CheckInfo(name = "AutoClicker", type = "F", description = "Checks for bad randomization.")
 public final class AutoClickerF extends Check {

@@ -18,7 +18,10 @@ import dev.isnow.fox.check.impl.movement.speed.SpeedB;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
-import dev.isnow.fox.check.impl.player.inventory.*;
+import dev.isnow.fox.check.impl.player.inventory.InventoryA;
+import dev.isnow.fox.check.impl.player.inventory.InventoryB;
+import dev.isnow.fox.check.impl.player.inventory.InventoryC;
+import dev.isnow.fox.check.impl.player.inventory.InventoryD;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -45,6 +48,7 @@ public final class CheckManager {
             AimK.class,
             AimL.class,
             AimM.class,
+            AimN.class,
             AuraA.class,
             AuraB.class,
             AuraC.class,
