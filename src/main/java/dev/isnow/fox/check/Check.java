@@ -10,6 +10,7 @@ import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.manager.PunishmentManager;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.ColorUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -103,6 +104,11 @@ public abstract class Check {
                 if(this.getVl() >= this.getMaxVl()) {
                     data.setBanning(true);
                     bannofail();
+                }
+                if (vl == maxVl) {
+                    if (Config.BROADCASTBAN) {
+                        Bukkit.broadcastMessage(ColorUtil.translate(Config.BROADCASTMESSAGE));
+                    }
                 }
             }
         }

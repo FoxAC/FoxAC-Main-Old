@@ -39,6 +39,13 @@ alerts:
   log: false
   log-format: ''
 
+discord:
+  enabled: true
+  ban-message: false
+  name: 'Fox AntiCheat'
+  image: 'https://ibb.co/5GcBYB9'
+  url: 'https://discordapp.com/api/webhooks/925820999075774515/G0BVuFnckLvEkVA3ymKR13xWm_v_dNWyUzycQn196m7WwBFRda9Lo5kLSJ-DuokhoEva'
+  banurl: 'https://discordapp.com/api/webhooks/925820999075774515/G0BVuFnckLvEkVA3ymKR13xWm_v_dNWyUzycQn196m7WwBFRda9Lo5kLSJ-DuokhoEva'
 
 messages:
   prefix: '&c&lFOX &8>> &e'

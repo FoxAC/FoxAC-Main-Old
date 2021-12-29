@@ -229,14 +229,14 @@ checks:
     hitbox:
       a:
         enabled: true
-        max-violations: 5
+        max-violations: 8
         punish-commands:
           - ''
           - ''
     reach:
       x:
         enabled: true
-        max-violations: 5
+        max-violations: 10
         punish-commands:
           - ''
           - ''
@@ -251,13 +251,13 @@ checks:
     flight:
       a:
         enabled: true
-        max-violations: 8
+        max-violations: 10
         punish-commands:
           - ''
           - ''
       b:
         enabled: true
-        max-violations: 8
+        max-violations: 10
         punish-commands:
           - ''
           - ''
@@ -307,19 +307,19 @@ checks:
     speed:
       a:
         enabled: true
-        max-violations: 8
+        max-violations: 10
         punish-commands:
           - ''
           - ''
       b:
         enabled: true
-        max-violations: 8
+        max-violations: 10
         punish-commands:
           - ''
           - ''
       c:
         enabled: true
-        max-violations: 8
+        max-violations: 10
         punish-commands:
           - ''
           - ''

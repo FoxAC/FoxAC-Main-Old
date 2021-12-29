@@ -9,13 +9,18 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.ColorUtil;
 import dev.isnow.fox.util.LogUtil;
 import dev.isnow.fox.util.ServerUtil;
+import dev.isnow.fox.util.discord.DiscordWebhook;
 import io.github.retrooper.packetevents.PacketEvents;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +29,8 @@ import java.util.Set;
 public final class AlertManager {
 
     private static final Set<PlayerData> alerts = new HashSet<>();
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, MMMMM d, yyyy hh:mm aaa");
+    private static long lastAlert;
 
     public static ToggleAlertType toggleAlerts(final PlayerData data) {
         if (alerts.contains(data)) {
@@ -149,6 +156,44 @@ public final class AlertManager {
 
             TextComponent finalAlertMessage = alertMessage;
             alerts.forEach(player -> player.getPlayer().spigot().sendMessage(finalAlertMessage));
+        }
+
+        if(Config.WEBHOOK) {
+            if(System.currentTimeMillis() - lastAlert > 1500) {
+                DiscordWebhook webhook = new DiscordWebhook(Config.ALERT_URL);
+                DiscordWebhook banWebhook = new DiscordWebhook(Config.BAN_URL);
+
+                webhook.setUsername(Config.DISCORDNAME);
+                webhook.addEmbed(new DiscordWebhook.EmbedObject().setAuthor(Config.DISCORDNAME, null, null)
+                        .setDescription("```md\\n" +
+                                "" + data.getPlayer().getName() + " failed [" + check.getCheckInfo().name() + "] (" + check.getCheckInfo().type() + ") (VL:" + check.getVl() + ")```" +
+
+                                "```md\\n" +
+                                "                -Information-\\n" +
+                                "\\n" +
+                                "* Server: " + Bukkit.getServer().getName() + "\\n" +
+                                "* Ping: " + data.getConnectionProcessor().getTransactionPing() + "\\n" +
+                                "* TPS: " + ServerUtil.getTPS() + "\\n" +
+                                "* Client: " + data.getClientBrand().replaceAll("vanilla", "Vanilla").replaceAll("Tecknix-Client", "Tecknix").replaceAll("fml, forge", "Forge") + "\\n" +
+                                "* Past VL: " + data.getTotalViolations() +"```\\n" +
+
+                                "```md\\n" +
+                                "            -Check Information-\\n" +
+                                "\\n" +
+                                "* Description: " + check.getCheckInfo().description() + "\\n" +
+                                "* Info: " + (info.length() >= 2000 ? info.substring(0, 2000) : info) + "\\n" +
+                                "```")
+                        .setThumbnail("https://minotar.net/avatar/" + data.getPlayer().getName() + "/64")
+                        .setFooter(simpleDateFormat.format(new Date(System.currentTimeMillis())), ""));
+
+                try {
+                    webhook.execute();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+
+                }
+                lastAlert = System.currentTimeMillis();
+            }
         }
     }
 

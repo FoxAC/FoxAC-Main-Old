@@ -80,6 +80,7 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\LimitedDouble.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraA.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\api\impl\FoxPunishEvent.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\command\impl\Gui.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\discord\DiscordWebhook.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\AABB.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\listener\packet\NetworkManager.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\entity\EntityA.java
@@ -114,6 +115,7 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraJ.jav
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\manager\ClientBrandListener.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\command\CommandInfo.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\BotProcessor.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraP.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\command\impl\Exempt.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraD.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\speed\SpeedA.java
@@ -123,6 +125,7 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\inventory\Inve
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\BlockUtil.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\WrappedBlock.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\VelocityProcessor.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\reach\ReachB.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsN.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\manager\TickManager.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\VpnInfo.java
