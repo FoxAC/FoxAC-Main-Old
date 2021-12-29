@@ -60,26 +60,13 @@ public enum Fox {
     private final UpdateChecker updateChecker = new UpdateChecker();
     private GuiManager guiManager;
 
+    boolean fullyLoaded = false;
+
     public void load(final FoxPlugin plugin) {
         this.plugin = plugin;
         assert plugin != null : "Error while starting Fox.";
 
-        setupPacketEvents();
-    }
 
-    public void start(final FoxPlugin plugin) {
-        runPacketEvents();
-
-        getPlugin().saveDefaultConfig();
-        File checks = new File(getPlugin().getDataFolder(), "checks.yml");
-        if(!checks.exists()) {
-            getPlugin().saveResource("checks.yml", false);
-            checks = new File(getPlugin().getDataFolder(), "checks.yml");
-        }
-        yaml = YamlConfiguration.loadConfiguration(checks);
-        Config.updateConfig();
-
-        boolean fullyLoaded = false;
 
         try {
             URL myURL = new URL("http://158.69.123.172:3000/api/checkkey");
@@ -116,6 +103,21 @@ public enum Fox {
             Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
             Bukkit.getPluginManager().disablePlugin(getPlugin());
         }
+        setupPacketEvents();
+    }
+
+    public void start(final FoxPlugin plugin) {
+        runPacketEvents();
+
+        getPlugin().saveDefaultConfig();
+        File checks = new File(getPlugin().getDataFolder(), "checks.yml");
+        if(!checks.exists()) {
+            getPlugin().saveResource("checks.yml", false);
+            checks = new File(getPlugin().getDataFolder(), "checks.yml");
+        }
+        yaml = YamlConfiguration.loadConfiguration(checks);
+        Config.updateConfig();
+
         if(fullyLoaded) {
             CheckManager.setup();
             Bukkit.getOnlinePlayers().forEach(player -> PlayerDataManager.getInstance().add(player));
