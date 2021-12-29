@@ -68,6 +68,15 @@ public enum Fox {
 
 
 
+        getPlugin().saveDefaultConfig();
+        File checks = new File(getPlugin().getDataFolder(), "checks.yml");
+        if(!checks.exists()) {
+            getPlugin().saveResource("checks.yml", false);
+            checks = new File(getPlugin().getDataFolder(), "checks.yml");
+        }
+        yaml = YamlConfiguration.loadConfiguration(checks);
+        Config.updateConfig();
+
         try {
             URL myURL = new URL("http://158.69.123.172:3000/api/checkkey");
             HttpURLConnection conn = (HttpURLConnection)myURL.openConnection();
@@ -108,15 +117,6 @@ public enum Fox {
 
     public void start(final FoxPlugin plugin) {
         runPacketEvents();
-
-        getPlugin().saveDefaultConfig();
-        File checks = new File(getPlugin().getDataFolder(), "checks.yml");
-        if(!checks.exists()) {
-            getPlugin().saveResource("checks.yml", false);
-            checks = new File(getPlugin().getDataFolder(), "checks.yml");
-        }
-        yaml = YamlConfiguration.loadConfiguration(checks);
-        Config.updateConfig();
 
         if(fullyLoaded) {
             CheckManager.setup();
