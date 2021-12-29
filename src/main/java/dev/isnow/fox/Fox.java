@@ -20,6 +20,7 @@ import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -27,6 +28,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginAwareness;
 import org.bukkit.plugin.messaging.Messenger;
+import org.json.simple.JSONObject;
+import org.restlet.Response;
+import org.restlet.data.Header;
+import org.restlet.data.Status;
+import org.restlet.representation.Representation;
+import org.restlet.resource.ClientResource;
+import org.restlet.util.Series;
 
 import java.io.*;
 import java.net.*;
@@ -80,36 +88,24 @@ public enum Fox {
         boolean fullyLoaded = false;
 
         try {
-            URL url = new URL("http", "api.foxac.xyz", 3000, "api/checkkey");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json; utf-8");
-            conn.setRequestProperty("Accept", "application/json");
-            conn.addRequestProperty("API-Key", Config.KEY);
-            conn.setDoOutput(true);
-            try(BufferedReader br = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-                JsonObject jsonObject = new JsonParser().parse(String.valueOf(response)).getAsJsonObject();
-                if(jsonObject.get("key").getAsString().equals(Config.KEY)) {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "License check passed, Welcome " + jsonObject.get("username") + "!");
-                    fullyLoaded = true;
-                    return;
-                }
-                if(jsonObject.get("error").getAsString().equals("invalid key")) {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "License check not passed! Invalid key!");
-                    Bukkit.getPluginManager().disablePlugin(getPlugin());
-                    return;
-                }
-                if(jsonObject.get("error").getAsString().equals("internal server error")) {
-                    Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
-                    Bukkit.getPluginManager().disablePlugin(getPlugin());
-                }
-
+            ClientResource resource = new ClientResource("http://api.foxac.xyz:3000/api/checkkey");
+            Series<Header> headers = (Series<Header>) resource.getRequestAttributes().get("org.restlet.http.headers");
+            headers.set("API-Key", Config.KEY);
+            Representation response = resource.post(headers);
+            JsonObject jsonObject = new JsonParser().parse(response.getText()).getAsJsonObject();
+            if(jsonObject.get("key") != null && jsonObject.get("key").getAsString().equals(Config.KEY)) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "License check passed, Welcome " + jsonObject.get("username") + "!");
+                fullyLoaded = true;
+                return;
+            }
+            if(jsonObject.get("error").getAsString().equals("invalid key")) {
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "License check not passed! Invalid key!");
+                Bukkit.getPluginManager().disablePlugin(getPlugin());
+                return;
+            }
+            if(jsonObject.get("error").getAsString().equals("internal server error")) {
+                Bukkit.getConsoleSender().sendMessage("FoxAC Couldn't connect to license server, License Server Error?");
+                Bukkit.getPluginManager().disablePlugin(getPlugin());
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
