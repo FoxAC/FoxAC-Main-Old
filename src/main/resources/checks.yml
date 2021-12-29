@@ -255,6 +255,12 @@ checks:
         punish-commands:
           - ''
           - ''
+      c:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     motion:
       a:
         enabled: true

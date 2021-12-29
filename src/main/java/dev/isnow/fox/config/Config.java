@@ -48,7 +48,7 @@ public final class Config {
             GHOST_BLOCK_MAX_PING = getInteger("ghost-block-handler.max-ping");
             GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block-handler.mode"));
 
-            STRICTAF_GHOSTBLOCK_MODE = getBoolean("g")
+            STRICTAF_GHOSTBLOCK_MODE = getBoolean("ghost-block-handler.strict");
 
             GLOBALCMD = getBoolean("global-punish");
             GLOBAL_COMMANDS = getList("global-punish-commands");

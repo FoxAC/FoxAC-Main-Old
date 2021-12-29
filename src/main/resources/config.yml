@@ -30,6 +30,7 @@ violations:
 
 ghost-block-handler:
   enabled: true
+  strict: true
   lag-back: true
   mode: 'LIGHT'
   max-ping: 400

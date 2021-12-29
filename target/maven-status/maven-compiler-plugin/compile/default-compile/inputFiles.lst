@@ -18,6 +18,7 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\BotUtils.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsG.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\PositionProcessor.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\ConnectionProcessor.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionC.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\exempt\type\ExemptType.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\manager\AlertManager.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\RotationProcessor.java
@@ -40,7 +41,10 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\packet\processor\ReceivingPacket
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimB.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsM.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\WrappedEntity.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionE.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\speed\SpeedB.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\command\impl\Help.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\flight\FlightB.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\ClickProcessor.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraC.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\fastplace\FastPlaceA.java
@@ -65,8 +69,6 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\PlayerUtil.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\ServerUtil.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraR.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\HitboxExpansion.java
-E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\anticactus\AntiCactusA.java
-E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\jesus\JesusA.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\inventory\InventoryD.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\gui\GuiManager.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraM.java
@@ -86,6 +88,7 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\update\UpdateChecker.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\TimeUtils.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsJ.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimF.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\speed\SpeedC.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\GhostBlockProcessor.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\WrappedBlockUtil.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsA.java
@@ -96,6 +99,7 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\WrappedEntityUtil.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraN.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\exempt\ExemptProcessor.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimC.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionF.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsI.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraB.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsL.java
@@ -125,9 +129,11 @@ E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\VpnInfo.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\util\type\EvictingList.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\Fox.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\player\inventory\InventoryB.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\flight\FlightC.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerC.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\command\impl\Debug.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerF.java
+E:\Anticheats\foxac\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionD.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\processor\ActionProcessor.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\packet\processor\SendingPacketProcessor.java
 E:\Anticheats\foxac\src\main\java\dev\isnow\fox\data\PlayerData.java

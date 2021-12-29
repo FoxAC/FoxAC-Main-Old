@@ -249,6 +249,18 @@ checks:
         punish-commands:
           - ''
           - ''
+      b:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      c:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     motion:
       a:
         enabled: true
@@ -262,6 +274,30 @@ checks:
         punish-commands:
           - ''
           - ''
+      c:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      d:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      e:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      f:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     speed:
       a:
         enabled: true
@@ -269,8 +305,13 @@ checks:
         punish-commands:
           - ''
           - ''
-    jesus:
-      a:
+      b:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      c:
         enabled: true
         max-violations: 8
         punish-commands:
@@ -298,13 +339,6 @@ checks:
           - ''
       d:
         enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-    anticactus:
-      a:
-        enabled: false
         max-violations: 8
         punish-commands:
           - ''

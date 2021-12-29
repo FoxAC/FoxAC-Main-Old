@@ -10,6 +10,7 @@ import dev.isnow.fox.check.impl.combat.reach.ReachX;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
 import dev.isnow.fox.check.impl.movement.flight.FlightB;
+import dev.isnow.fox.check.impl.movement.flight.FlightC;
 import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.movement.speed.SpeedB;
@@ -73,6 +74,7 @@ public final class CheckManager {
             SpeedB.class,
             FlightA.class,
             FlightB.class,
+            FlightC.class,
             MotionA.class,
             MotionB.class,
             MotionC.class,
