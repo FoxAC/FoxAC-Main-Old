@@ -1,4 +1,4 @@
-package dev.isnow.fox.check.impl.movement.jesus;
+package dev.isnow.fox.check.impl.movement.motion;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
@@ -10,10 +10,10 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import org.bukkit.Material;
 
-@CheckInfo(name = "Jesus", type = "A", description = "Checks if player is walking on liquids.")
-public class JesusA extends Check {
+@CheckInfo(name = "Motion", type = "D", description = "Checks for invalid motion of liquids.")
+public class MotionD extends Check {
 
-    public JesusA(PlayerData data) {
+    public MotionD(PlayerData data) {
         super(data);
     }
 

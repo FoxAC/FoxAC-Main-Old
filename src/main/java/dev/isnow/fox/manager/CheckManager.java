@@ -9,11 +9,10 @@ import dev.isnow.fox.check.impl.combat.hitbox.HitboxA;
 import dev.isnow.fox.check.impl.combat.reach.ReachX;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
-import dev.isnow.fox.check.impl.movement.jesus.JesusA;
-import dev.isnow.fox.check.impl.movement.motion.MotionA;
-import dev.isnow.fox.check.impl.movement.motion.MotionB;
+import dev.isnow.fox.check.impl.movement.flight.FlightB;
+import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
-import dev.isnow.fox.check.impl.player.anticactus.AntiCactusA;
+import dev.isnow.fox.check.impl.movement.speed.SpeedB;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
@@ -71,16 +70,20 @@ public final class CheckManager {
             HitboxA.class,
             VelocityA.class,
             SpeedA.class,
+            SpeedB.class,
             FlightA.class,
+            FlightB.class,
             MotionA.class,
             MotionB.class,
-            JesusA.class,
+            MotionC.class,
+            MotionD.class,
+            MotionE.class,
+            MotionF.class,
             InventoryA.class,
             InventoryB.class,
             InventoryC.class,
             InventoryD.class,
             FastPlaceA.class,
-            AntiCactusA.class,
             BreakerA.class,
             BadPacketsA.class,
             BadPacketsB.class,

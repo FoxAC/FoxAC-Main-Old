@@ -1,0 +1,46 @@
+#──────────────────────────────────────────────────
+#─██████████████─██████████████─████████──████████─
+#─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░██──██░░░░██─
+#─██░░██████████─██░░██████░░██─████░░██──██░░████─
+#─██░░██─────────██░░██──██░░██───██░░░░██░░░░██───
+#─██░░██████████─██░░██──██░░██───████░░░░░░████───
+#─██░░░░░░░░░░██─██░░██──██░░██─────██░░░░░░██─────
+#─██░░██████████─██░░██──██░░██───████░░░░░░████───
+#─██░░██─────────██░░██──██░░██───██░░░░██░░░░██───
+#─██░░██─────────██░░██████░░██─████░░██──██░░████─
+#─██░░██─────────██░░░░░░░░░░██─██░░░░██──██░░░░██─
+#─██████─────────██████████████─████████──████████─
+#──────────────────────────────────────────────────
+
+settings:
+  testmode: false
+  api: false
+  vpn: true'
+
+ghost-block:
+  enabled: true
+  strict: true
+  max-ms: 450
+
+messages:
+  prefix: '&c&lFOX &8>> &e'
+  alerts-on: '&c&lFOX &8>> &eAlerts toggled &dOn'
+  alerts-off: '&c&lFOX &8>> &eAlerts toggled &cOff'
+  vpn-kick: '&c&lFOX &8>> &cVpns are blacklisted on this server!'
+  banning: '&c&lFOX &8>> &eBanning %player%'
+  join-message: '&c&lFOX &8>> &7%player% &ejoined with &6%client%'
+
+bans:
+  enabled: true
+  timer: false
+  time: 3
+  first-commands:
+    - 'kick %player% &c&lFOX &8>> &cCheating'
+    - ''
+  timer-commands:
+    - ''
+    - ''
+
+broadcast:
+  enabled: true
+  message: '%nl% &c&lFOX &8>> &7%player% &cWas banned for &c&lCheating! %nl%'

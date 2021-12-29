@@ -27,13 +27,11 @@ public final class FlightA extends Check {
             final boolean exempt = isExempt(ExemptType.CHUNK,
                     ExemptType.CLIMBABLE,
                     ExemptType.FLYING,
-                    ExemptType.VELOCITY,
+                    ExemptType.VELOCITY_ON_TICK,
                     ExemptType.LIQUID,
                     ExemptType.SLIME,
                     ExemptType.TELEPORT_DELAY,
-                    ExemptType.CLIMBABLE,
-                    ExemptType.NEARSTAIRS,
-                    ExemptType.PLACING);
+                    ExemptType.NEARSTAIRS);
             final boolean invalid = !exempt && difference > 0.001D && !onGround;
 
             debug("posY=" + data.getPositionProcessor().getY() + " dY=" + deltaY + " at=" + onGround);

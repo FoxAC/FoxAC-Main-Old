@@ -21,7 +21,7 @@ public final class Config {
 
     public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, GUIPREFIX, VPN_MESSAGE;
 
-    public boolean LOGGING_ENABLED, VPN_ENABLED, API_ENABLED, GHOST_BLOCK_ENABLED, GHOST_BLOCK_LAG_BACK, GLOBALCMD, BANTIMER, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
+    public boolean LOGGING_ENABLED, VPN_ENABLED, STRICTAF_GHOSTBLOCK_MODE, API_ENABLED, GHOST_BLOCK_ENABLED, GHOST_BLOCK_LAG_BACK, GLOBALCMD, BANTIMER, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
 
     public GhostBlockProcessor.Mode GHOST_BLOCK_MODE;
 
@@ -47,6 +47,8 @@ public final class Config {
             GHOST_BLOCK_LAG_BACK = getBoolean("ghost-block-handler.lag-back");
             GHOST_BLOCK_MAX_PING = getInteger("ghost-block-handler.max-ping");
             GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block-handler.mode"));
+
+            STRICTAF_GHOSTBLOCK_MODE = getBoolean("g")
 
             GLOBALCMD = getBoolean("global-punish");
             GLOBAL_COMMANDS = getList("global-punish-commands");

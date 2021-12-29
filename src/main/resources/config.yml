@@ -1,12 +1,5 @@
-########################################################################################################################
-# Anticheat testing mode.                                                                                              #
-# If enabled, no punishments will occur and alerts will enable automatically on join.                                  #
-########################################################################################################################
+
 testmode: true
-########################################################################################################################
-# Anticheat response configuration.                                                                                    #
-# If you want to change how the anticheat looks/responds, you can do it here.                                          #
-########################################################################################################################
 response:
   anticheat:
     prefix: '&c&lFOX &8>> &e'
@@ -14,101 +7,43 @@ response:
     prefix: '&c&lFOX &8>> &e'
   gui:
     prefix: '&c&lFOX &8>> &e'
-########################################################################################################################
-# Logging configuration.                                                                                               #
-# Logs are still beta and there is a chance it might lag the server so its disabled by default.                        #
-########################################################################################################################
 logging:
-  # When enabled starts logging violations to files created per player.
   enabled: false
-  # This is the format that logs are stored. Fully customizable and all available placeholders are in the default below.
   log-format: '[%date%] %player% failed %check% (Type %type%)%dev% VL: %vl% [TPS: %tps%] [tPing: %tping% kaPing: %kaping%] [Info: %info%] [DATE: %date]'
-
-# Client handling. You can block the clients you want here.
-# For example Lunar Client.
 client:
-  # Enabled the client blocking system.
   enabled: true
 
   # This just makes the comparison case sensitive.
   case-sensitive: false
-
-  # The kick message for the client check.
   kick-message: 'The client you are using is currently blocked. Please join with vanilla or a non blocked client in order to join.'
-
-  # If the client name CONTAINS anything on that list, they will automatically be kicked.
   blocked:
     - 'wurst [this wont work :trolled:]'
     - 'sigma [this wont work either :trolled:]'
 
 api:
-  # API is disabled by default for performance reasons. Recommended to keep disabled unless the API is used.
   enabled: false
 
 violations:
-  # The format of violations can be set here. Fully customizable and all available placeholders are in the default below.
   alert-format: '&c&lFOX &8>> &e&o%player% &7is using %check% &8[&7%type%&8] &8(#%colour%&8)'
-  # Currently not implemented.
   clear-violations-delay: 15
-  # When enabled if a player fails a check it is gonna be logged to the console.
   alert-console: true
 
-## Ghost Block Processor
-# Ghost block processor detects ghost blocks with certain methods and ensures that checks in fox do not false.
-# This processor may cause small bypasses in general and for players with high ping might get lagged back by it.
 ghost-block-handler:
-  # This is used to enable or disable the ghost block processor.
-  # Warning disabling this will create false flags with ghost blocks.
   enabled: true
-
-  # This is used to lag back people who were on a ghost block.
-  # If this is disabled it will make the anticheat bypassable but stable on ghost blocks and allow it to perform better.
   lag-back: true
-
-  # This the mode for our ghost block processor.
-  # STRICT: Strict mode will instantly lag the player back if they are on a ghost block but this will false flag laggy players.
-  # LENIENT: Lenient mode will lag the player back based on their ping in order to handle legit players perfectly but this allows bypasses in return.
-  # EXTRA_LENIENT: This is just lenient but even harder. Only use this if you are struggling with laggy players getting lagged back.
-
-  # NORMAL: This will be lenient mode with the max ping setting. You can limit the max time the anticheat will wait to lag back.
-  # So if the number is higher this will allow bigger bypasses but if the number is lower will false flag legit players.
-
-  # LIGHT: This is just normal but a bit more lenient allowings players to place blocks everywhere with no falses whatsoever.
   mode: 'LIGHT'
-
   max-ping: 400
 
-########################################################################################################################
-# Bans configuration.                                                                                                  #
-# You can enable global punish command to overwrite all check commands below, disabled by default                      #
-# You can also enable punish timer if you want (default is instant)                                                    #
-########################################################################################################################
-#Enable global punish
 global-punish: true
-# commands for global punish
 global-punish-commands:
   - "say creating reply for %player%!"
   - ""
-#Enable ban timer
 punish-timer: true
-# ban timer delay (in seconds)
 punish-timer-time: 5
-# ban timer commands
 punish-timer-commands:
   - "ban %player% you have been banned for cheating! check %check% Type %type% VL: %vl% MaxVL: %maxvl%"
   - ""
 
-########################################################################################################################
-# VPN Settings                                                                                                         #
-# If enabled, players that will join with Proxy/VPN will be automatically kicked.                                      #
-########################################################################################################################
 vpn:
   enabled: true
   message: "&8&lfox &7| &rAntiVPN Detection.%nl%%nl%&7Your IP has been detected as a VPN/Proxy [%country%]. %nl%&7Please disconnect from your VPN/Proxy to continiue playing.%nl%%nl%&8&oIf you believe this is a mistake, contact staff at our discord."
-########################################################################################################################
-# Check configuration                                                                                                  #
-# enabled: Turns the check on/off.                                                                                     #
-# max-violations: Amount of times a player can flag before running the specified punish-commands.                       #
-# punish-commands: Commands ran by the server when a player exceeds the specified max-violations.                        #
-#######################################################################################################################
-# MOVED TO checks.yml !!

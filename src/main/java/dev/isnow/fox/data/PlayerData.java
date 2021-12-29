@@ -1,18 +1,22 @@
 package dev.isnow.fox.data;
 
+import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.processor.*;
 import dev.isnow.fox.exempt.ExemptProcessor;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.CheckManager;
+import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.LogUtil;
 import dev.isnow.fox.util.type.ConcurrentEvictingList;
 import dev.isnow.fox.util.type.EntityHelper;
 import dev.isnow.fox.util.type.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -27,7 +31,7 @@ public final class PlayerData {
     private int totalViolations, combatViolations, movementViolations, playerViolations, botViolations;
     private long flying, lastFlying, currentTicks, lastKP;
     private final long joinTime = System.currentTimeMillis();
-    private long enderpearlTime, respawnTime;
+    private long enderpearlTime, respawnTime, setBackTicks;
     private boolean exempt, banning;
     private EntityHelper entityHelper;
     public int existedTicks;
@@ -57,5 +61,35 @@ public final class PlayerData {
         }
 
         entityHelper = new EntityHelper();
+    }
+
+    public void dragDown() {
+        if (!player.isOnline()) {
+            return;
+        }
+        final long current = System.nanoTime() / 1000_000L;
+        if ((current - getSetBackTicks()) > 40) {
+            double ytoAdd = player.getVelocity().getY();
+            if (ytoAdd > 0) {
+                return;
+            }
+            final Location block = player.getLocation().clone().add(0, ytoAdd, 0);
+            for (int i = 0; i < 10; i++) {
+                Block asyncBlock = BlockUtil.getBlockAsync(block);
+                if(asyncBlock == null) continue;
+                if (asyncBlock.getType().isSolid()) {
+                    block.add(0, 0.1, 0);
+                } else {
+                    break;
+                }
+            }
+            teleport(player, block);
+        }
+        setSetBackTicks(current);
+        setSetBackTicks(getSetBackTicks() + 1);
+    }
+
+    public void teleport(Player player, Location location) {
+        Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () -> player.teleport(location));
     }
 }

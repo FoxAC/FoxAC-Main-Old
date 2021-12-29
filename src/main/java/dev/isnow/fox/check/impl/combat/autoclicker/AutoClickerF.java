@@ -6,58 +6,46 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.MathUtil;
+import dev.isnow.fox.util.type.EvictingList;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
-@CheckInfo(name = "AutoClicker", type = "F", description = "Checks for frequency of the clicks.")
+@CheckInfo(name = "AutoClicker", type = "F", description = "Checks for bad randomization.")
 public final class AutoClickerF extends Check {
-
-    private int movements = 0, lastMovements = 0, total = 0, invalid = 0;
 
     public AutoClickerF(final PlayerData data) {
         super(data);
     }
+    private final EvictingList<Integer> clickerData = new EvictingList<>(50);
+
+    private int delayTime;
 
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isUseEntity()) {
-            final WrappedPacketInUseEntity wrapper = new WrappedPacketInUseEntity(packet.getRawPacket());
+    public void handle(Packet packet) {
+        if (packet.isArmAnimation()) {
 
-            if (wrapper.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
-                final boolean proper = data.getClickProcessor().getCps() > 7.2 && movements < 4 && lastMovements < 4;
+            if (delayTime < 5) {
+                if(!data.getActionProcessor().isDigging()) {
+                    clickerData.add(delayTime);
+                }
 
-                if (proper) {
-                    final boolean flag = movements == lastMovements;
+                if (clickerData.isFull()) {
 
-                    if (flag) {
-                        ++invalid;
-                    }
+                    final double std = MathUtil.getStandardDeviation(clickerData);
 
-                    if (++total == 40) {
-
-                        if (invalid >= 40) {
-                            if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_17)) {
-                                if(increaseBuffer() > 15) {
-                                    fail();
-                                }
-                                else {
-                                    decreaseBufferBy(0.05);
-                                }
-                            } else {
-                                fail();
-                            }
-                        }
-
-                        total = 0;
+                    if (std < 0.7) {
+                        fail("std" + MathUtil.preciseRound(std, 2));
                     }
                 }
 
-                lastMovements = movements;
-                movements = 0;
             }
-        } else if (packet.isFlying()) {
-            movements++;
+
+            delayTime = 0;
+        }
+        else if (packet.isFlyingType()) {
+            delayTime++;
         }
     }
 }
