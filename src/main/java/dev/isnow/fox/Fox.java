@@ -29,10 +29,7 @@ import org.bukkit.plugin.PluginAwareness;
 import org.bukkit.plugin.messaging.Messenger;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -83,7 +80,7 @@ public enum Fox {
         boolean fullyLoaded = false;
 
         try {
-            URL url = new URL("api.foxac.xyz:3000/api/checkkey");
+            URL url = new URL("http", "api.foxac.xyz", 3000, "api/checkkey");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");
