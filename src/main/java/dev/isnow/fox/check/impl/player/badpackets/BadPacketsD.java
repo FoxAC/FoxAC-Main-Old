@@ -20,7 +20,7 @@ public class BadPacketsD extends Check {
         if (packet.isFlying()) {
             final long now = packet.getTimeStamp();
             handle: {
-                if (isExempt(ExemptType.TPS, ExemptType.JOINED)) break handle;
+                if (isExempt(ExemptType.JOINED)) break handle;
                 if (lastFlying == 0L) break handle;
 
                 final long delay = now - lastFlying;
@@ -40,7 +40,7 @@ public class BadPacketsD extends Check {
 
             this.lastFlying = now;
         } else if (packet.isTeleport()) {
-            if (isExempt(ExemptType.TPS, ExemptType.JOINED)) return;
+            if (isExempt(ExemptType.JOINED)) return;
             if (lastFlying == 0L) return;
 
             balance -= 50L;

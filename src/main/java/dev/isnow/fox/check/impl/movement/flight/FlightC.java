@@ -18,7 +18,7 @@ public final class FlightC extends Check {
     @Override
     public void handle(Packet packet) {
         if (packet.isPosition()) {
-            if (this.isExempt(ExemptType.FLYING, ExemptType.TELEPORT_DELAY, ExemptType.CREATIVE, ExemptType.PLACING, ExemptType.TPS)) {
+            if (this.isExempt(ExemptType.FLYING, ExemptType.TELEPORT_DELAY, ExemptType.CREATIVE, ExemptType.PLACING)) {
                 return;
             }
             this.stableY = this.data.getPositionProcessor().getY() == this.data.getPositionProcessor().getLastY() && this.data.getPositionProcessor().isInAir() ? (this.stableY += 1.0) : 0.0;
