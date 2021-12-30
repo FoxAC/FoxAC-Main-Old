@@ -15,6 +15,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
@@ -41,7 +42,11 @@ public final class PositionProcessor {
 
     private float friction, prevFriction, prevPrevFriction;
 
+    private Location placementLocation, lastPlacementLocation;
+    private boolean placementUnder;
+
     private float jumpPadTime;
+
     private boolean flying, jumping, inVehicle, inWater, inLava, inLiquid, fullySubmergedInLiquidStat, inAir, inWeb,
             blockNearHead, wasblockNearHead, onClimbable, onSolidGround, nearVehicle, onSlime,
             onIce, nearPiston, nearStair, nearCactus;
@@ -50,7 +55,7 @@ public final class PositionProcessor {
             liquidTicks, sinceLiquidTicks, climbableTicks, sinceClimbableTicks,
             webTicks, sinceWebTicks,
             groundTicks, teleportTicks, sinceTeleportTicks, sinceSlimeTicks, solidGroundTicks,
-            iceTicks, slimeTicks, sinceIceTicks, sinceJumpingTicks, sinceGroundTicks, sinceBlockNearHeadTicks;
+            iceTicks, slimeTicks, sinceIceTicks, sinceJumpingTicks, sinceGroundTicks, sinceBlockNearHeadTicks, ticksSincePlace;
 
     private boolean onGround, lastOnGround, mathematicallyOnGround;
 
@@ -70,13 +75,33 @@ public final class PositionProcessor {
         this.data = data;
     }
 
+
+    public void handleBukkitPlace(final BlockPlaceEvent e) {
+
+        ++ticksSincePlace;
+        if(lastPlacementLocation == null || placementLocation == null) {
+            this.placementLocation = e.getBlock().getLocation();
+            this.lastPlacementLocation = placementLocation;
+            return;
+        }
+        if(placementUnder(lastPlacementLocation)) {
+            this.lastPlacementLocation = e.getBlock().getLocation();
+            placementLocation = e.getBlock().getLocation();
+            placementUnder = true;
+        }
+
+    }
     public void handle(final WrappedPacketInFlying wrapper) {
         teleported = false;
         data.setCurrentTicks(data.getCurrentTicks() + 1);
         lastMovePacket = System.currentTimeMillis();
         this.lastOnGround = this.onGround;
         this.onGround = wrapper.isOnGround();
-
+        ++ticksSincePlace;
+        if(ticksSincePlace > 7) {
+            placementUnder = false;
+        }
+        placementUnder = false;
         if (wrapper.isPosition()) {
             lastlastX = lastX;
             lastlastZ = lastZ;
@@ -286,6 +311,25 @@ public final class PositionProcessor {
         blocksBelow = blocks.stream().filter(block -> block.getLocation().getY() - data.getPositionProcessor().getY() < 0.0).collect(Collectors.toList());
         onSlime = blocks.stream().anyMatch(block -> block.getType().toString().equalsIgnoreCase("SLIME_BLOCK"));
         nearPiston = blocks.stream().anyMatch(block -> block.getType().toString().contains("PISTON"));
+    }
+
+    private boolean placementUnder(final Location blockLocation) {
+        final double x = data.getPositionProcessor().getX();
+        final double y = data.getPositionProcessor().getY();
+        final double z = data.getPositionProcessor().getZ();
+
+        final double blockX = blockLocation.getX();
+        final double blockY = blockLocation.getY();
+        final double blockZ = blockLocation.getZ();
+
+        final double lastBlockY = lastPlacementLocation.getY();
+
+        return Math.floor(y - 0.25) == blockY
+                && blockY < y
+                && lastBlockY < y
+                && lastBlockY < blockY
+                && Math.abs(x - blockX) <= 0.8
+                && Math.abs(z - blockZ) <= 0.8;
     }
 
     public void handleClimbableCollision() {

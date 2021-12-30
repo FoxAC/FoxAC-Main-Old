@@ -6,7 +6,12 @@ import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.util.PlayerUtil;
+import dev.isnow.fox.util.reach.BoundingBox;
+import dev.isnow.fox.util.reach.reach.SimpleCollisionBox;
+import dev.isnow.fox.util.type.Pair;
+import io.github.retrooper.packetevents.utils.vector.Vector3i;
 import lombok.Getter;
+import org.bukkit.Location;
 
 
 @Getter
@@ -32,6 +37,8 @@ public final class GhostBlockProcessor {
                 return;
             }
 
+            final boolean isBridingUp = data.getPositionProcessor().isPlacementUnder() && data.getPositionProcessor().getDeltaY() > 0.0;
+
             final boolean onGhostBlock = data.getPositionProcessor().isOnGround() && data.getPositionProcessor().getY() % 0.015625 < 0.03 && data.getPositionProcessor().isInAir();
 
             final double deltaY = data.getPositionProcessor().getDeltaY();
@@ -48,7 +55,7 @@ public final class GhostBlockProcessor {
 
             this.onGhostBlock = onGhostBlock || underGhostBlock;
 
-            if (onGhostBlock && airTicks > 5) {
+            if (onGhostBlock && airTicks > 5 && !isBridingUp) {
                 data.dragDown();
                 data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
             }

@@ -12,6 +12,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.Wrap
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 public final class ReceivingPacketProcessor  {
 
@@ -31,6 +32,10 @@ public final class ReceivingPacketProcessor  {
             final WrappedPacketInBlockDig wrapper = new WrappedPacketInBlockDig(packet.getRawPacket());
 
             data.getActionProcessor().handleBlockDig(wrapper);
+        }
+        if(packet.isBukkitBlockPlace()) {
+            final BlockPlaceEvent event = (BlockPlaceEvent) packet.getRawPacket().getRawNMSPacket();
+            data.getPositionProcessor().handleBukkitPlace(event);
         }
         if(packet.isBukkitBlockPlace()) {
             data.getActionProcessor().handleBukkitPlace();

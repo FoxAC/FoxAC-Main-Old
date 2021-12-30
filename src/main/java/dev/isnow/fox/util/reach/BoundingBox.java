@@ -16,6 +16,12 @@ public final class BoundingBox {
     private double minX, minY, minZ;
     private double maxX, maxY, maxZ;
 
+    public boolean isCollided(BoundingBox other) {
+        return other.maxX >= this.minX && other.minX <= this.maxX
+                && other.maxY >= this.minY && other.minY <= this.maxY
+                && other.maxZ >= this.minZ && other.minZ <= this.maxZ;
+    }
+
     public BoundingBox(final double minX, final double maxX, final double minY, final double maxY, final double minZ, final double maxZ) {
         if (minX < maxX) {
             this.minX = minX;
