@@ -5,113 +5,108 @@ package dev.isnow.fox.data.processor;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.util.type.EvictingMap;
+import dev.isnow.fox.util.type.Pair;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.keepalive.WrappedPacketInKeepAlive;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.packetwrappers.play.out.keepalive.WrappedPacketOutKeepAlive;
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
+import io.github.retrooper.packetevents.utils.list.ConcurrentList;
 import lombok.Getter;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter
 public final class ConnectionProcessor {
 
     private final PlayerData data;
 
-    private final EvictingMap<Short, Long> transactionUpdates = new EvictingMap<>(20);
-    private final EvictingMap<Long, Long> keepAliveUpdates = new EvictingMap<>(20);
-
-    private short transactionId;
-    private long keepAliveId;
-
-    private long keepAlivePing;
-    private long transactionPing;
-
-    private long lastTransactionSent;
-    private long lastTransactionReceived;
-    private long lastTransactionReceivedCheck;
-
-    private long lastKeepAliveSent;
-    private long lastKeepAliveReceived;
-
-    public ConnectionProcessor(final PlayerData data) {
+    public ConnectionProcessor(PlayerData data) {
         this.data = data;
     }
 
-    public void handleIncomingTransaction(final WrappedPacketInTransaction wrapper) {
-        final long now = System.currentTimeMillis();
+    public AtomicInteger packetLastTransactionReceived = new AtomicInteger(0);
+    public AtomicInteger lastTransactionSent = new AtomicInteger(0);
+    public final ConcurrentList<Short> didWeSendThatTrans = new ConcurrentList<>();
+    private final AtomicInteger transactionIDCounter = new AtomicInteger(0);
 
-        transactionUpdates.computeIfPresent(wrapper.getActionNumber(), (id, time) -> {
-            transactionPing = now - time;
-            lastTransactionReceived = now;
-            return time;
-        });
+    private int transactionPing = 0;
+    private long playerClockAtLeast = 0;
+
+    public final ConcurrentLinkedQueue<Pair<Short, Long>> transactionsSent = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<Pair<Integer, Runnable>> nettySyncTransactionMap = new ConcurrentLinkedQueue<>();
+
+
+    public boolean addTransactionResponse(short id) {
+
+        Pair<Short, Long> data = null;
+        boolean hasID = false;
+        for (Pair<Short, Long> iterator : transactionsSent) {
+            if (iterator.getX() == id) {
+                hasID = true;
+                break;
+            }
+
+        }
+
+        if (hasID) {
+            do {
+                data = transactionsSent.poll();
+                if (data == null)
+                    break;
+
+                int incrementingID = packetLastTransactionReceived.incrementAndGet();
+                transactionPing = (int) (System.nanoTime() - data.getY());
+                playerClockAtLeast = data.getY();
+
+                handleNettySyncTransaction(incrementingID);
+            } while (data.getX() != id);
+        }
+
+        // Were we the ones who sent the packet?
+        return data != null && data.getX() == id;
+    }
+
+    public short getNextTransactionID(int add) {
+        return (short) (-1 * (transactionIDCounter.getAndAdd(add) & 0x7FFF));
     }
 
     public void sendTransaction() {
-        PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, (short) ThreadLocalRandom.current().nextInt(32767), false));
-    }
-    public void handleIncomingKeepAlive(final WrappedPacketInKeepAlive wrapper) {
-        final long now = System.currentTimeMillis();
-        keepAliveUpdates.computeIfPresent(wrapper.getId(), (id, time) -> {
-            keepAlivePing = now - time;
-            lastKeepAliveReceived = now;
+        short transactionID = getNextTransactionID(1);
+        try {
+            addTransactionSend(transactionID);
 
-            return time;
-        });
-    }
-
-    public void handleOutgoingTransaction(final WrappedPacketOutTransaction wrapper) {
-        final long now = System.currentTimeMillis();
-        final short actionNumber = wrapper.getActionNumber();
-
-        lastTransactionSent = now;
-        lastTransactionReceivedCheck = now;
-        transactionId = actionNumber;
-        transactionUpdates.put(actionNumber, System.currentTimeMillis());
-    }
-
-    public void handleOutgoingKeepAlive(final WrappedPacketOutKeepAlive wrapper) {
-        final long now = System.currentTimeMillis();
-        final long id = wrapper.getId();
-
-
-        lastKeepAliveSent = now;
-
-        keepAliveId = id;
-        keepAliveUpdates.put(id, System.currentTimeMillis());
-
-        final long calc4 = now - data.getJoinTime();
-        final long calc = now - lastTransactionReceived;
-        final long calc2 = now - data.getJoinTime();
-        if(lastTransactionReceived == 0 && calc4 < 1000L) {
-            return;
-        }
-        if(lastTransactionReceived == 0 && calc2 < 1000L) {
-            return;
-        }
-
-        if(calc > 2000L) {
-            AlertManager.sendMessage("Warning! " + data.getPlayer().getName() + " Canceled Transaction Packets for over " + calc + "MS!");
+            PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, transactionID, false));
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
-    public Optional<Long> getTransactionTime(final short actionNumber) {
-        final Map<Short, Long> entries = transactionUpdates;
-
-        if (entries.containsKey(actionNumber)) return Optional.of(entries.get(actionNumber));
-
-        return Optional.empty();
+    public void addTransactionSend(short id) {
+        didWeSendThatTrans.add(id);
     }
 
-    public Optional<Long> getKeepAliveTime(final long identification) {
-        final Map<Long, Long> entries = keepAliveUpdates;
+    private void tickUpdates(ConcurrentLinkedQueue<Pair<Integer, Runnable>> map, int transaction) {
+        Pair<Integer, Runnable> next = map.peek();
+        while (next != null) {
+            if (transaction < next.getX())
+                break;
 
-        if (entries.containsKey(identification)) return Optional.of(entries.get(identification));
+            map.poll();
+            next.getY().run();
+            next = map.peek();
+        }
+    }
 
-        return Optional.empty();
+    public void handleNettySyncTransaction(int transaction) {
+        tickUpdates(nettySyncTransactionMap, transaction);
+    }
+
+    public void addRealTimeTask(int transaction, Runnable runnable) {
+        nettySyncTransactionMap.add(new Pair<>(transaction, runnable));
     }
 }

@@ -19,16 +19,6 @@ public final class SendingPacketProcessor  {
                 data.getVelocityProcessor().handle(wrapper.getVelocityX(), wrapper.getVelocityY(), wrapper.getVelocityZ());
             }
         }
-        if (packet.isOutgoingTransaction()) {
-            final WrappedPacketOutTransaction wrapper = new WrappedPacketOutTransaction(packet.getRawPacket());
-
-            data.getConnectionProcessor().handleOutgoingTransaction(wrapper);
-        }
-        if (packet.isOutgoingKeepAlive()) {
-            final WrappedPacketOutKeepAlive wrapper = new WrappedPacketOutKeepAlive(packet.getRawPacket());
-
-            data.getConnectionProcessor().handleOutgoingKeepAlive(wrapper);
-        }
         if (packet.isTeleport()) {
             final WrappedPacketOutPosition wrapper = new WrappedPacketOutPosition(packet.getRawPacket());
 

@@ -41,7 +41,7 @@ public final class VelocityProcessor {
         this.velocityID = (short) ThreadLocalRandom.current().nextInt(32767);
         this.velocityH = ((int)(((velocityX + velocityZ) / 2.0 + 2.0) * 15.0));
         this.verifyingVelocity = true;
-        data.getConnectionProcessor().sendTransaction();
+        PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, (short) ThreadLocalRandom.current().nextInt(32767), false));
     }
 
     public void handleTransaction(final WrappedPacketInTransaction wrapper) {
