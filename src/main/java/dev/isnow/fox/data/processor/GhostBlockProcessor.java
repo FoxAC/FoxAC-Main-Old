@@ -57,8 +57,7 @@ public final class GhostBlockProcessor {
             }
 
             if (ghostTicks > 3 && lastGroundLocation != null) {
-                Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () ->
-                        data.dragDown());
+                Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), data::dragDown);
             }
         }
 

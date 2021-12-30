@@ -135,6 +135,8 @@ public class HitBoxA extends Check {
 
             if (minDistance == Double.MAX_VALUE) {
                 fail("");
+            } else if (minDistance > maxReach) {
+                fail("Reach: " + String.format("%.55f", minDistance));
             }
 
             attackQueue = playerAttackQueue.poll();
