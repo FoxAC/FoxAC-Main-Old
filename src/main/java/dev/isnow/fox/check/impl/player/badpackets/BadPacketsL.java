@@ -20,7 +20,7 @@ public final class BadPacketsL extends Check {
             final float deltaPitch = data.getRotationProcessor().getDeltaPitch();
             final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
 
-            final boolean exempt = isExempt(ExemptType.TELEPORT, ExemptType.VEHICLE);
+            final boolean exempt = isExempt(ExemptType.TELEPORT_DELAY, ExemptType.VEHICLE, ExemptType.CREATIVE) && (data.getPositionProcessor().getSinceTeleportTicks() > 20);
             final boolean invalid = deltaPitch == 0.0F && deltaYaw  == 0.0F;
 
             if(invalid && !exempt) {
