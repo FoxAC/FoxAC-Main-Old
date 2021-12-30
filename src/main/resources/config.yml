@@ -58,6 +58,7 @@ messages:
 
 bans:
   enabled: true
+  sus: true
   timer: false
   time: 3
   first-commands:

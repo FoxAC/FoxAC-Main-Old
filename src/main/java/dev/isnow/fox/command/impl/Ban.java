@@ -27,6 +27,7 @@ public class Ban extends FoxCommand {
                 sender.sendMessage(ColorUtil.translate("&cGlobal commands aren't enabled!"));
                 return true;
             }
+
             for(String s : Config.GLOBAL_COMMANDS) {
                 if(!s.equals("")) {
                     s = ChatColor.translateAlternateColorCodes('&', s);

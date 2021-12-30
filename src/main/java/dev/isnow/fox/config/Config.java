@@ -19,7 +19,7 @@ public final class Config {
 
     public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, GUIPREFIX, VPN_MESSAGE, ALERTSON, ALERTSOFF, CLICKCOMMAND, BROADCASTMESSAGE, ALERT_URL, BAN_URL, DISCORDNAME, IMAGEDISCORD;
 
-    public boolean LOGGING_ENABLED, VPN_ENABLED, STRICTAF_GHOSTBLOCK_MODE, API_ENABLED, GHOST_BLOCK_ENABLED, GHOST_BLOCK_LAG_BACK, GLOBALCMD, WEBHOOK, DISCORDBAN, BANTIMER, BROADCASTBAN, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
+    public boolean LOGGING_ENABLED, VPN_ENABLED, STRICTAF_GHOSTBLOCK_MODE, SUS, API_ENABLED, GHOST_BLOCK_ENABLED, GHOST_BLOCK_LAG_BACK, GLOBALCMD, WEBHOOK, DISCORDBAN, BANTIMER, BROADCASTBAN, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
 
     public GhostBlockProcessor.Mode GHOST_BLOCK_MODE;
 
@@ -54,6 +54,8 @@ public final class Config {
             GHOST_BLOCK_MAX_PING = getInteger("ghost-block.max-ms");
             STRICTAF_GHOSTBLOCK_MODE = getBoolean("ghost-block.strict");
             GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block.mode"));
+
+            SUS = getBoolean("bans.sus");
 
             GLOBALCMD = getBoolean("bans.enabled");
             GLOBAL_COMMANDS = getList("bans.first-commands");
