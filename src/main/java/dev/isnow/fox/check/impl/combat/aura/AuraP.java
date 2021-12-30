@@ -30,6 +30,7 @@ public final class AuraP extends Check {
             final boolean exempt = !(target instanceof Player);
             final boolean invalid = acceleration < 0.0027 && sprinting && baseSpeed > acceleration;
 
+            debug(acceleration);
             if (invalid && !exempt) {
                 if (increaseBuffer() > 2) {
                     fail();
