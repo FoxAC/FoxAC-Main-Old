@@ -20,6 +20,8 @@ public final class GhostBlockProcessor {
 
     private boolean onGhostBlock, yGround, lastYGround;
 
+    private int ghostTicks;
+
     public GhostBlockProcessor(final PlayerData data) {
         this.data = data;
     }
@@ -39,6 +41,9 @@ public final class GhostBlockProcessor {
             final double deltaY = data.getPositionProcessor().getDeltaY();
             final double lastDeltaY = data.getPositionProcessor().getLastDeltaY();
 
+            if (this.onGhostBlock) ++ghostTicks;
+            else ghostTicks = 0;
+
             double predictedY = (lastDeltaY - 0.08) * 0.98F;
             if (Math.abs(predictedY) < 0.005) predictedY = 0.0;
 
@@ -48,7 +53,7 @@ public final class GhostBlockProcessor {
 
             this.onGhostBlock = onGhostBlock || underGhostBlock;
 
-            if (onGhostBlock) {
+            if (onGhostBlock && ghostTicks > 5) {
                 data.dragDown();
                 data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
             }
