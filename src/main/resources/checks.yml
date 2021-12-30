@@ -445,7 +445,7 @@ checks:
           - ''
           - ''
       l:
-        enabled: true
+        enabled: false
         max-violations: 8
         punish-commands:
           - ''

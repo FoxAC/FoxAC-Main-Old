@@ -110,9 +110,6 @@ public abstract class Check {
                         Bukkit.broadcastMessage(ColorUtil.translate(Config.BROADCASTMESSAGE).replaceAll("%player%", data.getPlayer().getName()).replaceAll("%nl%", "\n"));
                     }
                 }
-                if (Config.SUS && vl == maxVl) {
-                    data.getPlayer().sendTitle(ColorUtil.translate("&d&lඞ &c1 Imposer was ejected! &d&lඞ") , "");
-                }
             }
         }
     }
