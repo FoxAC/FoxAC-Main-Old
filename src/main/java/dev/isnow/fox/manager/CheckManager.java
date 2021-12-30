@@ -19,6 +19,9 @@ import dev.isnow.fox.check.impl.movement.speed.SpeedB;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
+import dev.isnow.fox.check.impl.player.ground.GroundA;
+import dev.isnow.fox.check.impl.player.ground.GroundB;
+import dev.isnow.fox.check.impl.player.ground.GroundC;
 import dev.isnow.fox.check.impl.player.inventory.InventoryA;
 import dev.isnow.fox.check.impl.player.inventory.InventoryB;
 import dev.isnow.fox.check.impl.player.inventory.InventoryC;
@@ -91,6 +94,8 @@ public final class CheckManager {
             MotionD.class,
             MotionE.class,
             MotionF.class,
+            MotionG.class,
+            MotionH.class,
             GhostBlockA.class,
             InventoryA.class,
             InventoryB.class,
@@ -115,6 +120,9 @@ public final class CheckManager {
             TimerA.class,
             TimerB.class,
             TimerC.class,
+            GroundA.class,
+            GroundB.class,
+            GroundC.class,
     };
 
     private static final List<Constructor<?>> CONSTRUCTORSALL = new ArrayList<>();
