@@ -426,7 +426,7 @@ checks:
     breaker:
       a:
         enabled: true
-        max-violations: 3
+        max-violations: 2
         punish-commands:
           - ''
           - ''
@@ -537,13 +537,13 @@ checks:
     ground:
       a:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''
       b:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''

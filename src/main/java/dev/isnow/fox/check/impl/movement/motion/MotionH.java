@@ -41,7 +41,7 @@ public class MotionH extends Check {
 
             if(data.getVersion().isNewerThanOrEquals(ClientVersion.v_1_9)) takenVelocity += 0.03;
 
-            if (takenVelocity < givenVelocity && !isExempt(ExemptType.WEB, ExemptType.LIQUID, ExemptType.NEAR_WALL)) {
+            if (takenVelocity < givenVelocity && !isExempt(ExemptType.LIQUID, ExemptType.NEAR_WALL)) {
                 if (hitTicks >= 2) {
                     buffer += 20;
                     if (buffer > 30) {
