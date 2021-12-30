@@ -8,6 +8,7 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -41,12 +42,13 @@ public final class VelocityProcessor {
         this.velocityID = (short) ThreadLocalRandom.current().nextInt(32767);
         this.velocityH = ((int)(((velocityX + velocityZ) / 2.0 + 2.0) * 15.0));
         this.verifyingVelocity = true;
-        PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, (short) ThreadLocalRandom.current().nextInt(32767), false));
+        PacketEvents.get().getPlayerUtils().sendPacket(data.getPlayer(), new WrappedPacketOutTransaction(0, velocityID, false));
     }
 
     public void handleTransaction(final WrappedPacketInTransaction wrapper) {
         if (this.verifyingVelocity && wrapper.getActionNumber() == this.velocityID) {
             this.verifyingVelocity = false;
+            Bukkit.broadcastMessage("verified velo!");
             this.velocityTicks = Fox.INSTANCE.getTickManager().getTicks();
             this.maxVelocityTicks = (int) (((lastVelocityZ + lastVelocityX) / 2 + 2) * 15);
         }
