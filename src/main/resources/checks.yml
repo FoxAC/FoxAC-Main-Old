@@ -317,12 +317,6 @@ checks:
         punish-commands:
           - ''
           - ''
-      h:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     speed:
       a:
         enabled: true
