@@ -10,8 +10,6 @@ import dev.isnow.fox.packet.Packet;
 @CheckInfo(name = "BadPackets", type = "F", description = "Checks if player is sending flyings but not responding transactions.")
 public final class BadPacketsF extends Check {
 
-    private int ticks, transactionSentTicks, transactionReceivedTicks;
-
     public BadPacketsF(final PlayerData data) {
         super(data);
     }

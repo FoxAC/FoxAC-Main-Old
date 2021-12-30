@@ -13,6 +13,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.out.keepalive.Wrappe
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
 import io.github.retrooper.packetevents.utils.list.ConcurrentList;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 
 import java.util.Map;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public final class ConnectionProcessor {
                 if (data == null)
                     break;
 
+                Bukkit.broadcastMessage(String.valueOf(data.getY()));
                 int incrementingID = packetLastTransactionReceived.incrementAndGet();
                 transactionPing = (int) (System.nanoTime() - data.getY());
                 playerClockAtLeast = data.getY();

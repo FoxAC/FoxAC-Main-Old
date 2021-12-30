@@ -54,8 +54,7 @@ public final class AlertManager {
                         .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                         .replaceAll("%tps%", String.valueOf(Math.min(ServerUtil.getTPS(), 20.0)))
                         .replaceAll("%info%", info)
-                        .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()))
-                        .replaceAll("%kaping%", String.valueOf(data.getConnectionProcessor().getKeepAlivePing()));
+                        .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()));
 
                 LogUtil.logToFile(data.getLogFile(), log);
             }
@@ -76,7 +75,6 @@ public final class AlertManager {
                             "\n&cInfo: &b" + info +
                             "\n&cPing: &b" + PacketEvents.get().getPlayerUtils().getPing(data.getPlayer()) +
                             "\n&cTransPing: &b" + data.getConnectionProcessor().getTransactionPing() +
-                            "\n&cKeepAlivePing: &b" + data.getConnectionProcessor().getKeepAlivePing() +
                             "\n&cTPS: &f" + String.format("%.2f", Math.min(20, PacketEvents.get().getServerUtils().getTPS())) +
                             "\n&cClick to teleport.")).create()));
 
@@ -92,8 +90,7 @@ public final class AlertManager {
                             .replaceAll("%date%", new Date().toString())
                             .replaceAll("%tps%", String.valueOf(Math.min(ServerUtil.getTPS(), 20.0)))
                             .replaceAll("%info%", info)
-                            .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()))
-                            .replaceAll("%kaping%", String.valueOf(data.getConnectionProcessor().getKeepAlivePing()));
+                            .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()));
 
                     LogUtil.logToFile(data.getLogFile(), log);
                 }
@@ -107,8 +104,7 @@ public final class AlertManager {
                             .replaceAll("%bar%", ColorUtil.translate(check.getBar()))
                             .replaceAll("%tps%", String.valueOf(Math.min(ServerUtil.getTPS(), 20.0)))
                             .replaceAll("%info%", info)
-                            .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()))
-                            .replaceAll("%kaping%", String.valueOf(data.getConnectionProcessor().getKeepAlivePing()));
+                            .replaceAll("%tping%", String.valueOf(data.getConnectionProcessor().getTransactionPing()));
 
                     LogUtil.logToFile(data.getLogFile(), log);
                 }

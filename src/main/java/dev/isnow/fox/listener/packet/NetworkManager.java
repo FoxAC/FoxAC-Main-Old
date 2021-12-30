@@ -37,8 +37,8 @@ public final class NetworkManager extends PacketListenerDynamic {
             executorService.execute(() -> Fox.INSTANCE.getReceivingPacketProcessor().handle(
                     data, new Packet(Packet.Direction.RECEIVE, event.getNMSPacket(), event.getPacketId(), event.getTimestamp()))
             );
-            WrappedPacketInTransaction transaction = new WrappedPacketInTransaction(event.getNMSPacket());
             if(event.getPacketId() == PacketType.Play.Client.TRANSACTION) {
+                WrappedPacketInTransaction transaction = new WrappedPacketInTransaction(event.getNMSPacket());
                 short id = transaction.getActionNumber();
 
                 // Vanilla always uses an ID starting from 1
@@ -80,14 +80,7 @@ public final class NetworkManager extends PacketListenerDynamic {
     public void onPostPlayerInject(final PostPlayerInjectEvent event) {
         final ClientVersion version = event.getClientVersion();
 
-        final boolean unsupported = version.isHigherThan(ClientVersion.v_1_16_4) || version.isLowerThan(ClientVersion.v_1_7_10);
 
-        if (unsupported) {
-            final String message = String.format("Player '%s' joined with a client version that is not supported, this might cause false positives. Please take the appropriate action. (Version: %s)", event.getPlayer().getName(), version.name());
-
-            Bukkit.getLogger().warning(message);
-            AlertManager.sendMessage(message);
-        }
     }
 
 }

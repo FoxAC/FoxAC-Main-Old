@@ -6,7 +6,6 @@ import dev.isnow.fox.check.impl.combat.aura.*;
 import dev.isnow.fox.check.impl.combat.autoclicker.*;
 import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
-import dev.isnow.fox.check.impl.combat.hitbox.HitboxA;
 import dev.isnow.fox.check.impl.combat.reach.ReachB;
 import dev.isnow.fox.check.impl.combat.reach.ReachX;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
