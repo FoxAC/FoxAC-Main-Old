@@ -3,22 +3,13 @@
 package dev.isnow.fox.data.processor;
 
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.manager.AlertManager;
-import dev.isnow.fox.util.type.EvictingMap;
 import dev.isnow.fox.util.type.Pair;
 import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.packetwrappers.play.in.keepalive.WrappedPacketInKeepAlive;
-import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
-import io.github.retrooper.packetevents.packetwrappers.play.out.keepalive.WrappedPacketOutKeepAlive;
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
 import io.github.retrooper.packetevents.utils.list.ConcurrentList;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 
-import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Getter

@@ -32,7 +32,7 @@ ghost-block:
   max-ms: 450
 
 alerts:
-  message: '&c&lFOX &8>> &e&o%player% &7is using %check% &8[&7%type%&8] &8(#%colour%&8)'
+  message: '&c&l🦊 &8>> &e&o%player% &7is using %check% &8[&7%type%&8] &8(#%colour%&8)'
   click-command: '/teleport %player%'
   clear-violations-delay: 15
   console: true
@@ -48,13 +48,13 @@ discord:
   banurl: 'https://discordapp.com/api/webhooks/925820999075774515/G0BVuFnckLvEkVA3ymKR13xWm_v_dNWyUzycQn196m7WwBFRda9Lo5kLSJ-DuokhoEva'
 
 messages:
-  prefix: '&c&lFOX &8>> &e'
-  alerts-on: '&c&lFOX &8>> &eAlerts toggled &dOn'
-  alerts-off: '&c&lFOX &8>> &eAlerts toggled &cOff'
-  vpn-kick: '&c&lFOX &8>> &cVpns are blacklisted on this server!'
-  banning: '&c&lFOX &8>> &eBanning %player%'
-  join-message: '&c&lFOX &8>> &7%player% &ejoined with &6%client%'
-  client-kick: '&c&lFOX &8>> &cThis client isnt supported!'
+  prefix: '&c&l🦊 &8>> &e'
+  alerts-on: '&c&l🦊 &8>> &eAlerts toggled &dOn'
+  alerts-off: '&c&l🦊 &8>> &eAlerts toggled &cOff'
+  vpn-kick: '&c&l🦊 &8>> &cVpns are blacklisted on this server!'
+  banning: '&c&l🦊 &8>> &eBanning %player%'
+  join-message: '&c&l🦊 &8>> &7%player% &ejoined with &6%client%'
+  client-kick: '&c&l🦊 &8>> &cThis client isnt supported!'
 
 bans:
   enabled: true
@@ -62,7 +62,7 @@ bans:
   timer: false
   time: 3
   first-commands:
-    - 'kick %player% &c&lFOX &8>> &cCheating'
+    - 'kick %player% &c&l🦊 &8>> &cCheating'
     - ''
   timer-commands:
     - ''
@@ -70,4 +70,4 @@ bans:
 
 broadcast:
   enabled: true
-  message: '%nl% &c&lFOX &8>> &7%player% &cWas banned for &c&lCheating! %nl%'
+  message: '%nl% &c&l🦊 &8>> &7%player% &cWas banned for &c&lCheating! %nl%'

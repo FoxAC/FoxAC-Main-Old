@@ -1,6 +1,5 @@
 package dev.isnow.fox.util.type;
 
-import dev.isnow.fox.util.ServerUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.block.Block;

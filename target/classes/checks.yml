@@ -462,3 +462,22 @@ checks:
         punish-commands:
           - ''
           - ''
+    timer:
+      a:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      c:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''

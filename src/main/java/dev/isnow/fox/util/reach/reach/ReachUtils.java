@@ -1,6 +1,5 @@
 package dev.isnow.fox.util.reach.reach;
 
-import dev.isnow.fox.util.reach.reach.SimpleCollisionBox;
 import org.bukkit.util.Vector;
 
 public class ReachUtils {

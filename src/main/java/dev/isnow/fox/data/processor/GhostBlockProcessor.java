@@ -2,15 +2,11 @@
 
 package dev.isnow.fox.data.processor;
 
-import dev.isnow.fox.Fox;
-import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
-import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 
 
 @Getter

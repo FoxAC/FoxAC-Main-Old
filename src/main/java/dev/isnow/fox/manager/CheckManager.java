@@ -23,6 +23,9 @@ import dev.isnow.fox.check.impl.player.inventory.InventoryA;
 import dev.isnow.fox.check.impl.player.inventory.InventoryB;
 import dev.isnow.fox.check.impl.player.inventory.InventoryC;
 import dev.isnow.fox.check.impl.player.inventory.InventoryD;
+import dev.isnow.fox.check.impl.player.timer.TimerA;
+import dev.isnow.fox.check.impl.player.timer.TimerB;
+import dev.isnow.fox.check.impl.player.timer.TimerC;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import org.bukkit.Bukkit;
@@ -109,6 +112,9 @@ public final class CheckManager {
             BadPacketsL.class,
             BadPacketsM.class,
             BadPacketsN.class,
+            TimerA.class,
+            TimerB.class,
+            TimerC.class,
     };
 
     private static final List<Constructor<?>> CONSTRUCTORSALL = new ArrayList<>();

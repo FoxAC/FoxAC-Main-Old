@@ -3,10 +3,8 @@
 package dev.isnow.fox.util;
 
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.util.type.CollideEntry;
 import dev.isnow.fox.util.type.VpnInfo;
 import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.math.MathUtils;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -25,7 +23,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.NoSuchElementException;
 
 @UtilityClass
 public class PlayerUtil {

@@ -4,7 +4,6 @@ package dev.isnow.fox.listener.packet;
 
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.type.Pair;
@@ -16,7 +15,6 @@ import io.github.retrooper.packetevents.event.priority.PacketEventPriority;
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
-import org.bukkit.Bukkit;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -9,7 +9,6 @@ import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
-import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 

@@ -186,7 +186,7 @@ checks:
     entity:
       a:
         enabled: true
-        max-violations: 15
+        max-violations: 20
         punish-commands:
           - ''
           - ''
@@ -459,6 +459,25 @@ checks:
       n:
         enabled: true
         max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+    timer:
+      a:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      c:
+        enabled: true
+        max-violations: 10
         punish-commands:
           - ''
           - ''
