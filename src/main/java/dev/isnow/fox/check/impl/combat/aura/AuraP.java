@@ -28,7 +28,7 @@ public final class AuraP extends Check {
             final double acceleration = Math.abs(deltaXZ - lastDeltaXZ);
 
             final boolean exempt = !(target instanceof Player);
-            final boolean invalid = acceleration < 0.0027 && sprinting && baseSpeed > acceleration;
+            final boolean invalid = acceleration < 0.0021 && sprinting && baseSpeed > acceleration;
 
             debug(acceleration);
             if (invalid && !exempt) {
