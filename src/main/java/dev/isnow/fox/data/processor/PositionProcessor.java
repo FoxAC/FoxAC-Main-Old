@@ -39,9 +39,6 @@ public final class PositionProcessor {
             lastDeltaX, lastDeltaZ, lastDeltaY, lastDeltaXZ, prevX, prevY, prevZ;
 
     private BoundingBox boundingBox;
-
-    private boolean isOnGroundCollided, serverYGround, lastPositionYGround, positionYGround;
-
     private long lastMovePacket;
 
     private float friction, prevFriction, prevPrevFriction;
@@ -100,16 +97,6 @@ public final class PositionProcessor {
             this.x = wrapper.getX();
             this.y = wrapper.getY();
             this.z = wrapper.getZ();
-
-            if (y % 0.015625 == 0.0
-                    || y % 0.015625 <= 0.009) {
-                serverYGround = true;
-            } else {
-                serverYGround = false;
-            }
-
-            this.lastPositionYGround = this.positionYGround;
-            this.positionYGround = y % 0.015625 < 0.009;
 
             lastDeltaX = deltaX;
             lastDeltaY = deltaY;
@@ -278,13 +265,6 @@ public final class PositionProcessor {
             }
         }
 
-        List<CollideEntry> collidedBlocks = this.boundingBox.getCollidedBlocks(data.getPlayer());
-        collidedBlocks.stream().filter(CollideEntry::isChunkLoaded).forEach(collideEntry -> {
-
-            if (collideEntry.getBlock().getType().isSolid()) {
-                this.isOnGroundCollided = true;
-            }
-        });
         handleClimbableCollision();
         handleNearbyEntities();
 

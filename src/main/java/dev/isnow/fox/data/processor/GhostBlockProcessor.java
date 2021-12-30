@@ -20,7 +20,7 @@ public final class GhostBlockProcessor {
 
     private double flags;
 
-    private boolean onGhostBlock;
+    private boolean onGhostBlock, yGround, lastYGround;
 
     public GhostBlockProcessor(final PlayerData data) {
         this.data = data;
@@ -36,15 +36,19 @@ public final class GhostBlockProcessor {
                 return;
             }
 
-            boolean ground = data.getPositionProcessor().isOnGround() || data.getPositionProcessor().isLastOnGround();
+            lastYGround = yGround;
+            if (data.getPositionProcessor().getY() % 0.015625 == 0.0
+                    || data.getPositionProcessor().getY() % 0.015625 <= 0.009) {
+                yGround = true;
+            } else {
+                yGround = false;
+            }
 
-            boolean serverPositionGround = data.getPositionProcessor().isServerYGround()
-                    || data.getPositionProcessor().isLastPositionYGround();
+            final boolean isOnGroundProcessor = data.getPositionProcessor().isOnGround() || data.getPositionProcessor().isLastOnGround();
+            boolean serverPositionGround = yGround || lastYGround;
+            boolean serverGround = !data.getPositionProcessor().isInAir();
 
-            boolean serverGround = data.getPositionProcessor().isOnGroundCollided();
-
-            Bukkit.broadcastMessage("CG: " + ground + " SPG: " + serverPositionGround + " SG: " + serverGround);
-            if (ground && serverPositionGround
+            if (isOnGroundProcessor && serverPositionGround
                     && !serverGround) {
 
 
@@ -54,6 +58,9 @@ public final class GhostBlockProcessor {
                     data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
                     flags = 0;
                 }
+            }
+            else {
+                flags--;
             }
         }
     }
