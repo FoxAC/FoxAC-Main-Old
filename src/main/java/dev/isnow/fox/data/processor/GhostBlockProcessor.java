@@ -56,7 +56,7 @@ public final class GhostBlockProcessor {
                 ticks = 3;
             }
 
-            if (ghostTicks > 2 && lastGroundLocation != null && !c) {
+            if (ghostTicks > 3 && lastGroundLocation != null) {
                 Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () ->
                         data.dragDown());
             }
