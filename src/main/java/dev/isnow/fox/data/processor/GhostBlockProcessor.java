@@ -10,6 +10,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 
 
 @Getter
@@ -42,6 +43,7 @@ public final class GhostBlockProcessor {
 
             boolean serverGround = data.getPositionProcessor().isOnGroundCollided();
 
+            Bukkit.broadcastMessage("CG: " + ground + " SPG: " + serverPositionGround + " SG: " + serverGround);
             if (ground && serverPositionGround
                     && !serverGround) {
 
