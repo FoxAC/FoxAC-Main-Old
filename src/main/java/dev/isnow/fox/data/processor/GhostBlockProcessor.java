@@ -51,7 +51,7 @@ public final class GhostBlockProcessor {
             if (isOnGroundProcessor && serverPositionGround
                     && !serverGround) {
 
-
+                data.getPlayer().sendMessage("Flagged ghost blocks. [5170]");
                 if (++flags > 2) {
                     onGhostBlock = true;
                     data.dragDown();
