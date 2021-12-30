@@ -91,6 +91,7 @@ public final class CheckManager {
             MotionD.class,
             MotionE.class,
             MotionF.class,
+            MotionG.class,
             GhostBlockA.class,
             InventoryA.class,
             InventoryB.class,
