@@ -1,4 +1,5 @@
 dev\isnow\fox\data\processor\VelocityProcessor.class
+dev\isnow\fox\util\type\CollideEntry.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerB.class
 dev\isnow\fox\util\BotUtils.class
 dev\isnow\fox\data\processor\PositionProcessor.class
@@ -25,6 +26,7 @@ dev\isnow\fox\util\type\WrappedItemStack.class
 dev\isnow\fox\util\type\CustomLocation.class
 dev\isnow\fox\check\impl\combat\aim\AimJ.class
 dev\isnow\fox\command\impl\Checks.class
+dev\isnow\fox\util\reach\reach\ReachInterpolationData.class
 dev\isnow\fox\util\ColorUtil.class
 dev\isnow\fox\util\PlayerUtil.class
 dev\isnow\fox\util\type\VpnInfo.class
@@ -39,11 +41,15 @@ dev\isnow\fox\check\Check$CheckType.class
 dev\isnow\fox\check\impl\combat\aura\AuraK.class
 dev\isnow\fox\listener\bukkit\BukkitEventManager.class
 dev\isnow\fox\command\impl\Logs.class
+dev\isnow\fox\util\reach\CollisionBox.class
 dev\isnow\fox\check\impl\combat\aim\AimK.class
+dev\isnow\fox\util\reach\reach\SimpleCollisionBox.class
 dev\isnow\fox\command\impl\Ban.class
 dev\isnow\fox\util\discord\DiscordWebhook$JSONObject.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsB.class
 dev\isnow\fox\data\processor\GhostBlockProcessor.class
+dev\isnow\fox\util\reach\reach\VanillaMath.class
+dev\isnow\fox\util\reach\reach\ReachUtils.class
 dev\isnow\fox\check\impl\combat\aura\AuraP.class
 dev\isnow\fox\check\impl\combat\reach\ReachX.class
 dev\isnow\fox\manager\AlertManager$ToggleAlertType.class
@@ -82,7 +88,6 @@ dev\isnow\fox\check\impl\combat\aura\AuraR.class
 dev\isnow\fox\util\MathUtil.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsF.class
 dev\isnow\fox\check\impl\player\breaker\BreakerA.class
-dev\isnow\fox\check\impl\combat\hitbox\HitboxA.class
 dev\isnow\fox\util\Metrics$SimplePie.class
 dev\isnow\fox\check\impl\movement\motion\MotionC.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsE.class
@@ -91,6 +96,7 @@ dev\isnow\fox\util\ServerUtil.class
 dev\isnow\fox\data\processor\ActionProcessor$1.class
 dev\isnow\fox\check\impl\combat\aura\AuraH.class
 dev\isnow\fox\command\CommandManager.class
+dev\isnow\fox\util\reach\reach\GetBoundingBox.class
 dev\isnow\fox\data\processor\ClickProcessor.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerF.class
 dev\isnow\fox\manager\PunishmentManager.class
@@ -103,6 +109,7 @@ dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject$Author.class
 dev\isnow\fox\check\Check$1.class
 dev\isnow\fox\check\impl\combat\aura\AuraG.class
 dev\isnow\fox\api\impl\FoxFlagEvent.class
+dev\isnow\fox\util\reach\Ray.class
 dev\isnow\fox\util\type\EvictingMap.class
 dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject.class
 dev\isnow\fox\util\TimeUtils.class
@@ -112,12 +119,14 @@ dev\isnow\fox\check\impl\player\badpackets\BadPacketsJ.class
 dev\isnow\fox\manager\AlertManager.class
 dev\isnow\fox\util\type\WrappedEntityHuman.class
 dev\isnow\fox\check\impl\movement\motion\MotionA.class
+dev\isnow\fox\util\reach\reach\PlayerReachEntity.class
 dev\isnow\fox\check\impl\combat\aura\AuraN.class
 dev\isnow\fox\manager\PunishmentManager$2.class
 dev\isnow\fox\check\impl\combat\aura\AuraI.class
 dev\isnow\fox\data\processor\RotationProcessor.class
 dev\isnow\fox\util\type\WrappedBlock.class
 dev\isnow\fox\check\impl\combat\aim\AimM.class
+dev\isnow\fox\check\impl\movement\ghostblock\GhostBlockA.class
 dev\isnow\fox\command\impl\Debug.class
 dev\isnow\fox\config\Config$1.class
 dev\isnow\fox\data\processor\GhostBlockProcessor$Mode.class
@@ -130,6 +139,7 @@ dev\isnow\fox\check\impl\combat\aura\AuraO.class
 dev\isnow\fox\manager\PunishmentManager$1.class
 dev\isnow\fox\check\Check.class
 dev\isnow\fox\FoxPlugin.class
+dev\isnow\fox\check\impl\combat\hitbox\HitBoxA.class
 dev\isnow\fox\check\impl\movement\motion\MotionF.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerD.class
 dev\isnow\fox\check\impl\movement\speed\SpeedC.class
@@ -166,6 +176,7 @@ dev\isnow\fox\check\impl\combat\reach\ReachB.class
 dev\isnow\fox\manager\PlayerDataManager.class
 dev\isnow\fox\command\impl\Help.class
 dev\isnow\fox\data\processor\CombatProcessor.class
+dev\isnow\fox\util\reach\BoundingBox.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsI.class
 dev\isnow\fox\util\WrappedEntityUtil.class
 dev\isnow\fox\util\ReflectionsUtil.class

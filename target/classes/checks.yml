@@ -330,6 +330,13 @@ checks:
         punish-commands:
           - ''
           - ''
+    ghostblock:
+      a:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
   player:
     inventory:
       a:

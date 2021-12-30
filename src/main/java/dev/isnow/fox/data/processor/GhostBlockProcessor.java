@@ -10,9 +10,6 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 
 @Getter

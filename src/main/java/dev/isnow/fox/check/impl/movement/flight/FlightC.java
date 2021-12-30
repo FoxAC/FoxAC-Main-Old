@@ -2,17 +2,15 @@ package dev.isnow.fox.check.impl.movement.flight;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
-import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.data.processor.PositionProcessor;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.PlayerUtil;
-import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name="Flight", type="C", description="Checks for too many ascention ticks.", experimental = true)
+@CheckInfo(name = "Flight", type = "C", description = "Checks if player isn't falling in air.")
 public final class FlightC
         extends Check {
+    private double stableY;
+
     public FlightC(PlayerData data) {
         super(data);
     }
@@ -20,28 +18,12 @@ public final class FlightC
     @Override
     public void handle(Packet packet) {
         if (packet.isPosition()) {
-            final PositionProcessor processor = data.getPositionProcessor();
-
-            final double deltaY = processor.getDeltaY();
-
-            final int airTicksModifier = PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP);
-            final int airTicksLimit = 8 + airTicksModifier;
-            final int clientAirTicks = data.getPositionProcessor().getAirTicks();
-
-            final boolean exempt = isExempt(ExemptType.VELOCITY, ExemptType.PISTON, ExemptType.VEHICLE,
-                    ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.GHOST_BLOCK, ExemptType.FLYING, ExemptType.CLIMBABLE, ExemptType.WEB, ExemptType.SLIME);
-
-            final boolean invalid = deltaY > 0 && clientAirTicks > airTicksLimit;
-
-            if (invalid && !exempt) {
-                if (increaseBuffer() > 2) {
-                    if (Config.STRICTAF_GHOSTBLOCK_MODE && Config.GHOST_BLOCK_ENABLED) {
-                        data.dragDown();
-                        data.getPlayer().sendMessage("Lagged Back for ghost blocks. [REALTRIPPY]");
-                    }
-                } else {
-                    decreaseBufferBy(0.01);
-                }
+            if (this.isExempt(ExemptType.FLYING, ExemptType.TELEPORT_DELAY, ExemptType.CREATIVE, ExemptType.PLACING, ExemptType.GHOST_BLOCK, ExemptType.TPS)) {
+                return;
+            }
+            this.stableY = this.data.getPositionProcessor().getY() == this.data.getPositionProcessor().getLastY() && this.data.getPositionProcessor().isInAir() ? (this.stableY += 1.0) : 0.0;
+            if (this.stableY > 2.0) {
+                fail(this.stableY);
             }
         }
     }
