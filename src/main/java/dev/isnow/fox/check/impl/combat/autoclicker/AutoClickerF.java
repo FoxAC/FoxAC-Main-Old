@@ -1,48 +1,51 @@
-
-
 package dev.isnow.fox.check.impl.combat.autoclicker;
+
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
-import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "AutoClicker", type = "F", description = "Checks for bad randomization.")
-public final class AutoClickerF extends Check {
+import java.util.ArrayDeque;
+import java.util.Deque;
 
-    public AutoClickerF(final PlayerData data) {
+@CheckInfo(name = "AutoClicker", type = "F", description = "Checks for invalid kurtosis")
+public class AutoClickerF extends Check {
+    private final Deque<Integer> samples = new ArrayDeque<>();
+    private int ticks;
+
+    public AutoClickerF(PlayerData data) {
         super(data);
     }
-    private final EvictingList<Integer> clickerData = new EvictingList<>(50);
-
-    private int delayTime;
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isArmAnimation()) {
+        if (packet.isArmAnimation() && !isExempt(ExemptType.AUTOCLICKER)) {
+            if (ticks > 50 || ticks == 0) samples.clear();
+            else samples.add(ticks * 50);
 
-            if (delayTime < 5) {
-                if(!data.getActionProcessor().isDigging()) {
-                    clickerData.add(delayTime);
-                }
+            if (samples.size() == 30) {
+                final double kurtosis = MathUtil.getKurtosis(samples);
 
-                if (clickerData.isFull()) {
+                final boolean invalid = Double.isNaN(kurtosis);
 
-                    final double std = MathUtil.getStandardDeviation(clickerData);
-
-                    if (std < 0.7) {
-                        fail("std" + MathUtil.preciseRound(std, 2));
+                debug(invalid);
+                if (invalid) {
+                    if (increaseBuffer() > 1) {
+                        fail("kurtosis=" + kurtosis);
                     }
+                } else {
+                    resetBuffer();
                 }
 
+                samples.clear();
             }
 
-            delayTime = 0;
-        }
-        else if (packet.isFlyingType()) {
-            delayTime++;
+            ticks = 0;
+        } else if (packet.isFlying()) {
+            ticks++;
         }
     }
 }

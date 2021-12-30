@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.combat.autoclicker;
 
 import dev.isnow.fox.check.Check;
@@ -7,23 +5,32 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
+import lombok.val;
 
-@CheckInfo(name = "AutoClicker", type = "A", description = "Detects high amounts of clicks in a second.")
-public final class AutoClickerA extends Check {
-    public AutoClickerA(final PlayerData data) {
+@CheckInfo(name = "AutoClicker", type = "A", description = "Checks for concurrent clicks")
+public class AutoClickerA extends Check {
+    private long lastSwing, lastDelay;
+
+    public AutoClickerA(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isArmAnimation()) {
-            final double cps = data.getClickProcessor().getCps();
-
-            final boolean exempt = isExempt(ExemptType.DROP, ExemptType.AUTOCLICKER);
-            final boolean invalid = cps > 60 && !Double.isInfinite(cps) && !Double.isNaN(cps);
-
-            if (invalid && !exempt) {
-                fail("CPS=" + cps);
+    public void handle(Packet packet) {
+        if (packet.isArmAnimation() && !isExempt(ExemptType.AUTOCLICKER)) {
+            if(data.getVersion().isNewerThanOrEquals(ClientVersion.v_1_8)) { // Doesn't work in 1.7 since no click delay
+                val now = System.currentTimeMillis();
+                val delay = now - this.lastSwing;
+                if (delay > 10L && delay < 200 && data.getClickProcessor().getCps() >= 7) {
+                    if (Math.abs(delay - this.lastDelay) > 50L) {
+                        buffer = 0;
+                    } else if (delay > 35L && buffer++ > 80) {
+                        fail("Delay: " + delay);
+                    }
+                    this.lastDelay = delay;
+                }
+                this.lastSwing = now;
             }
         }
     }

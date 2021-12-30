@@ -4,6 +4,7 @@ package dev.isnow.fox.util;
 
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
+import dev.isnow.fox.util.type.Pair;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Location;
@@ -50,6 +51,33 @@ public class MathUtil {
         }
 
         return Math.sqrt(sum);
+    }
+
+    public Pair<List<Double>, List<Double>> getOutliers(final Collection<? extends Number> collection) {
+        final List<Double> values = new ArrayList<>();
+
+        for (final Number number : collection) {
+            values.add(number.doubleValue());
+        }
+
+        final double q1 = getMedian(values.subList(0, values.size() / 2));
+        final double q3 = getMedian(values.subList(values.size() / 2, values.size()));
+
+        final double iqr = Math.abs(q1 - q3);
+        final double lowThreshold = q1 - 1.5 * iqr, highThreshold = q3 + 1.5 * iqr;
+
+        final Pair<List<Double>, List<Double>> tuple = new Pair<>(new ArrayList<>(), new ArrayList<>());
+
+        for (final Double value : values) {
+            if (value < lowThreshold) {
+                tuple.getX().add(value);
+            }
+            else if (value > highThreshold) {
+                tuple.getY().add(value);
+            }
+        }
+
+        return tuple;
     }
 
     public static double angle(Vector a, Vector b) {

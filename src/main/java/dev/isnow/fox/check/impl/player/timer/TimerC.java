@@ -3,12 +3,9 @@ package dev.isnow.fox.check.impl.player.timer;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.type.EvictingList;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
 @CheckInfo(name = "Timer", type = "C", description = "Checks for game speed which is too slow.")
 public class TimerC extends Check {

@@ -43,6 +43,6 @@ public final class Alerts extends FoxCommand implements CommandExecutor {
         if(commandSender instanceof Player) {
             handle(commandSender, command, s, strings);
         }
-        return false;
+        return true;
     }
 }

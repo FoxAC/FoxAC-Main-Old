@@ -6,6 +6,7 @@ import dev.isnow.fox.check.impl.combat.aura.*;
 import dev.isnow.fox.check.impl.combat.autoclicker.*;
 import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
+import dev.isnow.fox.check.impl.combat.hitbox.HitBoxB;
 import dev.isnow.fox.check.impl.combat.reach.ReachB;
 import dev.isnow.fox.check.impl.combat.reach.ReachX;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
@@ -17,6 +18,10 @@ import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.movement.speed.SpeedB;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
+import dev.isnow.fox.check.impl.player.crasher.CrasherA;
+import dev.isnow.fox.check.impl.player.crasher.CrasherB;
+import dev.isnow.fox.check.impl.player.crasher.CrasherC;
+import dev.isnow.fox.check.impl.player.crasher.CrasherD;
 import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
 import dev.isnow.fox.check.impl.player.ground.GroundA;
 import dev.isnow.fox.check.impl.player.ground.GroundB;
@@ -25,6 +30,8 @@ import dev.isnow.fox.check.impl.player.inventory.InventoryA;
 import dev.isnow.fox.check.impl.player.inventory.InventoryB;
 import dev.isnow.fox.check.impl.player.inventory.InventoryC;
 import dev.isnow.fox.check.impl.player.inventory.InventoryD;
+import dev.isnow.fox.check.impl.player.payload.PayloadA;
+import dev.isnow.fox.check.impl.player.payload.PayloadB;
 import dev.isnow.fox.check.impl.player.timer.TimerA;
 import dev.isnow.fox.check.impl.player.timer.TimerB;
 import dev.isnow.fox.check.impl.player.timer.TimerC;
@@ -78,9 +85,18 @@ public final class CheckManager {
             AutoClickerC.class,
             AutoClickerD.class,
             AutoClickerE.class,
+            AutoClickerF.class,
+            AutoClickerG.class,
+            AutoClickerH.class,
+            AutoClickerI.class,
+            AutoClickerJ.class,
+            AutoClickerK.class,
+            AutoClickerL.class,
+            AutoClickerM.class,
             ReachX.class,
             ReachB.class,
             HitBoxA.class,
+            HitBoxB.class,
             SpeedA.class,
             SpeedB.class,
             FlightA.class,
@@ -121,6 +137,12 @@ public final class CheckManager {
             GroundA.class,
             GroundB.class,
             GroundC.class,
+            PayloadA.class,
+            PayloadB.class,
+            CrasherA.class,
+            CrasherB.class,
+            CrasherC.class,
+            CrasherD.class,
     };
 
     private static final List<Constructor<?>> CONSTRUCTORSALL = new ArrayList<>();

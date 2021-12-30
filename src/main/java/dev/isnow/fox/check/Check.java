@@ -35,7 +35,7 @@ public abstract class Check {
     @Setter@Getter
     private int maxVl;
     @Getter
-    private double buffer;
+    public double buffer;
     @Setter
     private ArrayList<String> punishCommands;
     @Getter@Setter

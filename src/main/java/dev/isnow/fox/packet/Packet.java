@@ -5,6 +5,7 @@ package dev.isnow.fox.packet;
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
 import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
+import io.github.retrooper.packetevents.packetwrappers.play.in.pong.WrappedPacketInPong;
 import io.github.retrooper.packetevents.packetwrappers.play.in.transaction.WrappedPacketInTransaction;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import lombok.Getter;
@@ -41,6 +42,24 @@ public final class Packet {
 
     public boolean isHitEntity() {
         return isReceiving() && packetId == PacketType.Play.Client.USE_ENTITY && new WrappedPacketInUseEntity(rawPacket).getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK;
+    }
+
+    public boolean isTick() {
+        return isPingPong() && getTransactionID() < 0;
+    }
+
+    public int getTransactionID() {
+        if(packetId == PacketType.Play.Client.TRANSACTION) {
+            return new WrappedPacketInTransaction(getRawPacket()).getActionNumber();
+        } else if(packetId == PacketType.Play.Client.PONG) {
+            return new WrappedPacketInPong(getRawPacket()).getId();
+        }
+        return 1;
+    }
+
+    public boolean isPingPong() {
+        return isReceiving() && packetId == PacketType.Play.Client.PONG ||
+                packetId == PacketType.Play.Client.TRANSACTION;
     }
 
     public boolean isPosition() {
