@@ -18,8 +18,6 @@ public final class GhostBlockProcessor {
 
     private final PlayerData data;
 
-    private double flags;
-
     private boolean onGhostBlock, yGround, lastYGround;
 
     public GhostBlockProcessor(final PlayerData data) {
@@ -36,31 +34,23 @@ public final class GhostBlockProcessor {
                 return;
             }
 
-            lastYGround = yGround;
-            if (data.getPositionProcessor().getY() % 0.015625 == 0.0
-                    || data.getPositionProcessor().getY() % 0.015625 <= 0.009) {
-                yGround = true;
-            } else {
-                yGround = false;
-            }
+            final boolean onGhostBlock = data.getPositionProcessor().isOnGround() && data.getPositionProcessor().getY() % 0.015625 < 0.03 && data.getPositionProcessor().isInAir();
 
-            final boolean isOnGroundProcessor = data.getPositionProcessor().isOnGround() || data.getPositionProcessor().isLastOnGround();
-            boolean serverPositionGround = yGround || lastYGround;
-            boolean serverGround = !data.getPositionProcessor().isInAir();
+            final double deltaY = data.getPositionProcessor().getDeltaY();
+            final double lastDeltaY = data.getPositionProcessor().getLastDeltaY();
 
-            if (isOnGroundProcessor && serverPositionGround
-                    && !serverGround) {
+            double predictedY = (lastDeltaY - 0.08) * 0.98F;
+            if (Math.abs(predictedY) < 0.005) predictedY = 0.0;
 
-                data.getPlayer().sendMessage("Flagged ghost blocks. [5170]");
-                if (++flags > 2) {
-                    onGhostBlock = true;
-                    data.dragDown();
-                    data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
-                    flags = 0;
-                }
-            }
-            else {
-                flags--;
+            final boolean underGhostBlock = data.getPositionProcessor().getSinceBlockNearHeadTicks() > 3
+                    && Math.abs(deltaY - ((-0.08) * 0.98F)) < 1E-5
+                    && Math.abs(deltaY - predictedY) > 1E-5;
+
+            this.onGhostBlock = onGhostBlock || underGhostBlock;
+
+            if (onGhostBlock) {
+                data.dragDown();
+                data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
             }
         }
     }
