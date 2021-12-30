@@ -53,7 +53,7 @@ public final class GhostBlockProcessor {
 
             this.onGhostBlock = onGhostBlock || underGhostBlock;
 
-            if (onGhostBlock && ghostTicks > 5) {
+            if (onGhostBlock && ghostTicks > 2) {
                 data.dragDown();
                 data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
             }
