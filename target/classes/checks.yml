@@ -227,17 +227,65 @@ checks:
         punish-commands:
           - ''
           - ''
+      g:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      h:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      i:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      j:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      k:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      l:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
+      m:
+        enabled: true
+        max-violations: 20
+        punish-commands:
+          - ''
+          - ''
     hitbox:
       a:
-        enabled: true
+        enabled: false
         max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 1
         punish-commands:
           - ''
           - ''
     reach:
       x:
         enabled: true
-        max-violations: 12
+        max-violations: 15
         punish-commands:
           - ''
           - ''
@@ -502,6 +550,43 @@ checks:
       c:
         enabled: true
         max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+    payload:
+      a:
+        enabled: true
+        max-violations: 1
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 1
+        punish-commands:
+          - ''
+    crasher:
+      a:
+        enabled: true
+        max-violations: 1
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 1
+        punish-commands:
+          - ''
+          - ''
+      c:
+        enabled: true
+        max-violations: 1
+        punish-commands:
+          - ''
+          - ''
+      d:
+        enabled: true
+        max-violations: 1
         punish-commands:
           - ''
           - ''

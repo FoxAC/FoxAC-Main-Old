@@ -86,7 +86,7 @@ public final class ReceivingPacketProcessor  {
         if (packet.isIncomingTransaction()) {
             final WrappedPacketInTransaction wrapper = new WrappedPacketInTransaction(packet.getRawPacket());
 
-            data.getVelocityProcessor().handleTransaction(wrapper.getActionNumber());
+            data.getVelocityProcessor().handleTransaction(wrapper);
         }
         try {
             for(Check c : data.getChecks()) {
