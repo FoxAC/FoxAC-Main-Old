@@ -20,7 +20,7 @@ public final class GhostBlockProcessor {
 
     private boolean onGhostBlock, yGround, lastYGround;
 
-    private int ghostTicks;
+    private int ghostTicks, buffer;
 
     public GhostBlockProcessor(final PlayerData data) {
         this.data = data;

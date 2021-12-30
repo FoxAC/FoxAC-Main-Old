@@ -101,7 +101,7 @@ public abstract class Check {
                 if(this.getVl() == 3 && !PlayerDataManager.getInstance().suspectedPlayers.contains(data.getPlayer())) {
                     PlayerDataManager.getInstance().suspectedPlayers.add(data.getPlayer());
                 }
-                if(this.getVl() >= this.getMaxVl()) {
+                if(this.getVl() >= this.getMaxVl() && Config.GLOBALCMD) {
                     data.setBanning(true);
                     bannofail();
                 }
