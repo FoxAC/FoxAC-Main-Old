@@ -241,13 +241,6 @@ checks:
         punish-commands:
           - ''
           - ''
-    velocity:
-      a:
-        enabled: true
-        max-violations: 6
-        punish-commands:
-          - ''
-          - ''
   movement:
     flight:
       a:

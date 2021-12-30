@@ -39,6 +39,10 @@ public final class Packet {
         return isReceiving() && (packetId == PacketType.Play.Client.LOOK || packetId == PacketType.Play.Client.POSITION_LOOK);
     }
 
+    public boolean isHitEntity() {
+        return isReceiving() && packetId == PacketType.Play.Client.USE_ENTITY && new WrappedPacketInUseEntity(rawPacket).getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK;
+    }
+
     public boolean isPosition() {
         return isReceiving() && (packetId == PacketType.Play.Client.POSITION || packetId == PacketType.Play.Client.POSITION_LOOK);
     }
