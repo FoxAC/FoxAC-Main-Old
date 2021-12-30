@@ -7,8 +7,8 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
 @CheckInfo(name = "Flight", type = "C", description = "Checks if player isn't falling in air.")
-public final class FlightC
-        extends Check {
+public final class FlightC extends Check {
+
     private double stableY;
 
     public FlightC(PlayerData data) {
@@ -18,7 +18,7 @@ public final class FlightC
     @Override
     public void handle(Packet packet) {
         if (packet.isPosition()) {
-            if (this.isExempt(ExemptType.FLYING, ExemptType.TELEPORT_DELAY, ExemptType.CREATIVE, ExemptType.PLACING, ExemptType.GHOST_BLOCK, ExemptType.TPS)) {
+            if (this.isExempt(ExemptType.FLYING, ExemptType.TELEPORT_DELAY, ExemptType.CREATIVE, ExemptType.PLACING, ExemptType.TPS)) {
                 return;
             }
             this.stableY = this.data.getPositionProcessor().getY() == this.data.getPositionProcessor().getLastY() && this.data.getPositionProcessor().isInAir() ? (this.stableY += 1.0) : 0.0;

@@ -29,7 +29,7 @@ public final class GhostBlockA
             final int clientAirTicks = data.getPositionProcessor().getAirTicks();
 
             final boolean exempt = isExempt(ExemptType.VELOCITY, ExemptType.PISTON, ExemptType.VEHICLE,
-                    ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.GHOST_BLOCK, ExemptType.FLYING, ExemptType.CLIMBABLE, ExemptType.WEB, ExemptType.SLIME);
+                    ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.GHOST_BLOCK, ExemptType.FLYING, ExemptType.CLIMBABLE, ExemptType.SLIME);
 
             final boolean invalid = deltaY > 0 && clientAirTicks > airTicksLimit;
 

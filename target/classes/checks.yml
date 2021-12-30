@@ -237,14 +237,14 @@ checks:
     reach:
       x:
         enabled: true
-        max-violations: 10
+        max-violations: 12
         punish-commands:
           - ''
           - ''
     velocity:
       a:
         enabled: true
-        max-violations: 5
+        max-violations: 6
         punish-commands:
           - ''
           - ''
@@ -252,25 +252,25 @@ checks:
     flight:
       a:
         enabled: true
-        max-violations: 10
+        max-violations: 20
         punish-commands:
           - ''
           - ''
       b:
         enabled: true
-        max-violations: 10
+        max-violations: 20
         punish-commands:
           - ''
           - ''
       c:
         enabled: true
-        max-violations: 10
+        max-violations: 20
         punish-commands:
           - ''
           - ''
       d:
         enabled: true
-        max-violations: 10
+        max-violations: 20
         punish-commands:
           - ''
           - ''
@@ -314,19 +314,19 @@ checks:
     speed:
       a:
         enabled: true
-        max-violations: 10
+        max-violations: 25
         punish-commands:
           - ''
           - ''
       b:
         enabled: true
-        max-violations: 10
+        max-violations: 25
         punish-commands:
           - ''
           - ''
       c:
         enabled: true
-        max-violations: 10
+        max-violations: 25
         punish-commands:
           - ''
           - ''
