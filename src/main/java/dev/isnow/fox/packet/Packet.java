@@ -63,6 +63,10 @@ public final class Packet {
         return (packetId == PacketType.Play.Client.TRANSACTION && new WrappedPacketInTransaction(rawPacket).getActionNumber() < 0);
     }
 
+    public boolean isTransactionSussi() {
+        return (packetId == PacketType.Play.Client.TRANSACTION && new WrappedPacketInTransaction(rawPacket).getActionNumber() < 0);
+    }
+
     public boolean isFlyingType() {
         return PacketType.Play.Client.Util.isInstanceOfFlying(packetId);
     }
@@ -153,11 +157,11 @@ public final class Packet {
     }
 
     public boolean isSpawnEntity() {
-        return isSending() && packetId == PacketType.Play.Server.SPAWN_ENTITY;
+        return isSending() && packetId == PacketType.Play.Server.NAMED_ENTITY_SPAWN;
     }
 
     public boolean isEntityRem() {
-        return isSending() && packetId == PacketType.Play.Server.REL_ENTITY_MOVE;
+        return isSending() && packetId == PacketType.Play.Server.ENTITY_DESTROY;
     }
 
     public boolean isEntityTeleport() {

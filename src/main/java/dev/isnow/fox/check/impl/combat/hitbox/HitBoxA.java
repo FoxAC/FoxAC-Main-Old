@@ -18,6 +18,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.out.entityteleport.W
 import io.github.retrooper.packetevents.packetwrappers.play.out.namedentityspawn.WrappedPacketOutNamedEntitySpawn;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import io.github.retrooper.packetevents.utils.vector.Vector3d;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -28,14 +29,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-@CheckInfo(name = "HitBox", type = "A", description = "Modified HitBox")
+@CheckInfo(name = "HitBox", type = "A", description = "Modified HitBox (Detected using transactions)")
 public class HitBoxA extends Check {
 
     public final ConcurrentHashMap<Integer, PlayerReachEntity> entityMap = new ConcurrentHashMap<>();
     private final ConcurrentLinkedQueue<Integer> playerAttackQueue = new ConcurrentLinkedQueue<>();
 
     private boolean hasSentPreWavePacket = false;
-    private boolean lastPosition, position;
 
     public HitBoxA(PlayerData data) {
         super(data);
@@ -46,7 +46,6 @@ public class HitBoxA extends Check {
         if (packet.isSpawnEntity()) {
             WrappedPacketOutNamedEntitySpawn spawn = new WrappedPacketOutNamedEntitySpawn(packet.getRawPacket());
             Entity entity = spawn.getEntity();
-
             if (entity != null && entity.getType() == EntityType.PLAYER) {
                 handleSpawnPlayer(spawn.getEntityId(), spawn.getPosition());
             }
@@ -56,9 +55,9 @@ public class HitBoxA extends Check {
             PlayerReachEntity reachEntity = entityMap.get(move.getEntityId());
             if (reachEntity != null) {
                 // We can't hang two relative moves on one transaction
-                if (reachEntity.lastTransactionHung == data.getConnectionProcessor().getLastTransactionSent())
+                if (reachEntity.lastTransactionHung == data.getConnectionProcessor().getLastTransactionSent().get())
                     data.getConnectionProcessor().sendTransaction();
-                reachEntity.lastTransactionHung = (int) data.getConnectionProcessor().getLastTransactionSent();
+                reachEntity.lastTransactionHung = data.getConnectionProcessor().getLastTransactionSent().get();
                 handleMoveEntity(move.getEntityId(), move.getDeltaX(), move.getDeltaY(), move.getDeltaZ(), true);
             }
         } else if (packet.isEntityTeleport()) {
@@ -66,9 +65,9 @@ public class HitBoxA extends Check {
 
             PlayerReachEntity reachEntity = entityMap.get(teleport.getEntityId());
             if (reachEntity != null) {
-                if (reachEntity.lastTransactionHung == data.getConnectionProcessor().getLastTransactionSent())
-                    data.getConnectionProcessor().sendTransaction();
-                reachEntity.lastTransactionHung = (int) data.getConnectionProcessor().getLastTransactionSent();
+                // We can't hang two relative moves on one transaction
+                if (reachEntity.lastTransactionHung == data.getConnectionProcessor().lastTransactionSent.get()) data.getConnectionProcessor().sendTransaction();
+                reachEntity.lastTransactionHung = data.getConnectionProcessor().lastTransactionSent.get();
 
                 Vector3d pos = teleport.getPosition();
                 handleMoveEntity(teleport.getEntityId(), pos.getX(), pos.getY(), pos.getZ(), false);
@@ -84,77 +83,44 @@ public class HitBoxA extends Check {
             }
 
         } else if (packet.isFlyingType()) {
-            if (!data.getExemptProcessor().isExempt(ExemptType.TELEPORT)) {
-                position = packet.getPacketId() == PacketType.Play.Client.POSITION || packet.getPacketId() == PacketType.Play.Client.POSITION_LOOK;
-                tickFlying();
-            }
-            lastPosition = position;
-        } else if (packet.isEntityRem()) {
-            WrappedPacketOutEntityDestroy destroy = new WrappedPacketOutEntityDestroy(packet.getRawPacket());
-            int lastTransactionSent = (int) data.getConnectionProcessor().getLastTransactionSent();
-            int[] destroyEntityIds = destroy.getEntityIds();
-            for (int integer : destroyEntityIds) {
-                PlayerReachEntity entity = entityMap.get(integer);
-                if (entity == null) continue;
-                entity.setDestroyed(lastTransactionSent + 1);
-            }
-        } else if (packet.isTransaction()) {
-            synchronized (entityMap) {
-                List<Integer> entitiesToRemove = null;
-                for (Map.Entry<Integer, PlayerReachEntity> entry : entityMap.entrySet()) {
-                    PlayerReachEntity entity = entry.getValue();
-                    if (entity == null) continue;
-                    if (entity.removeTrans > data.getConnectionProcessor().getLastTransactionSent()) continue;
-                    int entityID = entry.getKey();
-
-                    if (entitiesToRemove == null) entitiesToRemove = new ArrayList<>();
-                    entitiesToRemove.add(entityID);
-                }
-                if (entitiesToRemove != null) {
-                    for (int entityID : entitiesToRemove) {
-                        entityMap.remove(entityID);
-                        //debug("Entity destroyed");
-                    }
-                }
-            }
+            tickFlying();
         }
     }
 
-    public void tickFlying() {
-        double maxReach = 3.0075;
+    private void tickFlying() {
+        double maxReach = 3;
+
         Integer attackQueue = playerAttackQueue.poll();
         while (attackQueue != null) {
-            final PlayerReachEntity reachEntity = entityMap.get(attackQueue);
-            final SimpleCollisionBox targetBox = reachEntity.getPossibleCollisionBoxes();
+            PlayerReachEntity reachEntity = entityMap.get(attackQueue);
+            SimpleCollisionBox targetBox = reachEntity.getPossibleCollisionBoxes();
 
-            targetBox.expand(0.1025f);
+            targetBox.expand(0.1f);
 
-            if (!position) {
-                targetBox.expand(0.05);
-            }
-            if (!lastPosition) {
-                targetBox.expand(0.05);
-            }
+            targetBox.expand(0.0005);
 
-            final Location from = new Location(null, data.getPositionProcessor().getLastX(), data.getPositionProcessor().getLastY(), data.getPositionProcessor().getLastZ(), data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch());
+
+            Location from = new Location(null, data.getPositionProcessor().getLastX(), data.getPositionProcessor().getLastY(), data.getPositionProcessor().getLastZ(), data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getLastPitch());
 
             double minDistance = Double.MAX_VALUE;
 
+            // https://bugs.mojang.com/browse/MC-67665
             List<Vector> possibleLookDirs = new ArrayList<>(Arrays.asList(
-                    ReachUtils.getLook(data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getLastPitch()),
+                    ReachUtils.getLook(data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getPitch()),
                     ReachUtils.getLook(data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch())
             ));
 
-            if (PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_9)) {
-                possibleLookDirs.add(ReachUtils.getLook(data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getLastPitch()));
+            // 1.7 players do not have any of these issues! They are always on the latest look vector
+            if (PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isOlderThan(ClientVersion.v_1_8)) {
+                possibleLookDirs = Collections.singletonList(ReachUtils.getLook(data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch()));
             }
 
             for (Vector lookVec : possibleLookDirs) {
-                for (double eye : Arrays.asList(1.54, 1.62) ) {
-                    final Vector eyePos = new Vector(from.getX(), from.getY() + eye, from.getZ());
-                    final Vector endReachPos = eyePos.clone().add(new Vector(lookVec.getX() * 6, lookVec.getY() * 6, lookVec.getZ() * 6));
+                for (double eye : Arrays.asList(1.54, 1.62)) {
+                    Vector eyePos = new Vector(from.getX(), from.getY() + eye, from.getZ());
+                    Vector endReachPos = eyePos.clone().add(new Vector(lookVec.getX() * 6, lookVec.getY() * 6, lookVec.getZ() * 6));
 
-                    final Vector intercept = ReachUtils.calculateIntercept(targetBox, eyePos, endReachPos);
+                    Vector intercept = ReachUtils.calculateIntercept(targetBox, eyePos, endReachPos);
 
                     if (ReachUtils.isVecInside(targetBox, eyePos)) {
                         minDistance = 0;
@@ -169,8 +135,6 @@ public class HitBoxA extends Check {
 
             if (minDistance == Double.MAX_VALUE) {
                 fail("");
-            } else if (minDistance > maxReach) {
-                fail("Reach: " + MathUtil.preciseRound(minDistance, 2));
             }
 
             attackQueue = playerAttackQueue.poll();
@@ -204,11 +168,12 @@ public class HitBoxA extends Check {
             else
                 reachEntity.serverPos = new Vector3d(deltaX, deltaY, deltaZ);
 
-            int lastTrans = (int) data.getConnectionProcessor().getLastTransactionSent();
+            int lastTrans = data.getConnectionProcessor().lastTransactionSent.get();
             Vector3d newPos = reachEntity.serverPos;
 
-            data.getConnectionProcessor().addTransactionHandler(lastTrans, () -> reachEntity.onFirstTransaction(newPos.getX(), newPos.getY(), newPos.getZ(), data));
-            data.getConnectionProcessor().addTransactionHandler(lastTrans + 1, reachEntity::onSecondTransaction);
+            data.getConnectionProcessor().addRealTimeTask(lastTrans, () -> reachEntity.onFirstTransaction(newPos.getX(), newPos.getY(), newPos.getZ(), data));
+            data.getConnectionProcessor().addRealTimeTask(lastTrans + 1, reachEntity::onSecondTransaction);
         }
     }
+
 }

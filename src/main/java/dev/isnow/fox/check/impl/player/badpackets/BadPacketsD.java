@@ -3,49 +3,47 @@ package dev.isnow.fox.check.impl.player.badpackets;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "BadPackets", type = "D", description = "Invalid Game Speed")
+@CheckInfo(name = "BadPackets", type = "D", description = "Detects invalid game speed")
 public class BadPacketsD extends Check {
     public BadPacketsD(PlayerData data) {
         super(data);
     }
 
-    private int sentFlying;
-
-    private long currentFlying;
-    private long balance;
-    private double buffer;
+    private long balance = 0L;
+    private long lastFlying = 0L;
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isFlyingType()) {
+        if (packet.isFlying()) {
+            final long now = packet.getTimeStamp();
+            handle: {
+                if (isExempt(ExemptType.TPS, ExemptType.JOINED)) break handle;
+                if (lastFlying == 0L) break handle;
 
-            sentFlying++;
-            long lastFlying = 0;
+                final long delay = now - lastFlying;
 
-            if(currentFlying != 0) {
-                lastFlying = currentFlying;
-            } else {
-                currentFlying = System.currentTimeMillis();
-                return;
-            }
-            currentFlying = System.currentTimeMillis();
+                balance += 50L - delay;
 
-            balance += 50 - (currentFlying - lastFlying);
+                if (balance > 5L) {
+                    if (increaseBuffer() > 5) {
+                        fail("balance: " + balance);
+                    }
 
-            if (balance > 8) {
-                if (buffer++ > 1  && sentFlying > 100) {
-                    fail();
-                    buffer = 0;
+                    balance = 0;
+                } else {
+                    decreaseBufferBy(0.001);
                 }
-                balance = 0;
-            } else {
-                buffer = Math.max(0, buffer - 0.01);
             }
 
+            this.lastFlying = now;
         } else if (packet.isTeleport()) {
-            balance -= 50;
+            if (isExempt(ExemptType.TPS, ExemptType.JOINED)) return;
+            if (lastFlying == 0L) return;
+
+            balance -= 50L;
         }
     }
 }

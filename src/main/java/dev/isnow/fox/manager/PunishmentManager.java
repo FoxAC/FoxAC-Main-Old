@@ -95,12 +95,11 @@ public final class PunishmentManager {
             if (Config.LOGGING_ENABLED) {
                 final String log = String.format("###\n%s has been punished for %s (Type %s)\n" +
                                 "Info:\n" +
-                                "kaPing: %.2d tPing: %.2d lag: %s\n" +
+                                "tPing: %.2d lag: %s\n" +
                                 "TPS: %.2f\n" +
                                 "deltaXZ: %.4f deltaY: %.4f" +
                                 "\n###",
                         data.getPlayer().getName(), check.getCheckInfo().name(),
-                        check.getCheckInfo().type(), data.getConnectionProcessor().getKeepAlivePing(),
                         data.getConnectionProcessor().getTransactionPing(), data.getExemptProcessor().isExempt(ExemptType.LAGGING),
                         ServerUtil.getTPS(), data.getPositionProcessor().getDeltaXZ(), data.getPositionProcessor().getDeltaY());
 
@@ -183,12 +182,11 @@ public final class PunishmentManager {
             if (Config.LOGGING_ENABLED) {
                 final String log = String.format("###\n%s has been punished for %s (Type %s)\n" +
                                 "Info:\n" +
-                                "kaPing: %.2d tPing: %.2d lag: %s\n" +
+                                "tPing: %.2d lag: %s\n" +
                                 "TPS: %.2f\n" +
                                 "deltaXZ: %.4f deltaY: %.4f" +
                                 "\n###",
                         data.getPlayer().getName(), check.getCheckInfo().name(),
-                        check.getCheckInfo().type(), data.getConnectionProcessor().getKeepAlivePing(),
                         data.getConnectionProcessor().getTransactionPing(), data.getExemptProcessor().isExempt(ExemptType.LAGGING),
                         ServerUtil.getTPS(), data.getPositionProcessor().getDeltaXZ(), data.getPositionProcessor().getDeltaY());
 

@@ -83,13 +83,6 @@ public final class ReceivingPacketProcessor  {
             final WrappedPacketInTransaction wrapper = new WrappedPacketInTransaction(packet.getRawPacket());
 
             data.getVelocityProcessor().handleTransaction(wrapper);
-            data.getConnectionProcessor().handleIncomingTransaction(wrapper);
-        }
-
-        if (packet.isIncomingKeepAlive()) {
-            final WrappedPacketInKeepAlive wrapper = new WrappedPacketInKeepAlive(packet.getRawPacket());
-
-            data.getConnectionProcessor().handleIncomingKeepAlive(wrapper);
         }
         try {
             for(Check c : data.getChecks()) {
