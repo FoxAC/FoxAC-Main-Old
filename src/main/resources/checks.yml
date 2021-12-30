@@ -301,7 +301,7 @@ checks:
           - ''
       e:
         enabled: true
-        max-violations: 8
+        max-violations: 5
         punish-commands:
           - ''
           - ''

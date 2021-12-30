@@ -3,6 +3,7 @@
 package dev.isnow.fox.data.processor;
 
 import dev.isnow.fox.Fox;
+import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import lombok.Getter;
@@ -52,12 +53,12 @@ public final class GhostBlockProcessor {
             int ticks = 1;
 
             if (Config.GHOST_BLOCK_MODE == Mode.FOX) {
-                ticks = 4;
+                ticks = 3;
             }
 
-            if (ghostTicks > ticks && lastGroundLocation != null) {
+            if (ghostTicks > 2 && lastGroundLocation != null && !c) {
                 Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () ->
-                        data.getPlayer().teleport(lastGroundLocation, PlayerTeleportEvent.TeleportCause.PLUGIN));
+                        data.dragDown());
             }
         }
 

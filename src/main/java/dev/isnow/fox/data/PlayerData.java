@@ -5,6 +5,7 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.processor.*;
 import dev.isnow.fox.exempt.ExemptProcessor;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.CheckManager;
 import dev.isnow.fox.util.BlockUtil;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
