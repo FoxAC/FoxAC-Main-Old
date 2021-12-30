@@ -8,7 +8,7 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MovingStats;
 
 @CheckInfo(name = "Timer", type = "A", description = "Detects game speed modifications.")
-public final class TimerA extends Check {
+public final class  TimerA extends Check {
 
     private final MovingStats movingStats = new MovingStats(20);
 
@@ -24,8 +24,9 @@ public final class TimerA extends Check {
         if (packet.isFlying()) {
             final long now = now();
 
-            final boolean exempt = this.isExempt(ExemptType.LAGGINGHARD, ExemptType.RESPAWN, ExemptType.TPS, ExemptType.TELEPORT, ExemptType.JOINED, ExemptType.VEHICLE);
+            final boolean exempt = this.isExempt(ExemptType.LAGGINGHARD, ExemptType.RESPAWN, ExemptType.TELEPORT, ExemptType.JOINED, ExemptType.VEHICLE);
 
+            debug(exempt);
             handle: {
                 if (exempt) break handle;
 
