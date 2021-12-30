@@ -36,7 +36,7 @@ public final class MotionF extends Check {
             final boolean exempt = isExempt(ExemptType.BOAT, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.NEARSLIME, ExemptType.RESPAWN, ExemptType.VEHICLE, ExemptType.CLIMBABLE, ExemptType.VELOCITY, ExemptType.PISTON,
                     ExemptType.LIQUID, ExemptType.TELEPORT, ExemptType.WEB, ExemptType.BOAT, ExemptType.FLYING, ExemptType.SLIME,
                     ExemptType.UNDERBLOCK, ExemptType.CHUNK) || data.getPositionProcessor().getSinceBlockNearHeadTicks() < 5;
-            final boolean invalid = deltaY != expectedJumpMotion && deltaY > 0.0 && !onGround && lastY % 0.015625 == 0.0 && !step && MathUtil.preciseRound(deltaY, 5) != 0.36074 && MathUtil.preciseRound(deltaY, 5) != 0.36075;
+            final boolean invalid = deltaY != expectedJumpMotion && deltaY > 0.0 && !onGround && lastY % 0.015625 == 0.0 && !step && MathUtil.preciseRound(deltaY, 5) != 0.36074 && MathUtil.preciseRound(deltaY, 5) != 0.36075 && MathUtil.preciseRound(deltaY, 5) != 0.41000;
             if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_12)) {
                 if(this.isExempt(ExemptType.ONBED)) {
                     return;
