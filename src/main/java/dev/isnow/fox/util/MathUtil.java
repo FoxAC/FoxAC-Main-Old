@@ -42,6 +42,16 @@ public class MathUtil {
         return variance;
     }
 
+    public static double magnitude(final double... points) {
+        double sum = 0.0;
+
+        for (final double point : points) {
+            sum += point * point;
+        }
+
+        return Math.sqrt(sum);
+    }
+
     public static double angle(Vector a, Vector b) {
         double dot = Math.min(Math.max(a.dot(b) / (a.length() * b.length()), -1), 1);
         return Math.acos(dot);

@@ -9,9 +9,11 @@ import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.CheckManager;
 import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.LogUtil;
+import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.ConcurrentEvictingList;
 import dev.isnow.fox.util.type.EntityHelper;
 import dev.isnow.fox.util.type.Pair;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -33,6 +35,7 @@ public final class PlayerData {
     private final long joinTime = System.currentTimeMillis();
     private long enderpearlTime, respawnTime, setBackTicks;
     private boolean exempt, banning;
+    private ClientVersion version;
     private EntityHelper entityHelper;
     public int existedTicks;
     private LogUtil.TextFile logFile;
@@ -91,5 +94,12 @@ public final class PlayerData {
 
     public void teleport(Player player, Location location) {
         Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () -> player.teleport(location));
+    }
+
+    public ClientVersion getVersion() {
+        if(version == null || !version.isResoled()) {
+            version = PlayerUtil.getClientVersion(player);
+        }
+        return version;
     }
 }

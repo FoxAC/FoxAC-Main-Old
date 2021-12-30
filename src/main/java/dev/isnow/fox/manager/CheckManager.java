@@ -8,7 +8,6 @@ import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.check.impl.combat.reach.ReachB;
 import dev.isnow.fox.check.impl.combat.reach.ReachX;
-import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
 import dev.isnow.fox.check.impl.movement.flight.FlightB;
 import dev.isnow.fox.check.impl.movement.flight.FlightC;
@@ -82,7 +81,6 @@ public final class CheckManager {
             ReachX.class,
             ReachB.class,
             HitBoxA.class,
-            VelocityA.class,
             SpeedA.class,
             SpeedB.class,
             FlightA.class,
@@ -95,6 +93,7 @@ public final class CheckManager {
             MotionE.class,
             MotionF.class,
             MotionG.class,
+            MotionH.class,
             GhostBlockA.class,
             InventoryA.class,
             InventoryB.class,

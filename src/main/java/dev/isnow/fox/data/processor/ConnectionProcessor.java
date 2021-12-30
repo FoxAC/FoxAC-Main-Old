@@ -67,7 +67,7 @@ public final class ConnectionProcessor {
         return (short) (-1 * (transactionIDCounter.getAndAdd(add) & 0x7FFF));
     }
 
-    public void sendTransaction() {
+    public int sendTransaction() {
         short transactionID = getNextTransactionID(1);
         try {
             addTransactionSend(transactionID);
@@ -76,6 +76,7 @@ public final class ConnectionProcessor {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        return 0;
     }
 
     public void addTransactionSend(short id) {
