@@ -2,8 +2,11 @@
 
 package dev.isnow.fox.util;
 
+import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.util.type.CollideEntry;
 import dev.isnow.fox.util.type.VpnInfo;
 import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.math.MathUtils;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.experimental.UtilityClass;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
@@ -13,6 +16,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -21,10 +25,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @UtilityClass
 public class PlayerUtil {
@@ -35,6 +36,16 @@ public class PlayerUtil {
 
     public int getPing(final Player player) {
         return PacketEvents.get().getPlayerUtils().getPing(player.getUniqueId());
+    }
+
+    public boolean isOnBoat(PlayerData user) {
+        double offset = user.getPositionProcessor().getY() % 0.015625;
+        if ((user.getPositionProcessor().isOnGround() && offset > 0 && offset < 0.009)) {
+            return getEntitiesWithinRadius(user.getPlayer().getLocation(), 2).stream()
+                    .anyMatch(entity -> entity.getType() == EntityType.BOAT);
+        }
+
+        return false;
     }
 
     public VpnInfo isUsingVPN(final Player player) {

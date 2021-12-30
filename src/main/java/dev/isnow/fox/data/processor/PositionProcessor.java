@@ -6,6 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.BoundingBox;
+import dev.isnow.fox.util.type.CollideEntry;
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
@@ -15,6 +16,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
+import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
@@ -37,6 +39,8 @@ public final class PositionProcessor {
             lastDeltaX, lastDeltaZ, lastDeltaY, lastDeltaXZ, prevX, prevY, prevZ;
 
     private BoundingBox boundingBox;
+
+    private boolean isOnGroundCollided, serverYGround, lastPositionYGround, positionYGround;
 
     private long lastMovePacket;
 
@@ -96,6 +100,16 @@ public final class PositionProcessor {
             this.x = wrapper.getX();
             this.y = wrapper.getY();
             this.z = wrapper.getZ();
+
+            if (y % 0.015625 == 0.0
+                    || y % 0.015625 <= 0.009) {
+                serverYGround = true;
+            } else {
+                serverYGround = false;
+            }
+
+            this.lastPositionYGround = this.positionYGround;
+            this.positionYGround = y % 0.015625 < 0.009;
 
             lastDeltaX = deltaX;
             lastDeltaY = deltaY;
@@ -264,6 +278,13 @@ public final class PositionProcessor {
             }
         }
 
+        List<CollideEntry> collidedBlocks = this.boundingBox.getCollidedBlocks(data.getPlayer());
+        collidedBlocks.stream().filter(CollideEntry::isChunkLoaded).forEach(collideEntry -> {
+
+            if (collideEntry.getBlock().getType().isSolid()) {
+                this.isOnGroundCollided = true;
+            }
+        });
         handleClimbableCollision();
         handleNearbyEntities();
 

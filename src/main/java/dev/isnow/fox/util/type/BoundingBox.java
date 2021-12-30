@@ -3,11 +3,14 @@
 package dev.isnow.fox.util.type;
 
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.util.BlockUtil;
+import io.github.retrooper.packetevents.utils.math.MathUtils;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -43,6 +46,28 @@ public final class BoundingBox {
         }
     }
 
+    public List<CollideEntry> getCollidedBlocks(Player player) {
+        //  player.sendMessage("" + player.getLocation().getBlock().getType().name());
+
+        List<CollideEntry> toReturn = new ArrayList<>();
+        int minX = MathUtils.floor(this.minX);
+        int maxX = MathUtils.floor(this.maxX + 1);
+        int minY = MathUtils.floor(this.minY);
+        int maxY = MathUtils.floor(this.maxY + 1);
+        int minZ = MathUtils.floor(this.minZ);
+        int maxZ = MathUtils.floor(this.maxZ + 1);
+
+        for (double x = minX; x < maxX; x++) {
+            for (double z = minZ; z < maxZ; z++) {
+                for (double y = minY - 1; y < maxY; y++) {
+                    toReturn.add(new CollideEntry(BlockUtil.getBlockAsync(new Location(player.getWorld(), x, y, z)),
+                            this));
+                }
+            }
+        }
+
+        return toReturn;
+    }
     public BoundingBox(final Vector data) {
         this.minX = data.getX() - 0.4;
         this.minY = data.getY();

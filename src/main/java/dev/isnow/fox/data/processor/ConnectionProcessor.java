@@ -60,7 +60,6 @@ public final class ConnectionProcessor {
                 if (data == null)
                     break;
 
-                Bukkit.broadcastMessage(String.valueOf(data.getY()));
                 int incrementingID = packetLastTransactionReceived.incrementAndGet();
                 transactionPing = (int) (System.nanoTime() - data.getY());
                 playerClockAtLeast = data.getY();
