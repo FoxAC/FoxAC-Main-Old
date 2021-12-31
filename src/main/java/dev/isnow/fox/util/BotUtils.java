@@ -10,10 +10,12 @@ import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -74,10 +76,38 @@ public class BotUtils {
                     entities.add(e);
                 }
             }
-            randomPlayer = (EntityHuman) entities.get(new Random().nextInt(entities.size()));
+            CraftEntity conv1 = (CraftEntity) entities.get(new Random().nextInt(entities.size()));
+            net.minecraft.server.v1_8_R3.Entity ent = conv1.getHandle();
+            if(ent instanceof LivingEntity) {
+                LivingEntity livingEntity = (LivingEntity) ent;
+                randomPlayer = (EntityHuman) livingEntity;
+            }
+            else {
+                Entity nigger = user.getPlayer();
+                CraftEntity conv2 = (CraftEntity) nigger;
+                net.minecraft.server.v1_8_R3.Entity ent2 = conv2.getHandle();
+                if(ent2 instanceof LivingEntity) {
+                    LivingEntity livingEntity = (LivingEntity) ent2;
+                    randomPlayer = (EntityHuman) livingEntity;
+                }
+                else {
+                    // WTF?
+                    randomPlayer = null;
+                }
+            }
         }
         else {
-            randomPlayer = (EntityHuman) user.getPlayer();
+            Entity nigger = user.getPlayer();
+            CraftEntity conv1 = (CraftEntity) nigger;
+            net.minecraft.server.v1_8_R3.Entity ent = conv1.getHandle();
+            if(ent instanceof LivingEntity) {
+                LivingEntity livingEntity = (LivingEntity) ent;
+                randomPlayer = (EntityHuman) livingEntity;
+            }
+            else {
+                // WTF?
+                randomPlayer = null;
+            }
         }
         return randomPlayer;
     }
