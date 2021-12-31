@@ -49,12 +49,16 @@ discord:
 
 messages:
   prefix: '&7&l[&cFox&7&l] &d'
-  alerts-on: '&7&l[&cFox&7&l] &dAlerts toggled &dOn'
+  alerts-on: '&7&l[&cFox&7&l] &dAlerts toggled &aOn'
   alerts-off: '&7&l[&cFox&7&l] &dAlerts toggled &cOff'
   vpn-kick: '&7&l[&cFox&7&l] &cVpns are blacklisted on this server!'
   banning: '&7&l[&cFox&7&l] &dBanning %player%'
   join-message: '&7&l[&cFox&7&l] &7%player% &djoined with &6%client%'
   client-kick: '&7&l[&cFox&7&l] &cThis client isnt supported!'
+  vanish-on: '&7&l[&cFox&7&l] &dVanish toggled &aOn'
+  vanish-off: '&7&l[&cFox&7&l] &dVanish toggled &cOff'
+  kb-test: '&7&l[&cFox&7&l] &dYou just launched &c%player%'
+  scare-cmd: '&7&l[&cFox&7&l] &dYou just scared &c%player%'
 
 bans:
   enabled: false
