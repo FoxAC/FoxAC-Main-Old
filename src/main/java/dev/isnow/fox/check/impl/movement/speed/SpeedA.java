@@ -15,80 +15,68 @@ public final class SpeedA extends Check {
         super(data);
     }
 
-    private boolean prevPrevOnGround, prevOnGround, onGround, flying;
-    private int teleportTicks, buffer;
-
     @Override
     public void handle(Packet packet) {
-        if (packet.isTeleport()) {
-            teleportTicks = 0;
-        }
-        if (packet.isFlyingType()) {
-            if (data.getPlayer().isFlying()) flying = true;
-            if (onGround
-                    && prevOnGround
-                    && prevPrevOnGround) flying = false;
-        }
-        if(packet.isFlyingType()) {
-
-            teleportTicks++;
-
-            final Player player = data.getPlayer();
-            prevPrevOnGround = prevOnGround;
-            prevOnGround = onGround;
-            onGround = data.getPositionProcessor().isOnGround();
-            double friction;
-            double prevFriction;
-
-            float attributeSpeed = 1;
-
-            attributeSpeed += PlayerUtil.getPotionLevel(player, PotionEffectType.SPEED) * (float) 0.2 * attributeSpeed;
-            attributeSpeed += PlayerUtil.getPotionLevel(player, PotionEffectType.SLOW) * (float) -.15 * attributeSpeed;
-
-            friction = data.getPositionProcessor().getFriction() / 0.91;
-            prevFriction = data.getPositionProcessor().getPrevFriction() / 0.91;
-
-            final double prevDeltaXZ = data.getPositionProcessor().getLastDeltaXZ();
-            final double momentum = prevDeltaXZ * (prevFriction * 0.91);
-            double acceleration = 0;
-
-            int calculation = 0;
-            double movementType = 1.3;
-
-            if (onGround && prevOnGround) {
-                calculation = 1;
-                acceleration = 0.1 * movementType * attributeSpeed * Math.pow(0.6 / friction, 3);
-            } else if (onGround || prevOnGround) {
-                calculation = 2;
-                acceleration = 0.1 * movementType * attributeSpeed * Math.pow(0.6 / 0.91, 3) + 0.2 + 0.26;
-            } else {
-                calculation = 3;
-                acceleration = 0.026;
+        if (packet.isFlying()) {
+            boolean exempt;
+            if ((double)this.data.getPlayer().getWalkSpeed() < 0.2) {
+                return;
             }
+            boolean sprinting = this.data.getActionProcessor().isSprinting();
+            double lastDeltaX = this.data.getPositionProcessor().getLastDeltaX();
+            double lastDeltaZ = this.data.getPositionProcessor().getLastDeltaZ();
+            double deltaXZ = this.data.getPositionProcessor().getDeltaXZ();
+            double deltaY = this.data.getPositionProcessor().getDeltaY();
+            int groundTicks = this.data.getPositionProcessor().getGroundTicks();
+            int airTicks = this.data.getPositionProcessor().getClientAirTicks();
+            float modifierJump = (float)PlayerUtil.getPotionLevel(this.data.getPlayer(), PotionEffectType.JUMP) * 0.1f;
+            float jumpMotion = 0.42f + modifierJump;
+            double groundLimit = PlayerUtil.getBaseGroundSpeed(this.data.getPlayer());
+            double airLimit = PlayerUtil.getBaseSpeed(this.data.getPlayer());
 
-            if (onGround && prevOnGround && !prevPrevOnGround) {
-                acceleration += 0.13 * attributeSpeed;
+            debug("deltaY: " + deltaY + "deltaXY: " + deltaXZ + "deltaXZ: " +deltaXZ+ "airTicks: " + airTicks + "jumpMotion" +jumpMotion);
+
+            if (Math.abs(deltaY - (double)jumpMotion) < 1.0E-4 && airTicks == 1 && sprinting) {
+                float f = this.data.getRotationProcessor().getYaw() * ((float)Math.PI / 180);
+                double x = lastDeltaX - Math.sin(f) * (double)0.28f;
+                double z = lastDeltaZ + Math.cos(f) * (double)0.28f;
+                airLimit += Math.hypot(x, z);
             }
-
-            if (data.getVelocityProcessor().getTicksSinceVelocity() <= 2) {
-                acceleration += data.getVelocityProcessor().getVelocityXZ();
+            if (this.isExempt(ExemptType.ICE, ExemptType.SLIME)) {
+                airLimit += 0.34f;
+                groundLimit += 0.34f;
             }
-
-            double limit = Math.max(momentum + acceleration, 0.26);
-
-            if (teleportTicks < 10) return;
-
-            if (data.getPositionProcessor().getDeltaXZ() - limit > 0.0001 && !flying) {
-
-                if ((buffer += 5) > 15 && !isExempt(ExemptType.FLYING, ExemptType.CREATIVE, ExemptType.TELEPORT_DELAY, ExemptType.VELOCITY_ON_TICK, ExemptType.UPWARDS_VEL)) {
-                    buffer = Math.max(30, buffer);
-                    fail(data.getPositionProcessor().getDeltaXZ() - limit + " \nPrevGround: " + prevOnGround + "\nGround: " + onGround + "\nCalculation: " + calculation);
+            if (this.isExempt(ExemptType.UNDERBLOCK)) {
+                airLimit += 0.91f;
+                groundLimit += 0.91f;
+            }
+            if ((double)this.data.getPlayer().getWalkSpeed() > 0.98) {
+                return;
+            }
+            if (this.data.getVelocityProcessor().getVelocityH() != 0.0) {
+                groundLimit += this.data.getVelocityProcessor().getVelocityH() + 0.05;
+                airLimit += this.data.getVelocityProcessor().getVelocityH() + 0.05;
+            }
+            if (groundTicks < 7) {
+                groundLimit += 0.25f / (float)groundTicks;
+            }
+            if (!(exempt = this.isExempt(ExemptType.NEARSTAIRS, ExemptType.VEHICLE, ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK))) {
+                if (airTicks > 0) {
+                    if (deltaXZ > airLimit) {
+                        if (increaseBuffer() > 8) {
+                            fail("DeltaXZ: " + deltaXZ + " AirLimit: " + airLimit);
+                        }
+                    } else {
+                        this.decreaseBufferBy(0.15);
+                    }
+                } else if (deltaXZ > groundLimit) {
+                    if (increaseBuffer() > 8) {
+                        fail("DeltaXZ: " + deltaXZ + " GroundLimit: " + groundLimit);
+                    }
                 } else {
-                    buffer = Math.max(0, buffer - 1);
+                    this.decreaseBufferBy(0.15);
                 }
-
             }
-
         }
     }
 }

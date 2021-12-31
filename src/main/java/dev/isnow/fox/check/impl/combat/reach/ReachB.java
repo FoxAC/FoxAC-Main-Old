@@ -65,11 +65,11 @@ public class ReachB extends Check {
             }
 
             if(distance > 3.01) {
-                if (increaseBuffer() > 2) {
+                if (increaseBuffer() > 3) {
                     fail("Reach: " + distance);
                 }
                 else {
-                    decreaseBufferBy(0.03);
+                    decreaseBufferBy(0.08);
                 }
             }
         }
