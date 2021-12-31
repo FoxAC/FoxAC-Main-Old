@@ -13,6 +13,7 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class BotUtils {
         List<Entity> entities = new ArrayList<>();
         if(user.getPlayer().getWorld().getEntities().size() > 1) {
             for(Entity e : user.getPlayer().getWorld().getEntities()) {
-                if(e instanceof EntityHuman) {
+                if(e.getType() == EntityType.PLAYER) {
                     entities.add(e);
                 }
             }
