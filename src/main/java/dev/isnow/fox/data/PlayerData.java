@@ -16,9 +16,11 @@ import dev.isnow.fox.util.type.Pair;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.v1_8_R3.PacketPlayOutGameStateChange;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -90,6 +92,14 @@ public final class PlayerData {
         }
         setSetBackTicks(current);
         setSetBackTicks(getSetBackTicks() + 1);
+    }
+
+    public void sendCredits(Player player) {
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutGameStateChange(4, 1));
+    }
+
+    public void sendDemo(Player player) {
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutGameStateChange(5, 0));
     }
 
     public void teleport(Player player, Location location) {
