@@ -17,7 +17,7 @@ api:
 
 settings:
   api: false
-  vpn: true'
+  vpn: true
 
 clients:
   enabled: true

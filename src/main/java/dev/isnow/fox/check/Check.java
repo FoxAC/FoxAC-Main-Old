@@ -67,7 +67,7 @@ public abstract class Check {
     public abstract void handle(final Packet packet);
 
     public final void fail(final Object info) {
-        if(data.isBanning()) {
+        if (data.isBanning()) {
             return;
         }
         if (!data.isExempt() && enabled) {

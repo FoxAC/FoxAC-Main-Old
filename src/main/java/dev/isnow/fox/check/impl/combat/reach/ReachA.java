@@ -15,12 +15,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Reach", type = "X", description = "Checks if player is attacking from a distance that's not possible.")
-public final class ReachX extends Check {
+@CheckInfo(name = "Reach", type = "A", description = "Checks for impossible attack distance.")
+public final class ReachA extends Check {
 
     private boolean attacked;
 
-    public ReachX(final PlayerData data) {
+    public ReachA(final PlayerData data) {
         super(data);
     }
 

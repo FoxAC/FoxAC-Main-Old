@@ -6,12 +6,14 @@ import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.listener.bukkit.BukkitEventManager;
 import dev.isnow.fox.manager.AFKManager;
+import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.ServerUtil;
 import io.github.retrooper.packetevents.PacketEvents;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,6 +38,24 @@ public enum ExemptType {
     UPWARDS_VEL(e -> e.getVelocityProcessor().getVelocityY() > 0.0 && e.getVelocityProcessor().isTakingVelocity()),
 
     VELOCITY(data -> data.getVelocityProcessor().isTakingVelocity()),
+
+    JUMP(data -> {
+        final boolean onGround = data.getPositionProcessor().isOnGround();
+        final boolean lastOnGround = data.getPositionProcessor().isLastOnGround();
+
+        final double deltaY = data.getPositionProcessor().getDeltaY();
+        final double lastY = data.getPositionProcessor().getLastY();
+
+        final boolean deltaModulo = deltaY % 0.015625 == 0.0;
+        final boolean lastGround = lastY % 0.015625 == 0.0;
+
+        final boolean step = deltaModulo && lastGround;
+
+        final double modifierJump = PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP) * 0.1F;
+        final double expectedJumpMotion = 0.42F + modifierJump;
+
+        return Math.abs(expectedJumpMotion - deltaY) < 1E-5 && !onGround && lastOnGround && !step;
+    }),
 
     PEARL(data -> {
        if(data.getEnderpearlTime() != 0) {

@@ -80,7 +80,7 @@ public final class SpeedA extends Check {
 
             if (data.getPositionProcessor().getDeltaXZ() - limit > 0.0001 && !flying) {
 
-                if ((buffer += 5) > 15 && !isExempt(ExemptType.FLYING, ExemptType.CREATIVE, ExemptType.TELEPORT_DELAY)) {
+                if ((buffer += 5) > 15 && !isExempt(ExemptType.FLYING, ExemptType.CREATIVE, ExemptType.TELEPORT_DELAY, ExemptType.VELOCITY_ON_TICK, ExemptType.UPWARDS_VEL)) {
                     buffer = Math.max(30, buffer);
                     fail(data.getPositionProcessor().getDeltaXZ() - limit + " \nPrevGround: " + prevOnGround + "\nGround: " + onGround + "\nCalculation: " + calculation);
                 } else {

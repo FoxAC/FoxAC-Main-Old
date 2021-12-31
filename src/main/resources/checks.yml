@@ -171,15 +171,21 @@ checks:
         punish-commands:
           - ''
           - ''
+      p:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
       r:
         enabled: true
         max-violations: 10
         punish-commands:
           - ''
           - ''
-      p:
+      s:
         enabled: true
-        max-violations: 5
+        max-violations: 10
         punish-commands:
           - ''
           - ''
@@ -282,8 +288,39 @@ checks:
         punish-commands:
           - ''
           - ''
+    velocity:
+      a:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
     reach:
-      x:
+      a:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
+      b:
+        enabled: true
+        max-violations: 15
+        punish-commands:
+          - ''
+          - ''
+      c:
+        enabled: true
+        max-violations: 15
+        punish-commands:
+          - ''
+          - ''
+      d:
         enabled: true
         max-violations: 15
         punish-commands:
@@ -353,12 +390,6 @@ checks:
           - ''
           - ''
       g:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      h:
         enabled: true
         max-violations: 8
         punish-commands:
@@ -504,12 +535,6 @@ checks:
           - ''
           - ''
       m:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      n:
         enabled: true
         max-violations: 8
         punish-commands:

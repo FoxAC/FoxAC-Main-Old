@@ -4,7 +4,6 @@ import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.HitboxExpansion;
@@ -15,10 +14,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Reach", type = "B", description = "Checks for impossible attack distance.")
-public class ReachB extends Check {
+@CheckInfo(name = "Reach", experimental = true, description = "Checks for impossible attack distance.", type = "C")
+public final class ReachC extends Check {
 
-    public ReachB(PlayerData data) {
+    public ReachC(final PlayerData data) {
         super(data);
     }
 
@@ -46,7 +45,7 @@ public class ReachB extends Check {
             ) return;
 
             final int ticks = Fox.INSTANCE.getTickManager().getTicks();
-            final int pingTicks = NumberConversions.floor(PlayerUtil.getPing(data.getPlayer()) / 50.0) + 4;
+            final int pingTicks = NumberConversions.floor(PlayerUtil.getPing(data.getPlayer()) / 50.0) + 3;
 
             final Vector player = data.getPlayer().getLocation().toVector().setY(0);
 
@@ -58,19 +57,16 @@ public class ReachB extends Check {
                         return player.distance(victim) - expansion;
                     }).min().orElse(0);
 
-            if (distance == 0) return;
-
-            if(hits == 1 && distance < 3.1 && distance > 3.0) {
-                return;
-            }
+            debug(distance);
 
             if(distance > 3.01) {
-                if (increaseBuffer() > 2) {
-                    fail("Reach: " + distance);
+                if(increaseBufferBy(0.90) > 2) {
+                    fail(distance);
+                    resetBuffer();
                 }
-                else {
-                    decreaseBufferBy(0.03);
-                }
+            }
+            else {
+                decreaseBufferBy(0.05);
             }
         }
     }

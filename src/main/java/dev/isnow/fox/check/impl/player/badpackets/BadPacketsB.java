@@ -6,9 +6,9 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
+import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 
-@CheckInfo(name = "BadPackets", type = "B", description = "Checks for invalid sprint packets.")
+@CheckInfo(name = "BadPackets", type = "B", description = "Checks for disablers.")
 public final class BadPacketsB extends Check {
     public BadPacketsB(final PlayerData data) {
         super(data);
@@ -16,19 +16,11 @@ public final class BadPacketsB extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isEntityAction()) {
-            final WrappedPacketInEntityAction wrapper = new WrappedPacketInEntityAction(packet.getRawPacket());
-
-            final boolean sprinting = wrapper.getAction() == WrappedPacketInEntityAction.PlayerAction.START_SPRINTING
-                    || wrapper.getAction() == WrappedPacketInEntityAction.PlayerAction.STOP_SPRINTING;
-
-            if (sprinting) {
-                if (increaseBuffer() > 1) {
-                    fail();
-                }
+        if(packet.isFlying()) {
+            WrappedPacketInFlying wrapped = new WrappedPacketInFlying(packet.getRawPacket());
+            if (wrapped.getYaw() > 1200.0f && (wrapped.getYaw() % 360.0f > 1200.0f)) {
+                fail("deltaYaw: " + wrapped.getYaw() );
             }
-        } else if (packet.isFlying()) {
-            resetBuffer();
         }
     }
 }

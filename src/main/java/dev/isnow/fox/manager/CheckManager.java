@@ -7,11 +7,13 @@ import dev.isnow.fox.check.impl.combat.autoclicker.*;
 import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxB;
-import dev.isnow.fox.check.impl.combat.reach.ReachB;
-import dev.isnow.fox.check.impl.combat.reach.ReachX;
+import dev.isnow.fox.check.impl.combat.reach.*;
+import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
+import dev.isnow.fox.check.impl.combat.velocity.VelocityB;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
 import dev.isnow.fox.check.impl.movement.flight.FlightB;
 import dev.isnow.fox.check.impl.movement.flight.FlightC;
+import dev.isnow.fox.check.impl.movement.flight.FlightD;
 import dev.isnow.fox.check.impl.movement.ghostblock.GhostBlockA;
 import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
@@ -78,6 +80,8 @@ public final class CheckManager {
             AuraO.class,
             AuraR.class,
             AuraP.class,
+            AuraR.class,
+            AuraS.class,
             EntityA.class,
             AutoClickerF.class,
             AutoClickerA.class,
@@ -93,8 +97,12 @@ public final class CheckManager {
             AutoClickerK.class,
             AutoClickerL.class,
             AutoClickerM.class,
-            ReachX.class,
+            ReachA.class,
             ReachB.class,
+            ReachC.class,
+            ReachD.class,
+            VelocityA.class,
+            VelocityB.class,
             HitBoxA.class,
             HitBoxB.class,
             SpeedA.class,
@@ -102,6 +110,7 @@ public final class CheckManager {
             FlightA.class,
             FlightB.class,
             FlightC.class,
+            FlightD.class,
             MotionA.class,
             MotionB.class,
             MotionC.class,
@@ -109,7 +118,6 @@ public final class CheckManager {
             MotionE.class,
             MotionF.class,
             MotionG.class,
-            MotionH.class,
             GhostBlockA.class,
             InventoryA.class,
             InventoryB.class,
@@ -130,7 +138,6 @@ public final class CheckManager {
             BadPacketsK.class,
             BadPacketsL.class,
             BadPacketsM.class,
-            BadPacketsN.class,
             TimerA.class,
             TimerB.class,
             TimerC.class,
