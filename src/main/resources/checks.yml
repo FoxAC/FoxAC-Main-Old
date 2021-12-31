@@ -325,7 +325,7 @@ checks:
           - ''
           - ''
       b:
-        enabled: true
+        enabled: false
         max-violations: 10
         punish-commands:
           - ''
