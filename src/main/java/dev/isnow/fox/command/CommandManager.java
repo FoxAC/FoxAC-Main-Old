@@ -64,7 +64,7 @@ public final class CommandManager implements CommandExecutor {
                 commandSender.sendMessage(ColorUtil.translate("&c&l&m»»»&7&m-----------------------------&c&l&m«««"));
                 commandSender.sendMessage(ColorUtil.translate("             &cAvailable Commands &d»\n" + " \n"));
                 for (final FoxCommand Foxcommand : commands) {
-                    commandSender.sendMessage(ColorUtil.translate("&7/fox " + Foxcommand.getCommandInfo().name() + " &d» &7" + Foxcommand.getCommandInfo().purpose()));
+                    commandSender.sendMessage(ColorUtil.translate("&7/fox " + Foxcommand.getCommandInfo().name() + " &d» &6" + Foxcommand.getCommandInfo().purpose()));
                 }
                 commandSender.sendMessage(ColorUtil.translate("&c&l&m»»»&7&m-----------------------------&c&l&m«««"));
                 return true;

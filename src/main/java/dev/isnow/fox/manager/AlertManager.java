@@ -202,6 +202,10 @@ public final class AlertManager {
         alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(Config.PREFIX + message)));
     }
 
+    public static void sendAntiExploitAlert(final String info, String check) {
+        alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(Config.ANTICRASHALERT.replaceAll("%player%", player.getPlayer().getName()).replaceAll("%check%", check).replaceAll("%info%", info))));
+    }
+
     public enum ToggleAlertType {
         ADD, REMOVE
     }

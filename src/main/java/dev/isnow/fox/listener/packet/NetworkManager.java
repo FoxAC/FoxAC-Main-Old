@@ -3,7 +3,9 @@
 package dev.isnow.fox.listener.packet;
 
 import dev.isnow.fox.Fox;
+import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.ColorUtil;
@@ -43,7 +45,8 @@ public final class NetworkManager extends PacketListenerDynamic {
                         || Math.abs(wrapper.getZ()) > 1.0E+7
                         || Math.abs(wrapper.getPitch()) > 1.0E+7
                         || Math.abs(wrapper.getYaw()) > 1.0E+7) {
-                    Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () -> event.getPlayer().kickPlayer(ColorUtil.translate("You're a fucking nigger did you know?")));
+                    Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () -> event.getPlayer().kickPlayer(ColorUtil.translate(Config.ANTICRASHKICKEDMESSAGE)));
+                    AlertManager.sendAntiExploitAlert("Player made a large movement that could crash the server/anticheat", "Large Movement");
                     return;
                 }
             }

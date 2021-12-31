@@ -52,6 +52,8 @@ messages:
   alerts-on: '&7&l[&cFox&7&l] &dAlerts toggled &aOn'
   alerts-off: '&7&l[&cFox&7&l] &dAlerts toggled &cOff'
   vpn-kick: '&7&l[&cFox&7&l] &cVpns are blacklisted on this server!'
+  anticrash-kick: '&7&l[&cFox&7&l] &cYou were kicked for crashing out server!'
+  antiexploit-alert: '&c&lFox AntiExploit&7» &c%player% &7failed &c%check% &7&l[&d%info%&7&l]'
   banning: '&7&l[&cFox&7&l] &dBanning %player%'
   join-message: '&7&l[&cFox&7&l] &7%player% &djoined with &6%client%'
   client-kick: '&7&l[&cFox&7&l] &cThis client isnt supported!'
