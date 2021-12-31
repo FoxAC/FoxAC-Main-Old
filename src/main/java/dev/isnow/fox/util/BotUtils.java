@@ -78,36 +78,15 @@ public class BotUtils {
             }
             CraftEntity conv1 = (CraftEntity) entities.get(new Random().nextInt(entities.size()));
             net.minecraft.server.v1_8_R3.Entity ent = conv1.getHandle();
-            if(ent instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) ent;
-                randomPlayer = (EntityHuman) livingEntity;
-            }
-            else {
-                Entity nigger = user.getPlayer();
-                CraftEntity conv2 = (CraftEntity) nigger;
-                net.minecraft.server.v1_8_R3.Entity ent2 = conv2.getHandle();
-                if(ent2 instanceof LivingEntity) {
-                    LivingEntity livingEntity = (LivingEntity) ent2;
-                    randomPlayer = (EntityHuman) livingEntity;
-                }
-                else {
-                    // WTF?
-                    randomPlayer = null;
-                }
-            }
+            LivingEntity livingEntity = (LivingEntity) ent;
+            randomPlayer = (EntityHuman) livingEntity;
         }
         else {
             Entity nigger = user.getPlayer();
             CraftEntity conv1 = (CraftEntity) nigger;
             net.minecraft.server.v1_8_R3.Entity ent = conv1.getHandle();
-            if(ent instanceof LivingEntity) {
-                LivingEntity livingEntity = (LivingEntity) ent;
-                randomPlayer = (EntityHuman) livingEntity;
-            }
-            else {
-                // WTF?
-                randomPlayer = null;
-            }
+            LivingEntity livingEntity = (LivingEntity) ent;
+            randomPlayer = (EntityHuman) livingEntity;
         }
         return randomPlayer;
     }
@@ -199,17 +178,8 @@ public class BotUtils {
 
 
             EntityHuman randomPlayer = getRandomEntityPlayer(user);
-
-            UUID uuid = null;
+            UUID uuid = randomPlayer.getUniqueID();
             String name = randomPlayer.getName();
-
-            if(randomPlayer.getUniqueID() == null) {
-                // fucking nigger
-                uuid = UUID.randomUUID();
-            }
-            else {
-                uuid = randomPlayer.getUniqueID();
-            }
 
             MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
             WorldServer worldServer = ((CraftWorld) user.getPlayer().getWorld()).getHandle();
