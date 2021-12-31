@@ -69,7 +69,7 @@ public class BotUtils {
         List<Entity> entities = new ArrayList<>();
         if(user.getPlayer().getWorld().getEntities().size() > 1) {
             for(Entity e : user.getPlayer().getWorld().getEntities()) {
-                if(e instanceof EntityHuman && !user.getPlayer().getWorld().getEntities().contains(e)) {
+                if(e instanceof EntityHuman) {
                     entities.add(e);
                 }
             }
@@ -196,10 +196,10 @@ public class BotUtils {
             sendPacket(user, new PacketPlayOutUpdateAttributes(), forcedFrom);
 
             if (randomPlayer.getEquipment() != null) sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 0, randomPlayer.getEquipment(0)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 1, randomPlayer.getEquipment(1)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 2, randomPlayer.getEquipment(2)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 3, randomPlayer.getEquipment(3)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 4, randomPlayer.getEquipment(4)), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 1, randomPlayer.getEquipment(4)), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 2, randomPlayer.getEquipment(3)), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 3, randomPlayer.getEquipment(2)), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 4, randomPlayer.getEquipment(1)), forcedFrom);
             sendPacket(user, new PacketPlayOutUpdateAttributes(), forcedFrom);
         }
     }
