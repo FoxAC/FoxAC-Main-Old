@@ -74,7 +74,6 @@ public final class CheckManager {
             AimQ.class,
             AimR.class,
             AimS.class,
-            AimT.class,
             AuraA.class,
             AuraB.class,
             AuraC.class,
