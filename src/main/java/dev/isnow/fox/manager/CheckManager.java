@@ -87,7 +87,6 @@ public final class CheckManager {
             AuraM.class,
             AuraN.class,
             AuraO.class,
-            AuraR.class,
             AuraP.class,
             AuraQ.class,
             AuraR.class,
