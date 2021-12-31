@@ -4,7 +4,6 @@ import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.HitboxExpansion;

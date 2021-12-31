@@ -6,7 +6,6 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage")
