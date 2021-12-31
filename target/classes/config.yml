@@ -40,7 +40,7 @@ alerts:
   log-format: ''
 
 discord:
-  enabled: true
+  enabled: false
   ban-message: false
   name: 'Fox AntiCheat'
   image: 'https://ibb.co/5GcBYB9'
@@ -57,7 +57,7 @@ messages:
   client-kick: '&c&l🦊 &8>> &cThis client isnt supported!'
 
 bans:
-  enabled: true
+  enabled: false
   sus: true
   timer: false
   time: 3

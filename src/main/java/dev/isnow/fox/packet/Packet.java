@@ -57,6 +57,8 @@ public final class Packet {
         return 1;
     }
 
+    public boolean isSlot() { return(packetId == PacketType.Play.Client.HELD_ITEM_SLOT); }
+
     public boolean isPingPong() {
         return isReceiving() && packetId == PacketType.Play.Client.PONG ||
                 packetId == PacketType.Play.Client.TRANSACTION;

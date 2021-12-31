@@ -18,6 +18,8 @@ import dev.isnow.fox.check.impl.movement.ghostblock.GhostBlockA;
 import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.movement.speed.SpeedB;
+import dev.isnow.fox.check.impl.movement.speed.SpeedC;
+import dev.isnow.fox.check.impl.movement.speed.SpeedD;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.crasher.CrasherA;
@@ -63,6 +65,11 @@ public final class CheckManager {
             AimK.class,
             AimL.class,
             AimM.class,
+            AimN.class,
+            AimO.class,
+            AimP.class,
+            AimQ.class,
+            AimR.class,
             AuraA.class,
             AuraB.class,
             AuraC.class,
@@ -107,6 +114,8 @@ public final class CheckManager {
             HitBoxB.class,
             SpeedA.class,
             SpeedB.class,
+            SpeedC.class,
+            SpeedD.class,
             FlightA.class,
             FlightB.class,
             FlightC.class,
@@ -118,6 +127,7 @@ public final class CheckManager {
             MotionE.class,
             MotionF.class,
             MotionG.class,
+            MotionH.class,
             GhostBlockA.class,
             InventoryA.class,
             InventoryB.class,

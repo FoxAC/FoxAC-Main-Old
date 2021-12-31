@@ -8,6 +8,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.blockdig.WrappedP
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
 import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 @Getter
@@ -15,6 +16,7 @@ public final class ActionProcessor {
 
     private final PlayerData data;
 
+    @Setter
     private boolean sprinting, sneaking, sendingAction, placing, digging, blocking,
             inventory, respawning, sendingDig, eating, bukkitPlacing, dropping;
 

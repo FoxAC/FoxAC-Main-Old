@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.combat.aim;
 
 import dev.isnow.fox.check.Check;
@@ -8,36 +6,38 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", type = "E", description = "Checks for snappy rotations.")
-public final class AimE extends Check {
+@CheckInfo(name = "Aim", description = "Checks for snappy deltas.", type = "E")
+public final class AimE
+        extends Check {
+    private float lastDeltaYaw;
+    private float lastLastDeltaYaw;
 
-    private float lastDeltaYaw, lastLastDeltaYaw;
-
-    public AimE(final PlayerData data) {
+    public AimE(PlayerData data) {
         super(data);
     }
 
-
-
     @Override
-    public void handle(final Packet packet) {
+    public void handle(Packet packet) {
         if (packet.isRotation()) {
-            final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
+            boolean invalid;
+            float deltaYaw = this.data.getRotationProcessor().getDeltaYaw();
+            boolean exempt = this.isExempt(ExemptType.TELEPORT);
+            boolean bl = invalid = deltaYaw < 1.5f && this.lastDeltaYaw > 30.0f && this.lastLastDeltaYaw < 1.5f;
 
-            final boolean exempt = isExempt(ExemptType.TELEPORT_DELAY, ExemptType.TELEPORT);
-            final boolean invalid = deltaYaw < 2.5F && lastDeltaYaw > 20F && lastLastDeltaYaw < 2.5F;
+            debug("deltaYaw: " + deltaYaw + "lastDeltaYaw: " +lastDeltaYaw+ "lastlast: " + lastLastDeltaYaw);
 
             if (exempt) {
-                lastDeltaYaw = deltaYaw;
-                lastLastDeltaYaw = deltaYaw;
+                this.lastDeltaYaw = deltaYaw;
+                this.lastLastDeltaYaw = deltaYaw;
             }
-
-            if (invalid && !exempt && increaseBuffer() > 3) fail();
-            else {
-                decreaseBuffer();
+            if (invalid && !exempt && increaseBuffer() > 3) {
+                fail();
+                
+                this.lastLastDeltaYaw = this.lastDeltaYaw;
+                this.lastDeltaYaw = deltaYaw;
             }
-            this.lastLastDeltaYaw = lastDeltaYaw;
-            this.lastDeltaYaw = deltaYaw;
+        } else {
+            this.decreaseBufferBy(0.25);
         }
     }
 }

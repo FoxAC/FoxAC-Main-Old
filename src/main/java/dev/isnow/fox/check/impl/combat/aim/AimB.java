@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.combat.aim;
 
 import dev.isnow.fox.check.Check;
@@ -7,32 +5,39 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", type = "B", description = "Checks for smaller gcd than possible.")
-public final class AimB extends Check {
-    public AimB(final PlayerData data) {
+@CheckInfo(name = "Aim", description = "Checks for snapping.", type = "B", experimental = true)
+public class AimB extends Check {
+
+    private float lastDeltaYaw;
+    private float lastLastDeltaYaw;
+
+    public AimB(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(final Packet packet) {
+    public void handle(Packet packet) {
         if (packet.isRotation()) {
-            final float deltaPitch = data.getRotationProcessor().getDeltaPitch();
-            final float lastDeltaPitch = data.getRotationProcessor().getLastDeltaPitch();
-
-            final boolean cinematic = data.getRotationProcessor().isCinematic() || isExempt(ExemptType.CREATIVE, ExemptType.BUKKIT_PLACING, ExemptType.CINEMATIC_TIME);
-
-            final long gcd = MathUtil.getGcd((long) (deltaPitch * MathUtil.EXPANDER), (long) (lastDeltaPitch * MathUtil.EXPANDER));
-            final boolean invalid = gcd < 131072L && deltaPitch > 0.5F && deltaPitch < 20.0F && !cinematic;
-
-            if (invalid) {
-                if (increaseBuffer() > 7) {
-                    fail("GCD:" + gcd);
-                }
-            } else {
-                decreaseBuffer();
+            if (this.isExempt(ExemptType.TELEPORT, ExemptType.JOINED)) {
+                return;
             }
+
+            final float deltaYaw = this.data.getRotationProcessor().getDeltaYaw();
+
+            debug("deltaYaw: " + deltaYaw);
+
+            if (deltaYaw < 5.0f && this.lastDeltaYaw > 30.0f && this.lastLastDeltaYaw < 5.0f && isExempt(ExemptType.TELEPORT)) {
+                final double low = (deltaYaw + this.lastLastDeltaYaw) / 2.0f;
+                final double high = this.lastDeltaYaw;
+                if(increaseBuffer() > 5) {
+                    fail(low+ " / " +high);
+                } else {
+                    decreaseBufferBy(0.10);
+                }
+            }
+            this.lastLastDeltaYaw = this.lastDeltaYaw;
+            this.lastDeltaYaw = deltaYaw;
         }
     }
 }

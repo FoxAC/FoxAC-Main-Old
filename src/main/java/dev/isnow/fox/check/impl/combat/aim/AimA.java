@@ -1,5 +1,3 @@
-
-
 package dev.isnow.fox.check.impl.combat.aim;
 
 import dev.isnow.fox.check.Check;
@@ -8,20 +6,21 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", type = "A", description = "Checks for invalid rotation constant.")
-public final class AimA extends Check {
-    public AimA(final PlayerData data) {
+@CheckInfo(name = "Aim", description = "Checks for invalid divisor.", type = "A")
+public final class AimA
+        extends Check {
+
+    private float lastDeltaYaw, lastDeltaPitch;
+
+    public AimA(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(final Packet packet) {
-        if (packet.isRotation() && hitTicks() < 3) {
+    public void handle(Packet packet) {
+        if (packet.isRotation() && !data.getRotationProcessor().isCinematic()) {
             final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
             final float deltaPitch = data.getRotationProcessor().getDeltaPitch();
-
-            final float lastDeltaYaw = data.getRotationProcessor().getLastDeltaYaw();
-            final float lastDeltaPitch = data.getRotationProcessor().getLastDeltaPitch();
 
             final double divisorYaw = MathUtil.getGcd((long) (deltaYaw * MathUtil.EXPANDER), (long) (lastDeltaYaw * MathUtil.EXPANDER));
             final double divisorPitch = MathUtil.getGcd((long) (deltaPitch * MathUtil.EXPANDER), (long) (lastDeltaPitch * MathUtil.EXPANDER));
@@ -35,7 +34,9 @@ public final class AimA extends Check {
             final double previousX = lastDeltaYaw / constantYaw;
             final double previousY = lastDeltaPitch / constantPitch;
 
-            if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 20.f && deltaPitch < 20.f) {
+            final boolean action = data.getCombatProcessor().getLastAttackTick() < 3;
+
+            if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 20.f && deltaPitch < 20.f && action) {
                 final double moduloX = currentX % previousX;
                 final double moduloY = currentY % previousY;
 
@@ -45,16 +46,19 @@ public final class AimA extends Check {
                 final boolean invalidX = moduloX > 90.d && floorModuloX > 0.1;
                 final boolean invalidY = moduloY > 90.d && floorModuloY > 0.1;
 
-                if (data.getRotationProcessor().isCinematic()) decreaseBufferBy(0.1);
+                debug("deltaYaw: " + deltaYaw + " deltaPitch: " +deltaPitch+ " divisorPitch: " + divisorPitch + " divisorYaw: " +divisorYaw+ " constantYaw: " +constantYaw+ " constantPitch: "+ constantYaw);
 
                 if (invalidX && invalidY) {
-                    if (increaseBuffer() > 6) {
-                        fail();
+                    buffer++;
+                    if (buffer > 8) {
+                        fail(deltaYaw + " deltaPitch: " +deltaPitch+ " divisorPitch: " + divisorPitch + " divisorYaw: " +divisorYaw+ " constantYaw: " +constantYaw+ " constantPitch: "+ constantYaw);
                     }
                 } else {
-                    decreaseBufferBy(0.25);
+                    buffer = 0;
                 }
             }
+            this.lastDeltaYaw = deltaYaw;
+            this.lastDeltaPitch = deltaPitch;
         }
     }
 }

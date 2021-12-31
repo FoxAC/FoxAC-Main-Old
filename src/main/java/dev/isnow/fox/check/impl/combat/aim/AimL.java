@@ -3,61 +3,44 @@ package dev.isnow.fox.check.impl.combat.aim;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 
-@CheckInfo(name = "Aim", type = "L", description = "Checks if pitch gcd is lower than the lowest possible on yawn.")
-public class AimL extends Check {
+import java.util.function.Predicate;
 
-    private Float lastYawChange;
-    private Float lastPitchChange;
+@CheckInfo(name = "Aim", description = "Checks for precise aim.", type = "L", experimental = true)
+public final class AimL extends Check {
 
-    public AimL(PlayerData data) {
+    private final Predicate<Float> validRotation = rotation -> rotation > 3F && rotation < 35F;
+
+    public AimL(final PlayerData data) {
         super(data);
     }
 
-
     @Override
-    public void handle(Packet packet) {
-        if (packet.isFlying()) {
-            if (data.getCombatProcessor().getHitTicks() > 10)
-                return;
+    public void handle(final Packet packet) {
+        if(packet.isRotation()) {
+            final float deltaPitch = Math.abs(data.getRotationProcessor().getDeltaPitch());
+            final float deltaYaw =  Math.abs(data.getRotationProcessor().getDeltaYaw() % 360F);
 
-            WrappedPacketInFlying wrapped= new WrappedPacketInFlying(packet.getRawPacket());
+            final float pitch = Math.abs(data.getRotationProcessor().getPitch());
 
-            float yawChange = Math.abs(wrapped.getYaw() - data.getRotationProcessor().getLastYaw());
-            float pitchChange = Math.abs(wrapped.getPitch() - data.getRotationProcessor().getLastPitch());
+            final boolean invalidPitch = deltaPitch < 0.009 && validRotation.test(deltaYaw);
+            final boolean invalidYaw = deltaYaw < 0.009 && validRotation.test(deltaPitch);
 
-            if (lastYawChange != null && lastPitchChange != null && data.getPositionProcessor().getDeltaXZ() > 0) {
-                float yawAccel = Math.abs(lastYawChange - yawChange);
-                float pitchAccel = Math.abs(lastPitchChange - pitchChange);
+            final boolean exempt = isExempt(ExemptType.VEHICLE, ExemptType.TELEPORT);
+            final boolean invalid = !exempt && (invalidPitch || invalidYaw) && pitch < 89F;
+            final boolean overMaxSens = (data.getRotationProcessor().getSensitivity() > 100);
 
-                if (yawChange > 3F && pitchChange < 10F && yawAccel > 2F && pitchAccel > 2F && pitchChange < yawChange) {
-                    double pitchGcd = gcd(pitchChange, lastPitchChange);
+            debug(deltaYaw + " " + deltaPitch);
 
-                    if (pitchGcd < 0.009) {
-                        if (increaseBuffer() > 10) {
-                            fail("PitchGcd: " + pitchGcd);
-                        }
-                    } else {
-                        decreaseBufferBy(0.1);
-                    }
-                } else {
-                    decreaseBufferBy(0.3);
+            if (invalid && !overMaxSens) {
+                if (increaseBuffer() > 10) {
+                    fail(deltaYaw + " " + deltaPitch);
                 }
+            } else {
+                decreaseBufferBy(1);
             }
-
-            this.lastYawChange = yawChange;
-            this.lastPitchChange = pitchChange;
         }
-    }
-
-    public double gcd(double a, double b) {
-        if (a < b)
-            return gcd(b, a);
-        else if (Math.abs(b) < 0.001) // base case
-            return a;
-        else
-            return gcd(b, a - Math.floor(a / b) * b);
     }
 }

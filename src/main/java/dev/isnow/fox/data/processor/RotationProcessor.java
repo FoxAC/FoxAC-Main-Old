@@ -15,7 +15,7 @@ public final class RotationProcessor {
     private final PlayerData data;
     private float yaw, pitch, lastYaw, lastPitch,
     deltaYaw, deltaPitch, lastDeltaYaw, lastDeltaPitch,
-    yawAccel, pitchAccel, lastYawAccel, lastPitchAccel, gcd, actualGcd;
+    yawAccel, pitchAccel, lastYawAccel, lastPitchAccel, gcd, actualGcd, joltYaw, joltPitch, lastJoltYaw, lastJoltPitch;
 
     private int mouseDeltaX, mouseDeltaY, lastMouseDeltaX, lastMouseDeltaY;
 
@@ -43,56 +43,46 @@ public final class RotationProcessor {
         lastDeltaYaw = deltaYaw;
         lastDeltaPitch = deltaPitch;
 
-        deltaYaw = Math.abs(yaw - lastYaw);
+        deltaYaw = Math.abs(yaw - lastYaw) % 360F;
         deltaPitch = Math.abs(pitch - lastPitch);
 
-        lastPitchAccel = pitchAccel;
-        lastYawAccel = yawAccel;
+        lastJoltPitch = joltPitch;
+        lastJoltYaw = joltYaw;
 
-        yawAccel = Math.abs(deltaYaw - lastDeltaYaw);
-        pitchAccel = Math.abs(deltaPitch - lastDeltaPitch);
+        joltYaw = Math.abs(deltaYaw - lastDeltaYaw);
+        joltPitch = Math.abs(deltaPitch - lastDeltaPitch);
 
         processCinematic();
 
         if (deltaPitch > 0 && deltaPitch < 30) {
             processSensitivity();
         }
-
-        if (gcd != 0) {
-            lastMouseDeltaX = mouseDeltaX;
-            lastMouseDeltaY = mouseDeltaY;
-
-            this.mouseDeltaX = Math.round(deltaYaw / gcd);
-            this.mouseDeltaY = Math.round(deltaPitch / gcd);
-        }
     }
 
     private void processCinematic() {
-        final float yawAccelAccel = Math.abs(yawAccel - lastYawAccel);
-        final float pitchAccelAccel = Math.abs(pitchAccel - lastPitchAccel);
+        final float yawAccelAccel = Math.abs(joltYaw - lastJoltYaw);
+        final float pitchAccelAccel = Math.abs(joltPitch - lastJoltPitch);
 
         final boolean invalidYaw = yawAccelAccel < .05 && yawAccelAccel > 0;
         final boolean invalidPitch = pitchAccelAccel < .05 && pitchAccelAccel > 0;
 
-        final boolean exponentialYaw = MathUtil.isExponentiallySmall(yawAccelAccel);
-        final boolean exponentialPitch = MathUtil.isExponentiallySmall(pitchAccelAccel);
+        final boolean exponentialYaw = String.valueOf(yawAccelAccel).contains("E");
+        final boolean exponentialPitch = String.valueOf(pitchAccelAccel).contains("E");
 
-        if (finalSensitivity < 100 && (exponentialYaw || exponentialPitch)) {
-            cinematicTicks += 3.5;
+        if (sensitivity < 100 && (exponentialYaw || exponentialPitch)) {
+            cinematicTicks += 3;
         } else if (invalidYaw || invalidPitch) {
-            cinematicTicks += 1.75;
+            cinematicTicks += 1;
         } else {
-            if (cinematicTicks > 0) cinematicTicks -= .6;
+            if (cinematicTicks > 0) cinematicTicks--;
         }
         if (cinematicTicks > 20) {
-            cinematicTicks -= 1.5;
+            cinematicTicks--;
         }
 
-        cinematic = cinematicTicks > 7.5 || (Fox.INSTANCE.getTickManager().getTicks() - lastCinematic < 120);
-        if(cinematic) {
-            cinematicTime = System.currentTimeMillis();
-        }
-        if (cinematic && cinematicTicks > 7.5) {
+        cinematic = cinematicTicks > 8 || (Fox.INSTANCE.getTickManager().getTicks() - lastCinematic < 120);
+
+        if (cinematic && cinematicTicks > 8) {
             lastCinematic = Fox.INSTANCE.getTickManager().getTicks();
         }
     }
