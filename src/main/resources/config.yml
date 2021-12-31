@@ -52,7 +52,8 @@ messages:
   alerts-on: '&7&l[&cFox&7&l] &dAlerts toggled &aOn'
   alerts-off: '&7&l[&cFox&7&l] &dAlerts toggled &cOff'
   vpn-kick: '&7&l[&cFox&7&l] &cVpns are blacklisted on this server!'
-  anticrash-kick: '&7&l[&cFox&7&l] &cYou were kicked for crashing out server!'
+  payload-kick: '&7&l[&cFox&7&l] &cYou were kicked for invalid payloads!'
+  anticrash-kick: '&7&l[&cFox&7&l] &cYou were kicked for crasher/exploits!'
   antiexploit-alert: '&c&lFox AntiExploit&7» &c%player% &7failed &c%check% &7&l[&d%info%&7&l]'
   banning: '&7&l[&cFox&7&l] &dBanning %player%'
   join-message: '&7&l[&cFox&7&l] &7%player% &djoined with &6%client%'
@@ -62,9 +63,9 @@ messages:
   kb-test: '&7&l[&cFox&7&l] &dYou just launched &c%player%'
   scare-cmd: '&7&l[&cFox&7&l] &dYou just scared &c%player%'
 
+
 bans:
   enabled: false
-  sus: true
   timer: false
   time: 3
   first-commands:
@@ -76,4 +77,4 @@ bans:
 
 broadcast:
   enabled: true
-  message: '%nl% &7&l[&cFox&7&l] &7%player% &cWas punished for &c&lCheating! %nl%'
+  message: '%nl%&7&l[&cFox&7&l] &7%player% &cWas punished for &c&lCheating!%nl%'

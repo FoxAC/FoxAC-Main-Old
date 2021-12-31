@@ -2,8 +2,11 @@ package dev.isnow.fox.check.impl.player.payload;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
+import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.ColorUtil;
 import io.github.retrooper.packetevents.packetwrappers.play.in.custompayload.WrappedPacketInCustomPayload;
 
 @CheckInfo(name = "Payload", description = "Checks for invalid payload in clients.", type = "A")
@@ -40,7 +43,8 @@ public final class PayloadA extends Check {
                     || payload.equalsIgnoreCase("WDL|INIT")
                     || payload.equalsIgnoreCase("WDL|CONTROL")
                     || payload.equalsIgnoreCase("Bspkrs Client"))) {
-                fail(payload);
+                AlertManager.sendAntiExploitAlert("Checks for clients sending blocked payloads.", "Invalid Payload");
+                data.getPlayer().kickPlayer(ColorUtil.translate(Config.PAYLOADKICK));
             }
         }
     }
