@@ -36,6 +36,7 @@ public final class CommandManager implements CommandExecutor {
         commands.add(new KB());
         commands.add(new Scare());
         commands.add(new Reload());
+        commands.add(new Demo());
 
         Collections.sort(commands);
     }
