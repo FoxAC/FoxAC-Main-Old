@@ -21,7 +21,7 @@ public final class AutoClickerD extends Check {
         if (packet.isFlying()) {
             if (++ticks >= 20) {
                 debug("cps=" + cps);
-                if (cps > 20 && !isExempt(ExemptType.AUTOCLICKER)) {
+                if (cps > 26 && !isExempt(ExemptType.AUTOCLICKER)) {
                     fail("cps=" + cps);
                 }
                 ticks = cps = 0;
