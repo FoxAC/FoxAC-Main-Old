@@ -8,7 +8,7 @@ commands:
   fox:
     description: Commands for Fox Anticheat.
     usage: /fox
-    aliases: [foxac, fac]
+    aliases: [foxac, fac, fag]
     permission: fox.commands
   alerts:
     description: toggle alerts
@@ -16,6 +16,13 @@ commands:
     aliases:
       - notify
     permission: fox.alerts
+  vanish:
+    description: Become invisable
+    usage: /vanish [Player]
+    aliases:
+      - v
+      - becomeinvisable
+    permission: fox.vanish
 softdepend:
   - ProtocolLib
   - ProtocolSupport
