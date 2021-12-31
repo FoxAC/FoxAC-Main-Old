@@ -5,6 +5,7 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.isnow.fox.command.CommandManager;
+import dev.isnow.fox.command.VanishCommand;
 import dev.isnow.fox.command.impl.Alerts;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.gui.GuiManager;
@@ -57,6 +58,7 @@ public enum Fox {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final CommandManager commandManager = new CommandManager(this.getPlugin());
+    private final VanishCommand vanishCommand = new VanishCommand();
 
     private final String version = "B11";
     private final UpdateChecker updateChecker = new UpdateChecker();
@@ -124,6 +126,7 @@ public enum Fox {
             guiManager = new GuiManager();
             getPlugin().getCommand("fox").setExecutor(commandManager);
             getPlugin().getCommand("alerts").setExecutor(new Alerts());
+            getPlugin().getCommand("vanish").setExecutor(vanishCommand);
 
             tickManager.start();
 

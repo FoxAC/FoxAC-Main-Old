@@ -9,8 +9,6 @@ import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxB;
 import dev.isnow.fox.check.impl.combat.reach.ReachA;
 import dev.isnow.fox.check.impl.combat.reach.ReachB;
-import dev.isnow.fox.check.impl.combat.reach.ReachC;
-import dev.isnow.fox.check.impl.combat.reach.ReachD;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityB;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
@@ -96,6 +94,7 @@ public final class CheckManager {
             AuraS.class,
             AuraT.class,
             AuraU.class,
+            AuraV.class,
             EntityA.class,
             AutoClickerA.class,
             AutoClickerB.class,
@@ -112,8 +111,6 @@ public final class CheckManager {
             AutoClickerM.class,
             ReachA.class,
             ReachB.class,
-            ReachC.class,
-            ReachD.class,
             VelocityA.class,
             VelocityB.class,
             HitBoxA.class,

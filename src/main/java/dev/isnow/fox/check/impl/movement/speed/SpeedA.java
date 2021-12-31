@@ -59,7 +59,7 @@ public final class SpeedA extends Check {
             if (groundTicks < 7) {
                 groundLimit += 0.25f / (float)groundTicks;
             }
-            if (!(exempt = this.isExempt(ExemptType.NEARSTAIRS, ExemptType.VEHICLE, ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK))) {
+            if (!(exempt = this.isExempt(ExemptType.NEARSTAIRS, ExemptType.VEHICLE, ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK, ExemptType.VELOCITY_ON_TICK))) {
                 if (airTicks > 0) {
                     if (deltaXZ > airLimit) {
                         if (increaseBuffer() > 8) {

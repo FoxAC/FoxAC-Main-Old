@@ -17,7 +17,7 @@ import java.util.Map;
 @UtilityClass
 public final class Config {
 
-    public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, GUIPREFIX, VPN_MESSAGE, ALERTSON, ALERTSOFF, CLICKCOMMAND, BROADCASTMESSAGE, ALERT_URL, BAN_URL, DISCORDNAME, IMAGEDISCORD;
+    public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, VPN_MESSAGE, KBTEST, ALERTSON, SCARE, ALERTSOFF, CLICKCOMMAND, VANISHON, VANISHOFF, BROADCASTMESSAGE, ALERT_URL, BAN_URL, DISCORDNAME, IMAGEDISCORD;
 
     public boolean LOGGING_ENABLED, VPN_ENABLED, STRICTAF_GHOSTBLOCK_MODE, SUS, API_ENABLED, GHOST_BLOCK_ENABLED, GLOBALCMD, WEBHOOK, DISCORDBAN, BANTIMER, BROADCASTBAN, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
 
@@ -46,6 +46,11 @@ public final class Config {
             IMAGEDISCORD = getString("discord.image");
             DISCORDBAN = getBoolean("discord.ban-message");
 
+            KBTEST = getString("messages.kb-test");
+            SCARE = getString("messages.scare-cmd");
+
+            VANISHON = getString("messages.vanish-on");
+            VANISHOFF = getString("messages.vanish-off");
 
             KEY = getString("api.key");
 

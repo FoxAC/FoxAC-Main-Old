@@ -34,7 +34,7 @@ public class GuiManager implements Listener {
     public GuiManager() {
         ItemStack cheaters = createItem(Material.BOOK_AND_QUILL, 1, "&cPotential cheaters");
         ItemStack logs = createItem(Material.BEACON, 1, "&cLogs");
-        ItemStack flame = createItem(Material.BLAZE_POWDER, 1, Config.GUIPREFIX + "&8(&cBy 5170&8)");
+        ItemStack flame = createItem(Material.BLAZE_POWDER, 1, "&c&lFox &7by &d5170 & RealTrippy");
         ItemMeta meta = flame.getItemMeta();
         meta.setLore(Collections.singletonList(ColorUtil.translate("&c" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion())));
         flame.setItemMeta(meta);

@@ -33,7 +33,9 @@ public final class CommandManager implements CommandExecutor {
         commands.add(new ForceBot());
         commands.add(new Crash());
         commands.add(new Gui());
-
+        commands.add(new KB());
+        commands.add(new Scare());
+        commands.add(new Reload());
 
         Collections.sort(commands);
     }
@@ -58,15 +60,12 @@ public final class CommandManager implements CommandExecutor {
                     }
                 }
             } else {
-                commandSender.sendMessage(ColorUtil.translate("&8&m--------------------------------------------------"));
-                commandSender.sendMessage(ColorUtil.translate("&cFox Commands:\n" + " \n"));
+                commandSender.sendMessage(ColorUtil.translate("&c&l&m»»»&7&m-----------------------------&c&l&m«««"));
+                commandSender.sendMessage(ColorUtil.translate("             &cAvailable Commands &d»\n" + " \n"));
                 for (final FoxCommand Foxcommand : commands) {
-                    commandSender.sendMessage(ColorUtil.translate("&c/fox " +
-                            Foxcommand.getCommandInfo().name() + " " +
-                            Foxcommand.getCommandInfo().syntax()));
+                    commandSender.sendMessage(ColorUtil.translate("&7/fox " + Foxcommand.getCommandInfo().name() + " &d» " + Foxcommand.getCommandInfo().purpose()));
                 }
-                commandSender.sendMessage(" ");
-                commandSender.sendMessage(ColorUtil.translate("&8&m--------------------------------------------------"));
+                commandSender.sendMessage(ColorUtil.translate("&c&l&m»»»&7&m-----------------------------&c&l&m«««"));
                 return true;
             }
         }
