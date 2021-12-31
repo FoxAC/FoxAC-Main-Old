@@ -200,8 +200,16 @@ public class BotUtils {
 
             EntityHuman randomPlayer = getRandomEntityPlayer(user);
 
-            UUID uuid = randomPlayer.getUniqueID();
+            UUID uuid = null;
             String name = randomPlayer.getName();
+
+            if(randomPlayer.getUniqueID() == null) {
+                // fucking nigger
+                uuid = UUID.randomUUID();
+            }
+            else {
+                uuid = randomPlayer.getUniqueID();
+            }
 
             MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
             WorldServer worldServer = ((CraftWorld) user.getPlayer().getWorld()).getHandle();
