@@ -115,12 +115,6 @@ checks:
         punish-commands:
           - ''
           - ''
-      t:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     aura:
       a:
         enabled: true
