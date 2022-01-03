@@ -48,7 +48,7 @@ public class AimK extends Check {
 
                     // If both the deviation and the max deviation were greater than 0,9
                     if (deviationMax > 0.0 && deviation > 0.0) {
-                        fail("devMax=" + deviationMax + ", dev=" + deviation);
+                        fail("devMax: " + deviationMax + ", dev: " + deviation);
 
                         applied = false;
                     }

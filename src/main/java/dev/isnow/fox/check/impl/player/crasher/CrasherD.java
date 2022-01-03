@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 
-@CheckInfo(name = "Crasher", description = "Checks for disablers.", type = "D")
+@CheckInfo(name = "Crasher", description = "Detects crashing yaw.", type = "D")
 public final class CrasherD extends Check {
 
     public CrasherD(final PlayerData data) {

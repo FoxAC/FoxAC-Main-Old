@@ -34,7 +34,7 @@ public class AutoClickerF extends Check {
                 debug(invalid);
                 if (invalid) {
                     if (increaseBuffer() > 1) {
-                        fail("kurtosis=" + kurtosis);
+                        fail("kurtosis: " + kurtosis);
                     }
                 } else {
                     resetBuffer();

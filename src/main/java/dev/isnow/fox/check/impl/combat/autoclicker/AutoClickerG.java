@@ -12,13 +12,13 @@ import java.util.ArrayDeque;
 import java.util.List;
 
 
-@CheckInfo(name = "AutoClicker", experimental = true, description = "Checks for invalid consistency while clicking.", type = "M")
-public final class AutoClickerM extends Check {
+@CheckInfo(name = "AutoClicker", experimental = true, description = "Checks for invalid consistency while clicking.", type = "G")
+public final class AutoClickerG extends Check {
 
     private final ArrayDeque<Integer> samples = new ArrayDeque<>();
     private int ticks;
 
-    public AutoClickerM(final PlayerData data) {
+    public AutoClickerG(final PlayerData data) {
         super(data);
     }
 
@@ -39,7 +39,7 @@ public final class AutoClickerM extends Check {
 
                 if (outliers < 3 && duplicates > 18) {
                     if ((buffer += 20) > 60) {
-                        fail("outliers=" + outliers + " dupl=" + duplicates);
+                        fail("outliers: " + outliers + " dupl: " + duplicates);
                     }
                 } else {
                     buffer = Math.max(buffer - 8, 0);

@@ -5,10 +5,10 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", type = "S", description = "Invalid rotation ratio")
-public class AimS extends Check {
+@CheckInfo(name = "Aim", type = "N", description = "Invalid rotation ratio")
+public class AimN extends Check {
 
-    public AimS(final PlayerData data) {
+    public AimN(final PlayerData data) {
         super(data);
     }
 
@@ -23,7 +23,7 @@ public class AimS extends Check {
 
             if (invalid) {
                 if (increaseBuffer() > 4) {
-                    fail("deltaYaw=" + deltaYaw + " deltaPitch=" + deltaPitch);
+                    fail("deltaYaw: " + deltaYaw + " deltaPitch: " + deltaPitch);
                 }
             } else {
                 decreaseBufferBy(.25);

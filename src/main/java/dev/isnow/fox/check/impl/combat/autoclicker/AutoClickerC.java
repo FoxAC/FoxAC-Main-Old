@@ -31,7 +31,7 @@ public class AutoClickerC extends Check {
 
             if (avgDeviation < 10) {
                 if (++buffer > 8) {
-                    fail("dev=" + deviation);
+                    fail("dev: " + deviation);
                     decreaseBufferBy(3);
                 }
             } else {

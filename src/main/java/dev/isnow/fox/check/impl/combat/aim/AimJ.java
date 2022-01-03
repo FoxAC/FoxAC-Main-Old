@@ -40,7 +40,7 @@ public class AimJ extends Check {
                 boolean deviationInvalid = (yawAccelDeviation < 5.0D && pitchAccelDeviation > 5.0D && !exemptRotation);
 
                 final String format = String.format(
-                        "ya=%.2f, pa=%.2f, yd=%.2f, pd=%.2f",
+                        "ya: %.2f, pa: %.2f, yd: %.2f, pd: %.2f",
                         yawAccelAverage, pitchAccelAverage, yawAccelDeviation, pitchAccelDeviation);
                 debug(format);
                 if (averageInvalid && deviationInvalid) {

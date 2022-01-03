@@ -26,7 +26,7 @@ public final class AimH
             debug("gcd: " + gcd + "deltaPitch: " +deltaPitch+ "lastDeltaPitch: " + lastDeltaPitch + "expandDelta" +expandedDeltaPitch);
             if (!exempt && gcd < 131072L && gcd > 66000) {
                 if (increaseBuffer() > 5) {
-                    fail(gcd);
+                    fail("GCD: " + gcd);
                     
                 }
             } else {

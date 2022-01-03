@@ -40,8 +40,6 @@ public final class PayloadA extends Check {
                     || payload.equalsIgnoreCase("EROUAXWASHERE")
                     || payload.equalsIgnoreCase("moon:exempt")
                     || payload.equalsIgnoreCase("Vape")
-                    || payload.equalsIgnoreCase("WDL|INIT")
-                    || payload.equalsIgnoreCase("WDL|CONTROL")
                     || payload.equalsIgnoreCase("Bspkrs Client"))) {
                 AlertManager.sendAntiExploitAlert("Checks for clients sending blocked payloads.", "Invalid Payload");
                 data.getPlayer().kickPlayer(ColorUtil.translate(Config.PAYLOADKICK));

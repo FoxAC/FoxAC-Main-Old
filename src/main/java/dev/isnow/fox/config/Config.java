@@ -19,11 +19,11 @@ public final class Config {
 
     public String LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, VPN_MESSAGE, KBTEST, ALERTSON, PAYLOADKICK, ANTICRASHKICKEDMESSAGE, ANTICRASHALERT, SCARE, ALERTSOFF, CLICKCOMMAND, VANISHON, VANISHOFF, BROADCASTMESSAGE, ALERT_URL, BAN_URL, DISCORDNAME, IMAGEDISCORD;
 
-    public boolean LOGGING_ENABLED, VPN_ENABLED, STRICTAF_GHOSTBLOCK_MODE, SUS, API_ENABLED, GHOST_BLOCK_ENABLED, GLOBALCMD, WEBHOOK, DISCORDBAN, BANTIMER, BROADCASTBAN, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
+    public boolean LOGGING_ENABLED, VPN_ENABLED, API_ENABLED, GHOST_BLOCK_ENABLED, GLOBALCMD, WEBHOOK, DISCORDBAN, BANTIMER, BROADCASTBAN, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
 
     public GhostBlockProcessor.Mode GHOST_BLOCK_MODE;
 
-    public int GHOST_BLOCK_MAX_PING, BANTIMERTIME;
+    public int BANTIMERTIME;
 
     public List<String> ENABLED_CHECKS = new ArrayList<>();
     public List<String> SETBACK_CHECKS = new ArrayList<>();
@@ -59,11 +59,7 @@ public final class Config {
             KEY = getString("api.key");
 
             GHOST_BLOCK_ENABLED = getBoolean("ghost-block.enabled");
-            GHOST_BLOCK_MAX_PING = getInteger("ghost-block.max-ms");
-            STRICTAF_GHOSTBLOCK_MODE = getBoolean("ghost-block.strict");
             GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block.mode"));
-
-            SUS = getBoolean("bans.sus");
 
             GLOBALCMD = getBoolean("bans.enabled");
             GLOBAL_COMMANDS = getList("bans.first-commands");

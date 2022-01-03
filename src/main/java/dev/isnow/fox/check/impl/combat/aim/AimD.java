@@ -40,7 +40,7 @@ public class AimD
                 if (epik > 9.9E-7) {
                     if (buffer++ > 6) {
                         buffer = 0;
-                        fail("epik=" + epik);
+                        fail("epik: " + epik);
                     }
                 } else {
                     decreaseBufferBy(2);

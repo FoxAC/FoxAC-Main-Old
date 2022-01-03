@@ -85,36 +85,6 @@ checks:
         punish-commands:
           - ''
           - ''
-      o:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      p:
-        enabled: false
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      q:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      r:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
-      s:
-        enabled: true
-        max-violations: 8
-        punish-commands:
-          - ''
-          - ''
     aura:
       a:
         enabled: true
@@ -304,42 +274,6 @@ checks:
         punish-commands:
           - ''
           - ''
-      h:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-      i:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-      j:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-      k:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-      l:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
-      m:
-        enabled: true
-        max-violations: 20
-        punish-commands:
-          - ''
-          - ''
     hitbox:
       a:
         enabled: false
@@ -361,7 +295,7 @@ checks:
           - ''
           - ''
       b:
-        enabled: false
+        enabled: true
         max-violations: 10
         punish-commands:
           - ''
@@ -594,6 +528,12 @@ checks:
           - ''
           - ''
       m:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      n:
         enabled: true
         max-violations: 8
         punish-commands:

@@ -28,7 +28,7 @@ public final class AimI extends Check {
 
             final double divisor = Math.abs(processor.getGcd() / divisorPitch);
 
-            debug("divisor=" + divisor);
+            debug("divisor: " + divisor);
 
             if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 2 && deltaPitch < 2) {
 
@@ -38,7 +38,7 @@ public final class AimI extends Check {
 
                 if (invalid) {
                     if (buffer++ > 10) {
-                        fail(divisor);
+                        fail("Divisor: " + divisor);
                     }
                 } else {
                     decreaseBufferBy(0.05);

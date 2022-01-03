@@ -36,7 +36,7 @@ public class AutoClickerB extends Check {
 
                 if (invalid && !exempt) {
                     if (increaseBuffer() > 15) {
-                        fail(deviation);
+                        fail("dev: " + deviation);
                     }
                 } else {
                     decreaseBuffer();

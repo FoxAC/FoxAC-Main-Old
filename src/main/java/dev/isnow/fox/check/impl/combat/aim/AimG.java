@@ -24,7 +24,7 @@ public final class AimG extends Check {
 
             if (invalid) {
                 if (increaseBuffer() > 4) {
-                    fail("deltaYaw=" + deltaYaw + " deltaPitch=" + deltaPitch);
+                    fail("deltaYaw: " + deltaYaw + " deltaPitch: " + deltaPitch);
                 }
             } else {
 
