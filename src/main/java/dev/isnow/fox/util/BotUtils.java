@@ -10,12 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -67,26 +63,17 @@ public class BotUtils {
         }
     }
 
-    private EntityHuman getRandomEntityPlayer(PlayerData user) {
-        EntityHuman randomPlayer;
-        List<Entity> entities = new ArrayList<>();
-        if(user.getPlayer().getWorld().getEntities().size() > 1) {
-            for(Entity e : user.getPlayer().getWorld().getEntities()) {
-                if(e.getType() == EntityType.PLAYER) {
-                    entities.add(e);
-                }
+    private Player getRandomPlayer(PlayerData user) {
+        Player randomPlayer;
+        if (Bukkit.getServer().getOnlinePlayers().size() > 1) {
+            List<Player> onlinePlayers = new ArrayList<>();
+            for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+                if (!online.getUniqueId().toString().equalsIgnoreCase(user.getPlayer().getUniqueId().toString()))
+                    onlinePlayers.add(online);
             }
-            CraftEntity conv1 = (CraftEntity) entities.get(new Random().nextInt(entities.size()));
-            net.minecraft.server.v1_8_R3.Entity ent = conv1.getHandle();
-            LivingEntity livingEntity = (LivingEntity) ent;
-            randomPlayer = (EntityHuman) livingEntity;
-        }
-        else {
-            Entity nigger = user.getPlayer();
-            CraftEntity conv1 = (CraftEntity) nigger;
-            net.minecraft.server.v1_8_R3.Entity ent = conv1.getHandle();
-            LivingEntity livingEntity = (LivingEntity) ent;
-            randomPlayer = (EntityHuman) livingEntity;
+            randomPlayer = onlinePlayers.get(new Random().nextInt(onlinePlayers.size()));
+        } else {
+            randomPlayer = user.getPlayer();
         }
         return randomPlayer;
     }
@@ -177,8 +164,9 @@ public class BotUtils {
             if (forcedFrom != null) user.getBotProcessor().setForcedUser(forcedFrom);
 
 
-            EntityHuman randomPlayer = getRandomEntityPlayer(user);
-            UUID uuid = randomPlayer.getUniqueID();
+            Player randomPlayer = getRandomPlayer(user);
+
+            UUID uuid = randomPlayer.getUniqueId();
             String name = randomPlayer.getName();
 
             MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
@@ -187,10 +175,8 @@ public class BotUtils {
             entityPlayer.onGround = true;
             entityPlayer.playerInteractManager.b(WorldSettings.EnumGamemode.CREATIVE);
             entityPlayer.setInvisible(false);
-            entityPlayer.setHealth((float) MathUtil.getRandomDouble(MathUtil.getRandomDouble(1.20, 5.32), 20.0));
-            if(randomPlayer instanceof EntityPlayer) {
-                entityPlayer.ping = ((CraftPlayer) Bukkit.getPlayer(uuid)).getHandle().ping;
-            }
+            entityPlayer.setHealth((float) randomPlayer.getHealth() - 1);
+            entityPlayer.ping = ((CraftPlayer) randomPlayer).getHandle().ping;
             user.getBotProcessor().setBotID(entityPlayer.getId());
 
             user.getBotProcessor().lastEntitySpawn = System.currentTimeMillis();
@@ -204,11 +190,11 @@ public class BotUtils {
 
             sendPacket(user, new PacketPlayOutUpdateAttributes(), forcedFrom);
 
-            if (randomPlayer.getEquipment() != null) sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 0, randomPlayer.getEquipment(0)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 1, randomPlayer.getEquipment(4)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 2, randomPlayer.getEquipment(3)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 3, randomPlayer.getEquipment(2)), forcedFrom);
-            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 4, randomPlayer.getEquipment(1)), forcedFrom);
+            if (randomPlayer.getItemInHand() != null) sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 0, CraftItemStack.asNMSCopy(randomPlayer.getItemInHand())), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 1, CraftItemStack.asNMSCopy(randomPlayer.getInventory().getBoots())), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 2, CraftItemStack.asNMSCopy(randomPlayer.getInventory().getLeggings())), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 3, CraftItemStack.asNMSCopy(randomPlayer.getInventory().getChestplate())), forcedFrom);
+            sendPacket(user, new PacketPlayOutEntityEquipment(entityPlayer.getId(), 4, CraftItemStack.asNMSCopy(randomPlayer.getInventory().getHelmet())), forcedFrom);
             sendPacket(user, new PacketPlayOutUpdateAttributes(), forcedFrom);
         }
     }

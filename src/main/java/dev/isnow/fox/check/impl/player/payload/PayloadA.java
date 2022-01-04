@@ -41,7 +41,7 @@ public final class PayloadA extends Check {
                     || payload.equalsIgnoreCase("moon:exempt")
                     || payload.equalsIgnoreCase("Vape")
                     || payload.equalsIgnoreCase("Bspkrs Client"))) {
-                AlertManager.sendAntiExploitAlert("Checks for clients sending blocked payloads.", "Invalid Payload");
+                ban();
                 data.getPlayer().kickPlayer(ColorUtil.translate(Config.PAYLOADKICK));
             }
         }

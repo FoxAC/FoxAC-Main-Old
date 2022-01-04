@@ -87,6 +87,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\imp
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\ground\GroundB.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\BotTypes.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionG.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsO.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\WrappedEntityUtil.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsI.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraB.java
@@ -115,6 +116,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\update\Up
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Scare.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimF.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerD.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsP.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\data\processor\GhostBlockProcessor.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsE.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\WrappedItemStackUtil.java
@@ -151,7 +153,6 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\imp
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\type\BoundingBox.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraN.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\ghostblock\GhostBlockA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\manager\PunishmentManager.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\config\ConfigValue.java

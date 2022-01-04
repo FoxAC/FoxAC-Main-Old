@@ -138,6 +138,8 @@ public final class CheckManager {
             BadPacketsL.class,
             BadPacketsM.class,
             BadPacketsN.class,
+            BadPacketsO.class,
+            BadPacketsP.class,
             TimerA.class,
             TimerB.class,
             TimerC.class,

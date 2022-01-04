@@ -30,7 +30,7 @@ public final class VelocityA extends Check {
 
             if (invalid && !exempt) {
                 if (increaseBuffer() > 2) {
-                    fail();
+                    fail(percentage + "%");
                 }
             } else {
                 decreaseBufferBy(0.25);

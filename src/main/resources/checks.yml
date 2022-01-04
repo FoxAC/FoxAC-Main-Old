@@ -532,6 +532,18 @@ checks:
         punish-commands:
           - ''
           - ''
+      o:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      p:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     timer:
       a:
         enabled: true

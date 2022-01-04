@@ -30,7 +30,7 @@ ghost-block:
   mode: 'FOX'
 
 alerts:
-  message: '&c&lFOX &8>> &c%player% &7is using %check% %type% &8(%colour%)'
+  message: '&c&lFOX &8>> &c%player% &7is using %check% %type% &8(%colour%&8)'
   click-command: '/teleport %player%'
   clear-violations-delay: 15
   console: true

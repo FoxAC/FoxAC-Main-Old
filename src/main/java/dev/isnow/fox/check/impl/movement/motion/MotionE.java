@@ -9,7 +9,7 @@ import dev.isnow.fox.util.PlayerUtil;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Motion", type = "E", description = "Checks for sprinting backwards.")
+@CheckInfo(name = "Motion", type = "E", description = "Detects for invalid combat sprint.")
 public final class MotionE extends Check {
     public MotionE(final PlayerData data) {
         super(data);

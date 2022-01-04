@@ -22,7 +22,7 @@ public final class AuraO extends Check {
                     data.getPositionProcessor().getDeltaXZ() > 0.1;
 
             if (invalid) {
-                if (increaseBuffer() > 25) {
+                if (increaseBuffer() > 30) {
                     fail(data.getCombatProcessor().getHitMissRatio());
                 }
             } else {
