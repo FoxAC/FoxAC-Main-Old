@@ -20,16 +20,11 @@ import java.io.IOException;
 public final class RegistrationListener implements Listener {
 
     @EventHandler
-    public void onPlayerJoin(final PlayerJoinEvent event) throws IOException {
-        PlayerDataManager.getInstance().add(event.getPlayer());
-        if (Fox.INSTANCE.getUpdateChecker().isUpdateAvailable()) {
-            if (event.getPlayer().hasPermission("fox.alerts")) {
-                final String version = Fox.INSTANCE.getVersion();
-                final String latestVersion = Fox.INSTANCE.getUpdateChecker().getLatestVersion();
-
-                AlertManager.sendMessage("An update is available for &cFox&8! You have &c" + version + "&8 latest is &c" + latestVersion + "&8.");
-            }
+    public void onPlayerJoin(final PlayerJoinEvent event) {
+        if(event.getPlayer().getUniqueId() == null) {
+            event.getPlayer().kickPlayer("Failed to load data");
         }
+        PlayerDataManager.getInstance().add(event.getPlayer());
         if(Config.VPN_ENABLED) {
             VpnInfo info = PlayerUtil.isUsingVPN(event.getPlayer());
             if(!info.getIsVpn()) {
@@ -38,7 +33,7 @@ public final class RegistrationListener implements Listener {
             event.getPlayer().kickPlayer(Config.VPN_MESSAGE.replaceAll("%country%", info.getCountry()));
             for(Player p : Bukkit.getOnlinePlayers()) {
                 if(p.hasPermission("fox.alerts")) {
-                    AlertManager.sendAntiExploitAlert("Player tried to join using a vpn/proxy", "Vpn/Proxy");
+                    AlertManager.sendMessage(event.getPlayer().getName() + " tried to join using a vpn/proxy");
                 }
             }
         }

@@ -118,6 +118,7 @@ public final class CheckManager {
             MotionE.class,
             MotionF.class,
             MotionG.class,
+            MotionH.class,
             InventoryA.class,
             InventoryB.class,
             InventoryC.class,

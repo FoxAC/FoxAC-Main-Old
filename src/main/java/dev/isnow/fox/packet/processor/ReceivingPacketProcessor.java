@@ -64,6 +64,7 @@ public final class ReceivingPacketProcessor  {
 
             ++data.existedTicks;
             data.getPositionProcessor().handle(wrapper);
+            data.getGhostBlockProcessor().handleFlying();
             data.setLastFlying(data.getFlying());
             data.setFlying(System.currentTimeMillis());
 
@@ -71,7 +72,6 @@ public final class ReceivingPacketProcessor  {
             data.getVelocityProcessor().handleFlying();
             data.getCombatProcessor().handleFlying();
             data.getClickProcessor().handleFlying();
-            data.getGhostBlockProcessor().handleFlying();
         }
         if (packet.isRotation()) {
             final WrappedPacketInFlying wrapper = new WrappedPacketInFlying(packet.getRawPacket());

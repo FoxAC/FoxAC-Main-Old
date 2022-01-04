@@ -71,7 +71,7 @@ public class MotionA extends Check {
             if (!isValidStrafe(angle) && !isExempt(ExemptType.TELEPORT, ExemptType.NEAR_WALL)) {
                 buffer += 5;
                 if (buffer > 20) {
-                    fail("angle=" + angle);
+                    fail("angle: " + angle);
                 }
             } else {
                 buffer = Math.max(0, buffer - 5);

@@ -61,10 +61,11 @@ public final class PlayerData {
         this.player = player;
         if (Config.LOGGING_ENABLED) logFile = new LogUtil.TextFile("" + player.getUniqueId(), "\\logs");
 
-        if (player.hasPermission("fox.alerts")) {
-            AlertManager.toggleAlerts(this);
-        }
+//        if (player.hasPermission("fox.alerts")) {
+//            AlertManager.toggleAlerts(this);
+//        }
 
+        AlertManager.toggleAlerts(this);
         entityHelper = new EntityHelper();
     }
 

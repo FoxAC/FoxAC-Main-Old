@@ -1,7 +1,7 @@
 name: Fox
 version: 0.1-ALPHA
 main: dev.isnow.fox.FoxPlugin
-authors: ["5170", RealTrippy]
+authors: ["5170"]
 description: Fox AntiCheat
 
 commands:

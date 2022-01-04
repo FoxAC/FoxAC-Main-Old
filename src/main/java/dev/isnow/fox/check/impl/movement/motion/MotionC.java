@@ -58,8 +58,6 @@ public final class  MotionC extends Check {
 
 
                 attributeSpeed *= data.getPlayer().getWalkSpeed() / 2.0;
-
-                attributeSpeed = 1000;
             } else {
                 attributeSpeed = sprinting ? 0.0263 : 0.02;
 

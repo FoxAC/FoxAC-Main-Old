@@ -52,7 +52,7 @@ public final class GhostBlockProcessor {
 
             if (onGhostBlock && airTicks > 5 && !isBridingUp) {
                 data.dragDown();
-                data.getPlayer().sendMessage("Lagged Back for ghost blocks. [5170]");
+                data.getPlayer().sendMessage("Lagged Back for ghost blocks [EXPERIMENTAL]");
             }
         }
     }
