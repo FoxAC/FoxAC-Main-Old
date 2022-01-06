@@ -4,7 +4,6 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.impl.combat.aim.*;
 import dev.isnow.fox.check.impl.combat.aura.*;
 import dev.isnow.fox.check.impl.combat.autoclicker.*;
-import dev.isnow.fox.check.impl.combat.entity.EntityA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxB;
 import dev.isnow.fox.check.impl.combat.reach.ReachA;
@@ -21,12 +20,10 @@ import dev.isnow.fox.check.impl.movement.speed.SpeedB;
 import dev.isnow.fox.check.impl.movement.speed.SpeedC;
 import dev.isnow.fox.check.impl.movement.speed.SpeedD;
 import dev.isnow.fox.check.impl.player.badpackets.*;
-import dev.isnow.fox.check.impl.player.breaker.BreakerA;
 import dev.isnow.fox.check.impl.player.crasher.CrasherA;
 import dev.isnow.fox.check.impl.player.crasher.CrasherB;
 import dev.isnow.fox.check.impl.player.crasher.CrasherC;
 import dev.isnow.fox.check.impl.player.crasher.CrasherD;
-import dev.isnow.fox.check.impl.player.fastplace.FastPlaceA;
 import dev.isnow.fox.check.impl.player.ground.GroundA;
 import dev.isnow.fox.check.impl.player.ground.GroundB;
 import dev.isnow.fox.check.impl.player.ground.GroundC;
@@ -89,7 +86,6 @@ public final class CheckManager {
             AuraU.class,
             AuraV.class,
             AuraW.class,
-            EntityA.class,
             AutoClickerA.class,
             AutoClickerB.class,
             AutoClickerC.class,
@@ -123,8 +119,6 @@ public final class CheckManager {
             InventoryB.class,
             InventoryC.class,
             InventoryD.class,
-            FastPlaceA.class,
-            BreakerA.class,
             BadPacketsA.class,
             BadPacketsB.class,
             BadPacketsC.class,

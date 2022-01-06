@@ -30,7 +30,6 @@ public final class CommandManager implements CommandExecutor {
         commands.add(new Checks());
         commands.add(new Exempt());
         commands.add(new Logs());
-        commands.add(new ForceBot());
         commands.add(new Crash());
         commands.add(new Gui());
         commands.add(new KB());

@@ -1,21 +1,17 @@
 package dev.isnow.fox.listener.bukkit;
 
-import dev.isnow.fox.Fox;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.manager.AFKManager;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.VpnInfo;
-import javafx.scene.control.Alert;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-
-import java.io.IOException;
 
 public final class RegistrationListener implements Listener {
 

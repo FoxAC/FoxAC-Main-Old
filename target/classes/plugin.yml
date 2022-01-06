@@ -3,6 +3,7 @@ version: 0.1-ALPHA
 main: dev.isnow.fox.FoxPlugin
 authors: ["5170"]
 description: Fox AntiCheat
+api-version: 1.13
 
 commands:
   fox:

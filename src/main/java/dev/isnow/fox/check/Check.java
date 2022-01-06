@@ -86,7 +86,6 @@ public abstract class Check {
                 switch (checkType) {
                     case COMBAT:
                         data.setCombatViolations(data.getCombatViolations() + 1);
-                        data.setBotViolations(data.getBotViolations() + 1);
                         break;
                     case MOVEMENT:
                         data.setMovementViolations(data.getMovementViolations() + 1);

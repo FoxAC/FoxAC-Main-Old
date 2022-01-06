@@ -6,7 +6,6 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.BlockUtil;
 import io.github.retrooper.packetevents.utils.math.MathUtils;
 import lombok.Getter;
-import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -141,8 +140,8 @@ public final class BoundingBox {
         }
     }
 
-    public AxisAlignedBB getAABB() {
-        return new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ);
+    public AABB getAABB() {
+        return new AABB(new Vector(minX, minY, minZ), new Vector(maxX, maxY, maxZ));
     }
 
     public BoundingBox move(final double x, final double y, final double z) {

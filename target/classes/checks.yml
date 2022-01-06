@@ -224,13 +224,6 @@ checks:
         punish-commands:
           - ''
           - ''
-    entity:
-      a:
-        enabled: true
-        max-violations: 12
-        punish-commands:
-          - ''
-          - ''
     autoclicker:
       a:
         enabled: true
@@ -382,6 +375,12 @@ checks:
         punish-commands:
           - ''
           - ''
+      h:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     speed:
       a:
         enabled: true
@@ -403,7 +402,7 @@ checks:
           - ''
       d:
         enabled: true
-        max-violations: 8
+        max-violations: 25
         punish-commands:
           - ''
           - ''
@@ -430,20 +429,6 @@ checks:
       d:
         enabled: true
         max-violations: 5
-        punish-commands:
-          - ''
-          - ''
-    fastplace:
-      a:
-        enabled: true
-        max-violations: 15
-        punish-commands:
-          - ''
-          - ''
-    breaker:
-      a:
-        enabled: true
-        max-violations: 1
         punish-commands:
           - ''
           - ''

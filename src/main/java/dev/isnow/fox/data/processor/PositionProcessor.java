@@ -6,9 +6,11 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.BoundingBox;
+import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -292,7 +294,12 @@ public final class PositionProcessor {
         handleNearbyEntities();
 
         inLiquid = blocks.stream().anyMatch(Block::isLiquid);
-        fullySubmergedInLiquidStat = blocks.stream().allMatch(block -> block.getType() == Material.STATIONARY_WATER || block.getType() == Material.STATIONARY_LAVA);
+        if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
+            fullySubmergedInLiquidStat = blocks.stream().allMatch(block -> block.getType() == Material.WATER || block.getType() == Material.LAVA);
+        }
+        else {
+            fullySubmergedInLiquidStat = blocks.stream().allMatch(block -> block.getType() == Material.STATIONARY_WATER || block.getType() == Material.STATIONARY_LAVA);
+        }
         inWater = blocks.stream().anyMatch(block -> block.getType().toString().contains("WATER"));
         inLava = blocks.stream().anyMatch(block -> block.getType().toString().contains("LAVA"));
         inWeb = blocks.stream().anyMatch(block -> block.getType().toString().contains("WEB"));

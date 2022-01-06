@@ -5,6 +5,7 @@ package dev.isnow.fox.check.impl.player.badpackets;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
 
@@ -27,7 +28,7 @@ public final class BadPacketsI extends Check {
                 return;
             }
 
-            if (++streak > 20) {
+            if (++streak > 20 && !isExempt(ExemptType.LAGGING)) {
                 fail();
             }
         } else if (packet.isSteerVehicle()) {

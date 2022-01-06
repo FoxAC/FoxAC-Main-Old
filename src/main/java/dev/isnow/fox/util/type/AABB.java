@@ -8,7 +8,10 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public class AABB implements Cloneable {
 
@@ -56,28 +59,6 @@ public class AABB implements Cloneable {
             }
         }
         return mats;
-    }
-
-    public List<AABB> getBlockAABBs(World world, int gameVersion, Material... exemptedMats) {
-        Set<Material> exempt = new HashSet<>(Arrays.asList(exemptedMats));
-        List<AABB> aabbs = new ArrayList<>();
-
-        //gotta do this to catch fences and cobble walls
-        AABB expanded = this.clone();
-        expanded.getMin().setY(expanded.getMin().getY() - 1);
-        List<Block> blocks = expanded.getBlocks(world);
-
-        for(Block b : blocks) {
-            if(exempt.contains(b.getType()))
-                continue;
-            AABB[] bAABBs = WrappedBlock.getWrappedBlock(b, gameVersion).getCollisionBoxes();
-            for(AABB aabb : bAABBs) {
-                if(this.isColliding(aabb)) {
-                    aabbs.add(aabb);
-                }
-            }
-        }
-        return aabbs;
     }
 
     public void expand(double x, double y, double z) {

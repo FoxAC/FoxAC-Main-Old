@@ -5,7 +5,6 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.isnow.fox.command.CommandManager;
-import dev.isnow.fox.command.VanishCommand;
 import dev.isnow.fox.command.impl.Alerts;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.gui.GuiManager;
@@ -24,7 +23,6 @@ import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginAwareness;
 import org.bukkit.plugin.messaging.Messenger;
@@ -33,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -61,7 +60,7 @@ public enum Fox {
 
     private final String version = "B11";
     private final UpdateChecker updateChecker = new UpdateChecker();
-    private GuiManager guiManager;
+    private Object guiManager;
 
     boolean fullyLoaded = false;
 
@@ -122,7 +121,19 @@ public enum Fox {
             CheckManager.setup();
             Bukkit.getOnlinePlayers().forEach(player -> PlayerDataManager.getInstance().add(player));
 
-            guiManager = new GuiManager();
+            try {
+                if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
+//                    Constructor<?> constructor = GuiManagerV_1_13.class.getConstructor();
+//                    guiManager = constructor.newInstance();
+                }
+                else {
+                    Constructor<?> constructor = GuiManager.class.getConstructor();
+                    guiManager = constructor.newInstance();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             getPlugin().getCommand("fox").setExecutor(commandManager);
             getPlugin().getCommand("alerts").setExecutor(new Alerts());
 
@@ -146,8 +157,13 @@ public enum Fox {
 
         tickManager.stop();
 
+        if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
+            Bukkit.getScheduler().cancelTasks(plugin);
+        }
+        else {
+            Bukkit.getScheduler().cancelAllTasks();
+        }
         stopPacketEvents();
-        Bukkit.getScheduler().cancelAllTasks();
     }
 
     private void setupPacketEvents() {
@@ -169,7 +185,12 @@ public enum Fox {
         Bukkit.getServer().getPluginManager().registerEvents(new RegistrationListener(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new BukkitEventManager(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new ClientBrandListener(), plugin);
-        Bukkit.getServer().getPluginManager().registerEvents(new GuiManager(), plugin);
+        if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
+//            Bukkit.getServer().getPluginManager().registerEvents(new GuiManagerV_1_13(), plugin);
+        }
+        else {
+            Bukkit.getServer().getPluginManager().registerEvents(new GuiManager(), plugin);
+        }
         PacketEvents.get().getEventManager().registerListener(new NetworkManager());
     }
 
@@ -210,7 +231,7 @@ public enum Fox {
         }
 
         final YamlConfiguration defConfig;
-        if (getPlugin().getDescription().getAwareness().contains(PluginAwareness.Flags.UTF8) || FileConfiguration.UTF8_OVERRIDE) {
+        if (getPlugin().getDescription().getAwareness().contains(PluginAwareness.Flags.UTF8)) {
             defConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8));
         } else {
             final byte[] contents;

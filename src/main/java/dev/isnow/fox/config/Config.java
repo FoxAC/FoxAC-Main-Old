@@ -5,8 +5,11 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.processor.GhostBlockProcessor;
 import dev.isnow.fox.manager.CheckManager;
 import dev.isnow.fox.util.ColorUtil;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -86,69 +89,74 @@ public final class Config {
             VPN_MESSAGE = ColorUtil.translate(getString("messages.vpn-kick").replaceAll("%nl%", "\n"));
 
             for (final Class<?> check : CheckManager.CHECKS) {
-                final CheckInfo checkInfo = check.getAnnotation(CheckInfo.class);
-
-                String checkType = "";
-
-                if (check.getName().contains("combat")) {
-                    checkType = "combat";
-                } else if (check.getName().contains("movement")) {
-                    checkType = "movement";
-                } else if (check.getName().contains("player")) {
-                    checkType = "player";
+                if(check.getName().equals("EntityA") && (PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_8_8) || PacketEvents.get().getServerUtils().getVersion().isOlderThan(ServerVersion.v_1_8_8))) {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cBot Check requires 1.8.8, please switch to 1.8.8 if you wish to use EntityA."));
                 }
+                else {
+                    final CheckInfo checkInfo = check.getAnnotation(CheckInfo.class);
 
-                for (final Field field : check.getDeclaredFields()) {
-                    if (field.getType().equals(ConfigValue.class)) {
-                        final boolean accessible = field.isAccessible();
-                        field.setAccessible(true);
+                    String checkType = "";
 
-                        final String name = ((ConfigValue) field.get(null)).getName();
-                        final ConfigValue value = ((ConfigValue) field.get(null));
-                        final ConfigValue.ValueType type = value.getType();
+                    if (check.getName().contains("combat")) {
+                        checkType = "combat";
+                    } else if (check.getName().contains("movement")) {
+                        checkType = "movement";
+                    } else if (check.getName().contains("player")) {
+                        checkType = "player";
+                    }
 
-                        switch (type) {
-                            case BOOLEAN:
-                                value.setValue(getBooleanChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
-                                break;
-                            case INTEGER:
-                                value.setValue(getIntegerChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
-                                break;
-                            case DOUBLE:
-                                value.setValue(getDoubleChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
-                                break;
-                            case STRING:
-                                value.setValue(getStringChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
-                                break;
-                            case LONG:
-                                value.setValue(getLongChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
-                                break;
+                    for (final Field field : check.getDeclaredFields()) {
+                        if (field.getType().equals(ConfigValue.class)) {
+                            final boolean accessible = field.isAccessible();
+                            field.setAccessible(true);
+
+                            final String name = ((ConfigValue) field.get(null)).getName();
+                            final ConfigValue value = ((ConfigValue) field.get(null));
+                            final ConfigValue.ValueType type = value.getType();
+
+                            switch (type) {
+                                case BOOLEAN:
+                                    value.setValue(getBooleanChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
+                                    break;
+                                case INTEGER:
+                                    value.setValue(getIntegerChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
+                                    break;
+                                case DOUBLE:
+                                    value.setValue(getDoubleChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
+                                    break;
+                                case STRING:
+                                    value.setValue(getStringChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
+                                    break;
+                                case LONG:
+                                    value.setValue(getLongChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + "." + name));
+                                    break;
+                            }
+
+                            field.setAccessible(accessible);
                         }
-
-                        field.setAccessible(accessible);
                     }
-                }
 
-                final boolean enabled = getBooleanChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".enabled");
+                    final boolean enabled = getBooleanChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".enabled");
 
-                final int maxViolations = getIntegerChecks("checks." + checkType.toLowerCase() + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".max-violations");
-                final List<String> punishCommand = getListChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".punish-commands");
-                if (checkType.equals("movement")) {
-                    final boolean setBack = getBooleanChecks("checks.movement." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + ".setback");
+                    final int maxViolations = getIntegerChecks("checks." + checkType.toLowerCase() + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".max-violations");
+                    final List<String> punishCommand = getListChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".punish-commands");
+                    if (checkType.equals("movement")) {
+                        final boolean setBack = getBooleanChecks("checks.movement." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + ".setback");
 
-                    if (setBack) {
-                        SETBACK_CHECKS.add(check.getSimpleName());
+                        if (setBack) {
+                            SETBACK_CHECKS.add(check.getSimpleName());
+                        }
                     }
-                }
 
-                if (enabled) {
-                    ENABLED_CHECKS.add(check.getSimpleName());
+                    if (enabled) {
+                        ENABLED_CHECKS.add(check.getSimpleName());
+                    }
+                    PUNISH_COMMANDS.put(check.getSimpleName(), punishCommand);
+                    if (maxViolations == 0) {
+                        return;
+                    }
+                    MAX_VIOLATIONS.put(check.getSimpleName(), maxViolations);
                 }
-                PUNISH_COMMANDS.put(check.getSimpleName(), punishCommand);
-                if (maxViolations == 0) {
-                    return;
-                }
-                MAX_VIOLATIONS.put(check.getSimpleName(), maxViolations);
             }
         } catch (final Exception exception) {
             Bukkit.getLogger().severe("Could not properly load config.");

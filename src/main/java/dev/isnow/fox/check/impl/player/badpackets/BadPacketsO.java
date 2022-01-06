@@ -4,7 +4,6 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
 
 @CheckInfo(name = "BadPackets", type = "O", description = "Checks if player is sprinting and sneaking at the same time.")
 public class BadPacketsO extends Check {

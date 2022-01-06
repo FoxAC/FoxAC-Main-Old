@@ -11,16 +11,15 @@ import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.LogUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.ConcurrentEvictingList;
-import dev.isnow.fox.util.type.EntityHelper;
 import dev.isnow.fox.util.type.Pair;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.packetwrappers.play.out.gamestatechange.WrappedPacketOutGameStateChange;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_8_R3.PacketPlayOutGameStateChange;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -32,13 +31,12 @@ public final class PlayerData {
 
     private final Player player;
     private String clientBrand;
-    private int totalViolations, combatViolations, movementViolations, playerViolations, botViolations;
+    private int totalViolations, combatViolations, movementViolations, playerViolations;
     private long flying, lastFlying, currentTicks, lastKP;
     private final long joinTime = System.currentTimeMillis();
     private long enderpearlTime, respawnTime, setBackTicks;
     private boolean exempt, banning;
     private ClientVersion version;
-    private EntityHelper entityHelper;
     public int existedTicks;
     private LogUtil.TextFile logFile;
     @Setter private int ticks;
@@ -56,7 +54,6 @@ public final class PlayerData {
     private final VelocityProcessor velocityProcessor = new VelocityProcessor(this);
     private final ConnectionProcessor connectionProcessor = new ConnectionProcessor(this);
     private final GhostBlockProcessor ghostBlockProcessor = new GhostBlockProcessor(this);
-    private final BotProcessor botProcessor = new BotProcessor();
     public PlayerData(final Player player) {
         this.player = player;
         if (Config.LOGGING_ENABLED) logFile = new LogUtil.TextFile("" + player.getUniqueId(), "\\logs");
@@ -66,7 +63,6 @@ public final class PlayerData {
 //        }
 
         AlertManager.toggleAlerts(this);
-        entityHelper = new EntityHelper();
     }
 
     public void dragDown() {
@@ -95,12 +91,8 @@ public final class PlayerData {
         setSetBackTicks(getSetBackTicks() + 1);
     }
 
-    public void sendCredits(Player player) {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutGameStateChange(4, 1));
-    }
-
     public void sendDemo(Player player) {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutGameStateChange(5, 0));
+        PacketEvents.get().getPlayerUtils().sendPacket(player, new WrappedPacketOutGameStateChange(5, 0));
     }
 
     public void teleport(Player player, Location location) {

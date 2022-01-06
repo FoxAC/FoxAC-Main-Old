@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Motion", description = "Checks for duplicate position packet.", type = "G", experimental = true)
+@CheckInfo(name = "Motion", description = "Checks for duplicate position packet.", type = "G")
 public final class MotionG
         extends Check {
     public MotionG(PlayerData data) {

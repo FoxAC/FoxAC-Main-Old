@@ -2,7 +2,6 @@ dev\isnow\fox\check\impl\player\crasher\CrasherB.class
 dev\isnow\fox\data\processor\VelocityProcessor.class
 dev\isnow\fox\util\type\CollideEntry.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerB.class
-dev\isnow\fox\util\BotUtils.class
 dev\isnow\fox\check\impl\combat\aura\AuraQ.class
 dev\isnow\fox\data\processor\PositionProcessor.class
 dev\isnow\fox\check\impl\combat\aura\AuraF.class
@@ -14,7 +13,6 @@ dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject$Footer.class
 dev\isnow\fox\check\impl\movement\motion\MotionD.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsG.class
 dev\isnow\fox\check\impl\player\inventory\InventoryB.class
-dev\isnow\fox\util\type\WrappedEntity.class
 dev\isnow\fox\packet\Packet.class
 dev\isnow\fox\data\processor\CombatProcessor$1.class
 dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject$Image.class
@@ -24,7 +22,6 @@ dev\isnow\fox\check\impl\player\badpackets\BadPacketsM.class
 dev\isnow\fox\check\impl\combat\aura\AuraL.class
 dev\isnow\fox\command\impl\Crash.class
 dev\isnow\fox\check\impl\movement\flight\FlightB.class
-dev\isnow\fox\util\type\WrappedItemStack.class
 dev\isnow\fox\util\type\CustomLocation.class
 dev\isnow\fox\check\impl\combat\aim\AimJ.class
 dev\isnow\fox\command\impl\Checks.class
@@ -34,7 +31,6 @@ dev\isnow\fox\util\ColorUtil.class
 dev\isnow\fox\check\impl\combat\aura\AuraV.class
 dev\isnow\fox\util\PlayerUtil.class
 dev\isnow\fox\util\type\VpnInfo.class
-dev\isnow\fox\data\processor\BotProcessor.class
 dev\isnow\fox\listener\bukkit\RegistrationListener.class
 dev\isnow\fox\check\impl\player\inventory\InventoryC.class
 dev\isnow\fox\data\processor\PositionProcessor$CollisionType.class
@@ -77,7 +73,6 @@ dev\isnow\fox\util\MovingStats.class
 dev\isnow\fox\command\impl\Ban$1.class
 dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject$Thumbnail.class
 dev\isnow\fox\command\VanishCommand.class
-dev\isnow\fox\check\impl\player\fastplace\FastPlaceA.class
 dev\isnow\fox\check\impl\movement\flight\FlightC.class
 dev\isnow\fox\gui\GuiManager.class
 dev\isnow\fox\util\BlockUtil.class
@@ -94,7 +89,7 @@ dev\isnow\fox\check\impl\player\badpackets\BadPacketsC.class
 dev\isnow\fox\check\impl\combat\aura\AuraR.class
 dev\isnow\fox\util\MathUtil.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsF.class
-dev\isnow\fox\check\impl\player\breaker\BreakerA.class
+dev\isnow\fox\util\type\Tuple.class
 dev\isnow\fox\util\Metrics$SimplePie.class
 dev\isnow\fox\check\impl\movement\motion\MotionC.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsE.class
@@ -113,7 +108,6 @@ dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerF.class
 dev\isnow\fox\manager\PunishmentManager.class
 dev\isnow\fox\check\impl\combat\aim\AimH.class
 dev\isnow\fox\util\type\LimitedDouble.class
-dev\isnow\fox\check\impl\combat\entity\EntityA.class
 dev\isnow\fox\check\impl\movement\motion\MotionB.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsD.class
 dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject$Author.class
@@ -130,7 +124,6 @@ dev\isnow\fox\check\impl\combat\aura\AuraT.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsJ.class
 dev\isnow\fox\command\impl\Scare.class
 dev\isnow\fox\manager\AlertManager.class
-dev\isnow\fox\util\type\WrappedEntityHuman.class
 dev\isnow\fox\check\impl\combat\hitbox\HitBoxB.class
 dev\isnow\fox\check\impl\movement\motion\MotionA.class
 dev\isnow\fox\util\reach\reach\PlayerReachEntity.class
@@ -139,7 +132,6 @@ dev\isnow\fox\manager\PunishmentManager$2.class
 dev\isnow\fox\check\impl\combat\aura\AuraI.class
 dev\isnow\fox\data\processor\RotationProcessor.class
 dev\isnow\fox\check\impl\player\payload\PayloadA.class
-dev\isnow\fox\util\type\WrappedBlock.class
 dev\isnow\fox\check\impl\movement\motion\MotionG.class
 dev\isnow\fox\check\impl\combat\aim\AimM.class
 dev\isnow\fox\command\impl\Debug.class
@@ -147,7 +139,6 @@ dev\isnow\fox\check\impl\player\ground\GroundA.class
 dev\isnow\fox\config\Config$1.class
 dev\isnow\fox\data\processor\GhostBlockProcessor$Mode.class
 dev\isnow\fox\check\impl\combat\aim\AimG.class
-dev\isnow\fox\util\type\EntityHelper.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsP.class
 dev\isnow\fox\util\discord\DiscordWebhook$EmbedObject$Field.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerE.class
@@ -172,13 +163,13 @@ dev\isnow\fox\config\ConfigValue$ValueType.class
 dev\isnow\fox\check\impl\movement\speed\SpeedB.class
 dev\isnow\fox\util\type\Velocity.class
 dev\isnow\fox\check\impl\combat\aim\AimL.class
-dev\isnow\fox\command\impl\ForceBot.class
 dev\isnow\fox\packet\PacketData.class
 dev\isnow\fox\check\api\CheckInfo.class
 dev\isnow\fox\check\impl\player\timer\TimerB.class
 dev\isnow\fox\check\impl\player\crasher\CrasherD.class
 dev\isnow\fox\check\impl\combat\aura\AuraJ.class
 dev\isnow\fox\command\impl\Gui.class
+dev\isnow\fox\check\impl\movement\motion\MotionH.class
 dev\isnow\fox\util\type\HitboxExpansion.class
 dev\isnow\fox\manager\PunishmentManager$3.class
 dev\isnow\fox\util\Metrics$AdvancedBarChart.class
@@ -188,13 +179,10 @@ dev\isnow\fox\check\impl\player\payload\PayloadB.class
 dev\isnow\fox\manager\TickManager$3.class
 dev\isnow\fox\util\type\RayTrace.class
 dev\isnow\fox\check\impl\player\timer\TimerA.class
-dev\isnow\fox\util\BotTypes.class
 dev\isnow\fox\Fox.class
 dev\isnow\fox\command\CommandInfo.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerA.class
-dev\isnow\fox\util\WrappedBlockUtil.class
 dev\isnow\fox\api\impl\FoxPunishEvent.class
-dev\isnow\fox\util\WrappedEntityHumanUtil.class
 dev\isnow\fox\check\impl\combat\aura\AuraB.class
 dev\isnow\fox\check\impl\player\crasher\CrasherC.class
 dev\isnow\fox\check\impl\combat\aim\AimC.class
@@ -204,10 +192,8 @@ dev\isnow\fox\command\impl\Help.class
 dev\isnow\fox\data\processor\CombatProcessor.class
 dev\isnow\fox\util\reach\BoundingBox.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsI.class
-dev\isnow\fox\util\WrappedEntityUtil.class
 dev\isnow\fox\util\ReflectionsUtil.class
 dev\isnow\fox\update\UpdateChecker.class
-dev\isnow\fox\util\WrappedItemStackUtil.class
 dev\isnow\fox\check\impl\movement\speed\SpeedD.class
 dev\isnow\fox\util\LogUtil$TextFile.class
 dev\isnow\fox\util\type\BlockUtil.class

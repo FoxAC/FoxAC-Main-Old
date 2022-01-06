@@ -5,8 +5,8 @@ package dev.isnow.fox.util;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import dev.isnow.fox.util.type.Pair;
+import dev.isnow.fox.util.type.Tuple;
 import lombok.experimental.UtilityClass;
-import net.minecraft.server.v1_8_R3.Tuple;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
@@ -231,7 +231,7 @@ public class MathUtil {
 
 
         return repeated.keySet().stream()
-                .map(key -> new Tuple<>(key, repeated.get(key))) 
+                .map(key -> new Tuple<>(key, repeated.get(key)))
                 .max(Comparator.comparing(Tuple::b, Comparator.naturalOrder()))
                 .orElseThrow(NullPointerException::new).a();
     }

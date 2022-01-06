@@ -4,7 +4,6 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.ColorUtil;
 import io.github.retrooper.packetevents.packetwrappers.play.in.custompayload.WrappedPacketInCustomPayload;

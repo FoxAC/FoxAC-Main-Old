@@ -6,11 +6,8 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.data.processor.VelocityProcessor;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.PlayerUtil;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffectType;
 
 import java.math.BigDecimal;

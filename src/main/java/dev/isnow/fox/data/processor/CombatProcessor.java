@@ -5,10 +5,11 @@ package dev.isnow.fox.data.processor;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.manager.PlayerDataManager;
+import dev.isnow.fox.util.type.AABB;
+import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
+import io.github.retrooper.packetevents.utils.boundingbox.BoundingBox;
 import lombok.Getter;
-import net.minecraft.server.v1_8_R3.AxisAlignedBB;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,7 +26,7 @@ public final class CombatProcessor {
     private Entity target, lastTarget;
     private long LastUseEntityPacket;
     private long lastAttack, lastAttackTick;
-    private final List<AxisAlignedBB> pastVictimBoxes = new ArrayList<>();
+    private final List<AABB> pastVictimBoxes = new ArrayList<>();
 
     public CombatProcessor(final PlayerData data) {
         this.data = data;
@@ -38,7 +39,9 @@ public final class CombatProcessor {
                 }
                 if(target != null && target instanceof Player) {
                     if(pastVictimBoxes.size() > 20) pastVictimBoxes.clear();
-                    pastVictimBoxes.add(((CraftPlayer) target).getHandle().getBoundingBox());
+
+                    BoundingBox bb = PacketEvents.get().getServerUtils().getEntityBoundingBox(target);
+                    pastVictimBoxes.add(new AABB(bb.getMin(), bb.getMax()));
                 }
             }
         }.runTaskTimerAsynchronously(Fox.INSTANCE.getPlugin(),0L,1L);

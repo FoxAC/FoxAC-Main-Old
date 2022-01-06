@@ -7,12 +7,9 @@ import dev.isnow.fox.util.type.VpnInfo;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.experimental.UtilityClass;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -57,7 +54,7 @@ public class PlayerUtil {
             connection.setRequestProperty("User-Agent", "Mozilla/5.0");
             connection.connect();
             if (!(connection.getResponseCode() == HttpURLConnection.HTTP_OK)) {
-                Bukkit.getLogger().warning("[fox] Vpn checker does not work! error code: " + connection.getResponseCode());
+                Bukkit.getLogger().warning("[FOX] Vpn checker does not work! error code: " + connection.getResponseCode());
             }
             final String[] code = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().split(",");
             connection.disconnect();
@@ -75,17 +72,6 @@ public class PlayerUtil {
             return new VpnInfo("N/A", false);
         }
 
-    }
-
-    public EntityPlayer getEntityPlayer(Player player) {
-        return ((CraftPlayer) player).getHandle();
-    }
-
-    public int getDepthStriderLevel(final Player player) {
-        if (player.getInventory().getBoots() != null && !ServerUtil.isLowerThan1_8()) {
-            return player.getInventory().getBoots().getEnchantmentLevel(Enchantment.DEPTH_STRIDER);
-        }
-        return 0;
     }
 
     public boolean isHoldingSword(final Player player) {

@@ -11,7 +11,7 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPac
 import org.bukkit.block.Block;
 import org.bukkit.util.Vector;
 
-@CheckInfo(name = "Motion", type = "A", description = "Invalid Strafe Angle")
+@CheckInfo(name = "Motion", type = "A", description = "Checks for Invalid Strafe Angle")
 public class MotionA extends Check {
     private final double THRESHOLD;
 

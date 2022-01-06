@@ -1,6 +1,7 @@
 package dev.isnow.fox.check.impl.movement.motion;
 
 import dev.isnow.fox.check.Check;
+import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
@@ -9,6 +10,7 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import org.bukkit.potion.PotionEffectType;
 
+@CheckInfo(name = "Motion", description = "Checks for invalid jump motion.", type = "H", experimental = true)
 public class MotionH extends Check {
 
     public MotionH(PlayerData data) {
@@ -35,10 +37,16 @@ public class MotionH extends Check {
             if(deltaY > 0.36 && deltaY < 0.37) {
                 return;
             }
-            this.fail(String.format("ASC-L: %.2f < %.2f", deltaY, expectedJumpMotion));
+            if(increaseBuffer() > 2) {
+                this.fail(String.format("DeltaY: %.2f", deltaY));
+                resetBuffer();
+            }
         }
         if (!exempt && !step && deltaY > (this.data.getPositionProcessor().isOnGround() ? 0.6 : maxHighJump)) {
-            this.fail(String.format("ASC-H: %.2f > %.2f", deltaY, expectedJumpMotion));
+            this.fail(String.format("DeltaY: %.2f", deltaY));
+        }
+        else {
+            decreaseBuffer();
         }
     }
 }

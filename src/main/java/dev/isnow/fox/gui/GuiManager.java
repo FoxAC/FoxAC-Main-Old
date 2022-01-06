@@ -11,7 +11,6 @@ import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,14 +28,13 @@ public class GuiManager implements Listener {
 
     public HashMap<Integer, Inventory> Checks = new HashMap<>();
     public HashMap<Integer, Inventory> SussyPlayers = new HashMap<>();
-    private Fox plugin = Fox.INSTANCE;
 
     public GuiManager() {
         ItemStack cheaters = createItem(Material.BOOK_AND_QUILL, 1, "&cPotential cheaters");
         ItemStack logs = createItem(Material.BEACON, 1, "&cLogs");
-        ItemStack flame = createItem(Material.BLAZE_POWDER, 1, "&c&lFox &7by &d5170 & RealTrippy");
+        ItemStack flame = createItem(Material.BLAZE_POWDER, 1, "&c&lFox &7by &d5170");
         ItemMeta meta = flame.getItemMeta();
-        meta.setLore(Collections.singletonList(ColorUtil.translate("&c" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion())));
+        meta.setLore(Collections.singletonList(ColorUtil.translate("&c" + Fox.INSTANCE.getPlugin().getDescription().getVersion())));
         flame.setItemMeta(meta);
         ItemStack checks = createItem(Material.ENDER_PEARL, 1, "&cChecks");
         ItemStack exit = createItem(Material.SLIME_BALL, 1, "&cExit GUI");
@@ -394,7 +392,6 @@ public class GuiManager implements Listener {
                 player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ARE YOU SURE U WANT TO DO THIS?");
                 player.sendMessage(ChatColor.GRAY + "This action is not reversible!");
                 player.sendMessage(ChatColor.GREEN + "Please say YES or \"cancel\" to cancel the delete action.");
-                player.playSound(player.getLocation(), Sound.ANVIL_LAND, 10, 1);
                 BukkitEventManager.wannadelet.add(player);
             }
             else if(e.getCurrentItem().getType() == Material.SKULL_ITEM) {
