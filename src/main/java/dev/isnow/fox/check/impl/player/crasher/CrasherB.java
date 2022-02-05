@@ -23,8 +23,9 @@ public final class CrasherB extends Check {
             final boolean invalid = data.getPlayer().getVehicle() == null && !unmount;
 
             if (invalid) {
-                if (++buffer > 5) {
+                if (++buffer > 30) {
                     fail("Invalid Vehicle");
+                    packet.getProcessor().setCancelled(true);
                     buffer /= 2;
                 }
             } else {

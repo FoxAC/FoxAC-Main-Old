@@ -15,6 +15,7 @@ import java.util.*;
 @UtilityClass
 public class MathUtil {
 
+
     public final double EXPANDER = Math.pow(2, 24);
 
     public long elapsed(long time) {
@@ -131,6 +132,11 @@ public class MathUtil {
         return 3 * (mean - median) / variance;
     }
 
+    public double getCPS(Collection<? extends Number> values) {
+        return 20 / getAverage(values);
+    }
+
+
     public double getAverage(final Collection<? extends Number> data) {
         return data.stream().mapToDouble(Number::doubleValue).average().orElse(0D);
     }
@@ -203,12 +209,24 @@ public class MathUtil {
         return maxValue;
     }
 
-    private double getMedian(final List<Double> data) {
-        if (data.size() % 2 == 0) {
-            return (data.get(data.size() / 2) + data.get(data.size() / 2 - 1)) / 2;
-        } else {
-            return data.get(data.size() / 2);
+    public static double getMedian(Iterable<? extends Number> iterable) {
+        List<Double> data = new ArrayList<>();
+
+        for (Number number : iterable) {
+            data.add(number.doubleValue());
         }
+
+        return getMedian(data);
+    }
+
+    public static double getMedian(List<Double> data) {
+        if (data.size() > 1) {
+            if (data.size() % 2 == 0)
+                return (data.get(data.size() / 2) + data.get(data.size() / 2 - 1)) / 2;
+            else
+                return data.get(Math.round(data.size() / 2f));
+        }
+        return 0;
     }
 
     public double hypot(double... values) {
@@ -248,12 +266,12 @@ public class MathUtil {
         return value;
     }
 
-        public boolean isExponentiallySmall(final Number number) {
-        return number.doubleValue() < 1 && Double.toString(number.doubleValue()).contains("E");
+    public boolean isExponentiallySmall(final Number number) {
+        return Math.abs(number.doubleValue()) < 9E-5;
     }
 
     public boolean isExponentiallyLarge(final Number number) {
-        return number.doubleValue() > 10000 && Double.toString(number.doubleValue()).contains("E");
+        return Math.abs(number.doubleValue()) > 1E5;
     }
 
     public long getGcd(final long current, final long previous) {

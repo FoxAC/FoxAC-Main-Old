@@ -9,12 +9,14 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
-@CheckInfo(name = "AutoClicker", type = "F", description = "Checks for invalid kurtosis")
+@CheckInfo(name = "AutoClicker", type = "F", description = "Invalid STD.")
 public class AutoClickerF extends Check {
-    private final Deque<Integer> samples = new ArrayDeque<>();
-    private int ticks;
+    private List<Double> delays = new ArrayList<>();
+    private double threshold;
 
     public AutoClickerF(PlayerData data) {
         super(data);
@@ -23,29 +25,31 @@ public class AutoClickerF extends Check {
     @Override
     public void handle(Packet packet) {
         if (packet.isArmAnimation() && !isExempt(ExemptType.AUTOCLICKER)) {
-            if (ticks > 50 || ticks == 0) samples.clear();
-            else samples.add(ticks * 50);
+            double currentCps = data.getClickProcessor().getCurrentCps();
+            double kurtosis = data.getClickProcessor().getKurtosis();
+            double median = data.getClickProcessor().getMedian();
+            if (median < 2.5 && data.getClickProcessor().getMovements().size() >= 20) {
 
-            if (samples.size() == 30) {
-                final double kurtosis = MathUtil.getKurtosis(samples);
+                if (currentCps > 8) {
+                    delays.add(kurtosis);
 
-                final boolean invalid = Double.isNaN(kurtosis);
+                    if (delays.size() == 25) {
 
-                debug(invalid);
-                if (invalid) {
-                    if (increaseBuffer() > 1) {
-                        fail("kurtosis: " + kurtosis);
+
+                        double std = MathUtil.getStandardDeviation(delays);
+
+                        if (std < 0.1) {
+                            if (++threshold > 2) {
+                                fail("STD: " + std);
+                            }
+                        } else {
+                            threshold -= Math.min(threshold, 0.15);
+                        }
+
+                        delays.clear();
                     }
-                } else {
-                    resetBuffer();
                 }
-
-                samples.clear();
             }
-
-            ticks = 0;
-        } else if (packet.isFlying()) {
-            ticks++;
         }
     }
 }

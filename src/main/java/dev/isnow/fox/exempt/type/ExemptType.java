@@ -31,6 +31,8 @@ public enum ExemptType {
 
     HURT(data -> BukkitEventManager.dmg.contains(data.getPlayer().getUniqueId())),
 
+    NEAR_WALL(data -> data.getPositionProcessor().isNearWall()),
+
     TELEPORT(data -> data.getPositionProcessor().isTeleported()),
 
     TELEPORT_DELAY(data -> data.getPositionProcessor().getTeleportTicks() < 5),
@@ -81,15 +83,13 @@ public enum ExemptType {
 //       return false;
 //    }
 
-    NEAR_WALL(data -> data.getPlayer().isDead()),
-
     AFK(data -> AFKManager.INSTANCE.isAFK(data.getPlayer())),
 
     RESPAWN(data -> data.getRespawnTime() != 0 && System.currentTimeMillis() - data.getRespawnTime() < 5000L),
 
     NEARCACTUS(data -> data.getPositionProcessor().isNearCactus()),
 
-    VELOCITY_ON_TICK(data -> data.getVelocityProcessor().getTicksSinceVelocity() < 3),
+    VELOCITY_ON_TICK(data -> data.getVelocityProcessor().getTicksSinceVelocity() < 2),
 
     SLIME(data -> data.getPositionProcessor().getSinceSlimeTicks() < 20),
 

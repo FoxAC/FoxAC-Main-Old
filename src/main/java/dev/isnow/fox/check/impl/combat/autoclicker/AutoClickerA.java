@@ -5,12 +5,19 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.MathUtil;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.val;
 
-@CheckInfo(name = "AutoClicker", type = "A", description = "Checks for concurrent clicks")
+import java.util.ArrayList;
+import java.util.List;
+
+@CheckInfo(name = "AutoClicker", type = "A", description = "Checks for consistent clicks")
 public class AutoClickerA extends Check {
-    private long lastSwing, lastDelay;
+
+    private int movements;
+    private List<Integer> delays = new ArrayList<>();
+    private double threshold;
 
     public AutoClickerA(PlayerData data) {
         super(data);
@@ -18,20 +25,28 @@ public class AutoClickerA extends Check {
 
     @Override
     public void handle(Packet packet) {
+        if(packet.isPosition()) {
+            movements++;
+        }
         if (packet.isArmAnimation() && !isExempt(ExemptType.AUTOCLICKER)) {
-            if(data.getVersion().isNewerThanOrEquals(ClientVersion.v_1_8)) { // Doesn't work in 1.7 since no click delay
-                val now = System.currentTimeMillis();
-                val delay = now - this.lastSwing;
-                if (delay > 10L && delay < 200 && data.getClickProcessor().getCps() >= 7) {
-                    if (Math.abs(delay - this.lastDelay) > 50L) {
-                        buffer = 0;
-                    } else if (delay > 35L && buffer++ > 80) {
-                        fail("Delay: " + delay);
+            if (movements < 10) {
+                delays.add(movements);
+
+                if (delays.size() == 150) {
+                    double std = MathUtil.getStandardDeviation(delays);
+
+                    if (std < 0.45) {
+                        if (threshold++ > 2) {
+                            fail("Dev: " + std);
+                        }
+                    } else {
+                        threshold -= Math.min(threshold, 0.125);
                     }
-                    this.lastDelay = delay;
+
+                    delays.clear();
                 }
-                this.lastSwing = now;
             }
+            movements = 0;
         }
     }
 }

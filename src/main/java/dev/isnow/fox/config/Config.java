@@ -29,7 +29,6 @@ public final class Config {
     public int BANTIMERTIME;
 
     public List<String> ENABLED_CHECKS = new ArrayList<>();
-    public List<String> SETBACK_CHECKS = new ArrayList<>();
     public Map<String, Integer> MAX_VIOLATIONS = new HashMap<>();
     public Map<String, List<String>> PUNISH_COMMANDS = new HashMap<>();
 
@@ -89,10 +88,6 @@ public final class Config {
             VPN_MESSAGE = ColorUtil.translate(getString("messages.vpn-kick").replaceAll("%nl%", "\n"));
 
             for (final Class<?> check : CheckManager.CHECKS) {
-                if(check.getName().equals("EntityA") && (PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_8_8) || PacketEvents.get().getServerUtils().getVersion().isOlderThan(ServerVersion.v_1_8_8))) {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cBot Check requires 1.8.8, please switch to 1.8.8 if you wish to use EntityA."));
-                }
-                else {
                     final CheckInfo checkInfo = check.getAnnotation(CheckInfo.class);
 
                     String checkType = "";
@@ -140,13 +135,6 @@ public final class Config {
 
                     final int maxViolations = getIntegerChecks("checks." + checkType.toLowerCase() + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".max-violations");
                     final List<String> punishCommand = getListChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".punish-commands");
-                    if (checkType.equals("movement")) {
-                        final boolean setBack = getBooleanChecks("checks.movement." + checkInfo.name().toLowerCase() + "." + checkInfo.type() + ".setback");
-
-                        if (setBack) {
-                            SETBACK_CHECKS.add(check.getSimpleName());
-                        }
-                    }
 
                     if (enabled) {
                         ENABLED_CHECKS.add(check.getSimpleName());
@@ -156,11 +144,11 @@ public final class Config {
                         return;
                     }
                     MAX_VIOLATIONS.put(check.getSimpleName(), maxViolations);
-                }
             }
         } catch (final Exception exception) {
-            Bukkit.getLogger().severe("Could not properly load config.");
+            Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&cError while reading config!"));
             exception.printStackTrace();
+            Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&cError while reading config!"));
         }
 
     }
@@ -189,16 +177,8 @@ public final class Config {
         return Fox.INSTANCE.getYaml().getInt(string);
     }
 
-    private double getDouble(final String string) {
-        return Fox.INSTANCE.getPlugin().getConfig().getDouble(string);
-    }
-
     private double getDoubleChecks(final String string) {
         return Fox.INSTANCE.getYaml().getDouble(string);
-    }
-
-    private long getLong(final String string) {
-        return Fox.INSTANCE.getPlugin().getConfig().getLong(string);
     }
 
     private long getLongChecks(final String string) {

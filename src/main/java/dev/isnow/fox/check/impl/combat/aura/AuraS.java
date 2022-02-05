@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
 
-@CheckInfo(name = "Aura", type = "S", description = "Checks for invalid sprinting orders. (S-TAP Detection)")
+@CheckInfo(name = "Aura", type = "S", description = "Detects W-TAP")
 public final class AuraS extends Check {
     public AuraS(final PlayerData data) {
         super(data);

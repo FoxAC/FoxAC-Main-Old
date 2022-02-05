@@ -51,7 +51,7 @@ public final class PositionProcessor {
 
     private boolean flying, jumping, inVehicle, inWater, inLava, inLiquid, fullySubmergedInLiquidStat, inAir, inWeb,
             blockNearHead, wasblockNearHead, onClimbable, onSolidGround, nearVehicle, onSlime,
-            onIce, nearPiston, nearStair, nearCactus;
+            onIce, nearPiston, nearStair, nearCactus, nearWall;
 
     private int ticks, airTicks, clientAirTicks, sinceVehicleTicks, sinceFlyingTicks,
             liquidTicks, sinceLiquidTicks, climbableTicks, sinceClimbableTicks,
@@ -308,6 +308,11 @@ public final class PositionProcessor {
         onSolidGround = blocks.stream().anyMatch(block -> block.getType().isSolid());
         nearStair = blocks.stream().anyMatch(block -> block.getType().toString().contains("STAIR"));
         nearCactus = blocks.stream().anyMatch(block -> block.getType() == Material.CACTUS);
+        nearWall = false;
+        for (final Block block : blocks) {
+            nearWall |= block.getType().isSolid();
+        }
+
         if(!blocks.stream().filter(block -> block.getLocation().getY() - data.getPositionProcessor().getY() >= 1.0).anyMatch(block -> block.getType() != Material.AIR)) {
             if(blockNearHead) {
                 wasblockNearHead = true;

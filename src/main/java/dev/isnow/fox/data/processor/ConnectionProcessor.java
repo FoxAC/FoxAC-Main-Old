@@ -52,7 +52,7 @@ public final class ConnectionProcessor {
                     break;
 
                 int incrementingID = packetLastTransactionReceived.incrementAndGet();
-                transactionPing = (int) (System.nanoTime() - data.getY());
+                transactionPing = (int) (System.currentTimeMillis() - data.getY());
                 playerClockAtLeast = data.getY();
 
                 handleNettySyncTransaction(incrementingID);
@@ -67,7 +67,7 @@ public final class ConnectionProcessor {
         return (short) (-1 * (transactionIDCounter.getAndAdd(add) & 0x7FFF));
     }
 
-    public int sendTransaction() {
+    public void sendTransaction() {
         short transactionID = getNextTransactionID(1);
         try {
             addTransactionSend(transactionID);
@@ -76,7 +76,6 @@ public final class ConnectionProcessor {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return 0;
     }
 
     public void addTransactionSend(short id) {

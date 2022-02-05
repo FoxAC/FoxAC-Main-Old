@@ -8,48 +8,73 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
-@CheckInfo(name = "AutoClicker", type = "E", description = "Checks if stats match")
+@CheckInfo(name = "AutoClicker", type = "E", description = "Vape lite Autoclicker check")
 public class AutoClickerE extends Check {
-    private final Deque<Long> samples = new ArrayDeque<>();
-    private double lastKurtosis, lastSkewness, lastDeviation;
-    private int ticks;
+
+    private int movements;
+    private List<Integer> delays = new ArrayList<>();
+    private List<Double> stdDelays = new ArrayList<>();
+    private double threshold, lastAverage, lastDelta;
     public AutoClickerE(PlayerData data) {
         super(data);
     }
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isArmAnimation() && !isExempt(ExemptType.AUTOCLICKER) && ticks != 0) {
-            if (ticks > 50) samples.clear();
-            else samples.add(ticks * 50L);
+        if (packet.isFlying() && !isExempt(ExemptType.AUTOCLICKER)) {
+            movements++;
+        }
+        if(packet.isArmAnimation()) {
+            if (movements < 15) {
 
-            if (samples.size() == 30) {
-                final double deviation = MathUtil.getStandardDeviation(samples);
-                final double skewness = MathUtil.getSkewness(samples);
-                final double kurtosis = MathUtil.getKurtosis(samples);
+                delays.add(movements);
 
-                final boolean invalid = deviation == lastDeviation && skewness == lastSkewness && kurtosis == lastKurtosis;
-                
-                if (invalid) {
-                    if (increaseBuffer() > 3) {
-                        fail();
+                double mean = MathUtil.getMedian(delays);
+                double std = MathUtil.getStandardDeviation(delays);
+                double kurtosis = MathUtil.getKurtosis(delays);
+
+
+                if (mean < 2.5 && delays.size() >= 20) {
+                    if (stdDelays.size() > 30) {
+                        double average = MathUtil.getAverage(stdDelays);
+                        double delta = Math.abs(average - lastAverage);
+                        double outlier = data.getClickProcessor().getOutlier();
+
+                        if (lastDelta < 0.0855) {
+
+                            double newDelta = Math.abs(delta - lastDelta);
+
+                            if (newDelta < (.43 % 5) && kurtosis < 1.7 && outlier < 15) {
+                                threshold++;
+
+                                if (threshold > 6) {
+                                    fail("AVG: " + average);
+                                }
+                            } else {
+                                threshold -= Math.min(threshold, .1);
+                            }
+                        } else {
+                            threshold -= Math.min(threshold, 0.1);
+                        }
+
+
+                        lastDelta = delta;
+                        lastAverage = average;
+                        stdDelays.clear();
                     }
-                } else {
-                    resetBuffer();
+
+                    stdDelays.add(std);
+
+                    if (delays.size() >= 100) {
+                        delays.clear();
+                    }
                 }
-
-                lastDeviation = deviation;
-                lastSkewness = skewness;
-                lastKurtosis = kurtosis;
-
-                samples.clear();
             }
-
-            ticks = 0;
-        }else if (packet.isFlying()) {
-            ticks++;
+            movements = 0;
         }
     }
 }

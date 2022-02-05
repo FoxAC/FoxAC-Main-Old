@@ -19,7 +19,7 @@ public final class BadPacketsA extends Check {
         if (packet.isFlying()) {
             final float pitch = data.getRotationProcessor().getPitch();
 
-            if (Math.abs(pitch)> 90.0f && !isExempt(ExemptType.CLIMBABLE)) {
+            if (Math.abs(pitch) > 90.0f && !isExempt(ExemptType.CLIMBABLE)) {
                 fail();
             }
         }

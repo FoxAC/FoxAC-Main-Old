@@ -10,6 +10,7 @@ import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.ColorUtil;
 import dev.isnow.fox.util.type.Pair;
+import io.github.retrooper.packetevents.event.PacketListenerAbstract;
 import io.github.retrooper.packetevents.event.PacketListenerDynamic;
 import io.github.retrooper.packetevents.event.impl.PacketPlayReceiveEvent;
 import io.github.retrooper.packetevents.event.impl.PacketPlaySendEvent;
@@ -24,13 +25,9 @@ import org.bukkit.Bukkit;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public final class NetworkManager extends PacketListenerDynamic {
+public final class NetworkManager extends PacketListenerAbstract {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-    public NetworkManager() {
-        super(PacketEventPriority.MONITOR);
-    }
 
     @Override
     public void onPacketPlayReceive(final PacketPlayReceiveEvent event) {
@@ -45,14 +42,22 @@ public final class NetworkManager extends PacketListenerDynamic {
                         || Math.abs(wrapper.getZ()) > 1.0E+7
                         || Math.abs(wrapper.getPitch()) > 1.0E+7
                         || Math.abs(wrapper.getYaw()) > 1.0E+7) {
-                    Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () -> event.getPlayer().kickPlayer(ColorUtil.translate(Config.ANTICRASHKICKEDMESSAGE)));
-                    AlertManager.sendAntiExploitAlert("Player made a large movement that could crash the server/anticheat", "Large Movement");
-                    return;
+                    event.setCancelled(true);
                 }
             }
 
+            if(event.getPacketId() == PacketType.Play.Client.TRANSACTION) {
+                WrappedPacketInTransaction wrappedPacketInTransaction = new WrappedPacketInTransaction(event.getNMSPacket());
+                short id = wrappedPacketInTransaction.getActionNumber();
+                if (id <= 0) {
+                    // Check if we sent this packet before cancelling it
+                    if (data.getConnectionProcessor().addTransactionResponse(id)) {
+                        event.setCancelled(true);
+                    }
+                }
+            }
             executorService.execute(() -> Fox.INSTANCE.getReceivingPacketProcessor().handle(
-                    data, new Packet(Packet.Direction.RECEIVE, event.getNMSPacket(), event.getPacketId(), event.getTimestamp())));
+                    data, new Packet(Packet.Direction.RECEIVE, event.getNMSPacket(), event.getPacketId(), event.getTimestamp(), event)));
         }
     }
 
@@ -62,7 +67,7 @@ public final class NetworkManager extends PacketListenerDynamic {
 
         if (data != null) {
             executorService.execute(() -> Fox.INSTANCE.getSendingPacketProcessor().handle(
-                    data, new Packet(Packet.Direction.SEND, event.getNMSPacket(), event.getPacketId(), event.getTimestamp()))
+                    data, new Packet(Packet.Direction.SEND, event.getNMSPacket(), event.getPacketId(), event.getTimestamp(), event))
             );
             if (event.getPacketId() == PacketType.Play.Server.TRANSACTION) {
                 WrappedPacketInTransaction transaction = new WrappedPacketInTransaction(event.getNMSPacket());

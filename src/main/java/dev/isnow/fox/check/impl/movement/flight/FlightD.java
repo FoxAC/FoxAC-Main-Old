@@ -5,8 +5,12 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.PlayerUtil;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
+import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Flight", type = "D", description = "Checks for too fast accel.")
+@CheckInfo(name = "Flight", type = "D", description = "Checks for gravity modifications.")
 public final class FlightD extends Check
 {
     public FlightD(final PlayerData data) {
@@ -15,24 +19,30 @@ public final class FlightD extends Check
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isPosition()) {
-            final int serverAirTicks = this.data.getPositionProcessor().getAirTicks();
-            final int clientAirTicks = this.data.getPositionProcessor().getClientAirTicks();
-            final double deltaY = this.data.getPositionProcessor().getDeltaY();
-            final double lastDeltaY = this.data.getPositionProcessor().getLastDeltaY();
-            final double acceleration = deltaY - lastDeltaY;
-            final boolean exempt = this.isExempt(ExemptType.LAGGINGHARD, ExemptType.BUKKIT_PLACING, ExemptType.VELOCITY_ON_TICK, ExemptType.PISTON, ExemptType.VEHICLE, ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.FLYING, ExemptType.SLIME, ExemptType.CLIMBABLE);
-            final boolean invalid = acceleration > 0.0 && (serverAirTicks > 8 || clientAirTicks > 8);
+        if (packet.isFlying()) {
+            final double deltaY = data.getPositionProcessor().getDeltaY();
 
-            debug("deltaY: " + deltaY + "accel: " +acceleration+ "clientAir: " + clientAirTicks + "serverAir: " + clientAirTicks + "lastDeltaY" +lastDeltaY);
+            final int airTicksModifier = PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP);
+            final int airTicksLimit = 8 + airTicksModifier;
+
+            final int clientAirTicks = data.getPositionProcessor().getClientAirTicks();
+
+            boolean exempt = isExempt(ExemptType.GHOST_BLOCK, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.NEARANVIL, ExemptType.NEARSLIME, ExemptType.VELOCITY, ExemptType.PISTON, ExemptType.VEHICLE,
+                    ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.FLYING,
+                    ExemptType.WEB, ExemptType.SLIME, ExemptType.CLIMBABLE);
+            if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_17)) {
+                exempt = isExempt(ExemptType.GHOST_BLOCK, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.NEARANVIL, ExemptType.NEARSLIME, ExemptType.VELOCITY, ExemptType.PISTON, ExemptType.VEHICLE,
+                        ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.FLYING,
+                        ExemptType.WEB, ExemptType.SLIME, ExemptType.CLIMBABLE, ExemptType.LIQUID);
+            }
+            final boolean invalid = (clientAirTicks > airTicksLimit) && deltaY > 0.0;
 
             if (invalid && !exempt) {
-                if (increaseBuffer() > 5) {
+                if (increaseBuffer() > 4) {
                     fail();
                 }
-            }
-            else {
-                this.decreaseBufferBy(0.1);
+            } else {
+                decreaseBufferBy(0.01);
             }
         }
     }

@@ -25,6 +25,7 @@ public final class CrasherA extends Check {
 
             if (invalid) {
                 fail(forwardValue);
+                packet.getProcessor().setCancelled(true);
             }
         }
     }

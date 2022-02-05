@@ -13,7 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@CheckInfo(name = "Velocity", type = "B", description = "Checks for horizontal velocity modifications.", experimental = true)
+@CheckInfo(name = "Velocity", type = "B", description = "Checks for horizontal velocity modifications.")
 public final class VelocityB extends Check {
 
 
@@ -40,7 +40,7 @@ public final class VelocityB extends Check {
             double givenVelocity = vData.getVelocityXZ() - calculateVelocity();
             double takenVelocity = data.getPositionProcessor().getDeltaXZ();;
 
-            if (takenVelocity < givenVelocity && !isExempt(ExemptType.WEB, ExemptType.LIQUID)) {
+            if (takenVelocity < givenVelocity && !isExempt(ExemptType.WEB, ExemptType.LIQUID, ExemptType.NEAR_WALL)) {
                 if (hitTicks >= 2) {
                     buffer += 20;
                     if (buffer > 30) {

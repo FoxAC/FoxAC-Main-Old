@@ -5,12 +5,17 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.MathUtil;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "AutoClicker", description = "Checks for high click speed.", type = "D")
+import java.util.ArrayList;
+import java.util.List;
+
+@CheckInfo(name = "AutoClicker", description = "Checks for average kurtosis", type = "D")
 public final class AutoClickerD extends Check {
 
-    private int ticks, cps;
+    private final List<Double> kurtosisList = new ArrayList<>();
+    private double threshold;
 
     public AutoClickerD(final PlayerData data) {
         super(data);
@@ -18,17 +23,27 @@ public final class AutoClickerD extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isFlying()) {
-            if (++ticks >= 20) {
-                if (cps > 26 && !isExempt(ExemptType.AUTOCLICKER)) {
-                    fail("cps: " + cps);
+        if (packet.isArmAnimation()) {
+            double mean = data.getClickProcessor().getMedian();
+            double kurtosis = data.getClickProcessor().getKurtosis();
+            double cps = data.getClickProcessor().getCurrentCps();
+
+            if (mean < 2.5 && cps > 8) {
+                if (kurtosisList.size() > 20) {
+                    double average = MathUtil.getAverage(kurtosisList);
+
+                    if (average > 10) {
+                        if (++threshold > 5) {
+                            fail("AVG: " + average);
+                        }
+                    } else {
+                        threshold -= Math.min(threshold, 0.2);
+                    }
+
+                    kurtosisList.clear();
                 }
-                ticks = cps = 0;
-            }
-        } else if (packet.isUseEntity()) {
-            final WrappedPacketInUseEntity wrapper = new WrappedPacketInUseEntity(packet.getRawPacket());
-            if (wrapper.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
-                ++cps;
+
+                kurtosisList.add(kurtosis);
             }
         }
     }

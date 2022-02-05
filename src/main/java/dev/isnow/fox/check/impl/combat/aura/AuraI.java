@@ -7,23 +7,21 @@ import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import org.bukkit.entity.Entity;
 
-@CheckInfo(name = "Aura", type = "I", description = "Too many USE ENTITY")
+@CheckInfo(name = "Aura", type = "I", description = "Amongus check")
 public class AuraI extends Check {
     public AuraI(PlayerData data) {
         super(data);
     }
 
-    private Entity lastEntity;
-
     @Override
     public void handle(Packet packet) {
-        if (packet.isUseEntityAttack()) {
-            WrappedPacketInUseEntity useEntity = new WrappedPacketInUseEntity(packet.getRawPacket());
-            if (lastEntity != null && lastEntity != useEntity.getEntity())
-                fail("Multi Aura");
-            lastEntity = useEntity.getEntity();
-        } else if (packet.isFlyingType()) {
-            lastEntity = null;
-        }
+//        if (packet.isUseEntityAttack()) {
+//            WrappedPacketInUseEntity useEntity = new WrappedPacketInUseEntity(packet.getRawPacket());
+//            if (lastEntity != null && lastEntity != useEntity.getEntity())
+//                fail("Multi Aura");
+//            lastEntity = useEntity.getEntity();
+//        } else if (packet.isFlyingType()) {
+//            lastEntity = null;
+//        }
     }
 }

@@ -3,6 +3,7 @@ package dev.isnow.fox.check.impl.combat.hitbox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.reach.reach.PlayerReachEntity;
 import dev.isnow.fox.util.reach.reach.ReachUtils;
@@ -14,10 +15,12 @@ import io.github.retrooper.packetevents.packetwrappers.play.out.entityteleport.W
 import io.github.retrooper.packetevents.packetwrappers.play.out.namedentityspawn.WrappedPacketOutNamedEntitySpawn;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import io.github.retrooper.packetevents.utils.vector.Vector3d;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-@CheckInfo(name = "HitBox", type = "A", description = "Modified HitBox (Detected using transactions)")
+@CheckInfo(name = "HitBox", type = "A", description = "Modified HitBox (Detected using transaction packets)")
 public class HitBoxA extends Check {
 
     public final ConcurrentHashMap<Integer, PlayerReachEntity> entityMap = new ConcurrentHashMap<>();
@@ -45,7 +48,7 @@ public class HitBoxA extends Check {
             WrappedPacketOutNamedEntitySpawn spawn = new WrappedPacketOutNamedEntitySpawn(packet.getRawPacket());
             Entity entity = spawn.getEntity();
             if (entity != null && entity.getType() == EntityType.PLAYER) {
-                handleSpawnPlayer(spawn.getEntityId(), spawn.getPosition());
+                handleSpawnPlayer(entity, spawn.getPosition());
             }
         } else if (packet.isRelEntityMove()) {
             WrappedPacketOutEntity.WrappedPacketOutRelEntityMove move = new WrappedPacketOutEntity.WrappedPacketOutRelEntityMove(packet.getRawPacket());
@@ -86,7 +89,7 @@ public class HitBoxA extends Check {
     }
 
     private void tickFlying() {
-        double maxReach = 3;
+        double maxReach = 3.002;
 
         Integer attackQueue = playerAttackQueue.poll();
         while (attackQueue != null) {
@@ -131,10 +134,12 @@ public class HitBoxA extends Check {
                 }
             }
 
-            if (minDistance == Double.MAX_VALUE) {
-                fail("");
-            } else if (minDistance > maxReach) {
-                fail("Reach: " + String.format("%.55f", minDistance));
+            if(minDistance == Double.MAX_VALUE && increaseBuffer() > 2) {
+                fail();
+            } else if(minDistance > maxReach && increaseBuffer() > 2){
+                fail();
+            } else {
+                decreaseBufferBy(0.1);
             }
 
             attackQueue = playerAttackQueue.poll();
@@ -150,8 +155,8 @@ public class HitBoxA extends Check {
             playerAttackQueue.add(entityID);
     }
 
-    private void handleSpawnPlayer(int playerID, Vector3d spawnPosition) {
-        entityMap.put(playerID, new PlayerReachEntity(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(), data));
+    private void handleSpawnPlayer(Entity entity, Vector3d spawnPosition) {
+        entityMap.put(entity.getEntityId(), new PlayerReachEntity(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(), data, entity));
     }
 
     private void handleMoveEntity(int entityId, double deltaX, double deltaY, double deltaZ, boolean isRelative) {
@@ -168,7 +173,7 @@ public class HitBoxA extends Check {
             else
                 reachEntity.serverPos = new Vector3d(deltaX, deltaY, deltaZ);
 
-            int lastTrans = data.getConnectionProcessor().lastTransactionSent.get();
+            int lastTrans = data.getConnectionProcessor().getLastTransactionSent().get();
             Vector3d newPos = reachEntity.serverPos;
 
             data.getConnectionProcessor().addRealTimeTask(lastTrans, () -> reachEntity.onFirstTransaction(newPos.getX(), newPos.getY(), newPos.getZ(), data));

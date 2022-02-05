@@ -14,7 +14,7 @@ import dev.isnow.fox.listener.packet.NetworkManager;
 import dev.isnow.fox.manager.*;
 import dev.isnow.fox.packet.processor.ReceivingPacketProcessor;
 import dev.isnow.fox.packet.processor.SendingPacketProcessor;
-import dev.isnow.fox.update.UpdateChecker;
+import dev.isnow.fox.util.Metrics;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
@@ -58,8 +58,7 @@ public enum Fox {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final CommandManager commandManager = new CommandManager(this.getPlugin());
 
-    private final String version = "B11";
-    private final UpdateChecker updateChecker = new UpdateChecker();
+    private final String version = "B1";
     private Object guiManager;
 
     boolean fullyLoaded = false;
@@ -122,14 +121,8 @@ public enum Fox {
             Bukkit.getOnlinePlayers().forEach(player -> PlayerDataManager.getInstance().add(player));
 
             try {
-                if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
-//                    Constructor<?> constructor = GuiManagerV_1_13.class.getConstructor();
-//                    guiManager = constructor.newInstance();
-                }
-                else {
-                    Constructor<?> constructor = GuiManager.class.getConstructor();
-                    guiManager = constructor.newInstance();
-                }
+                Constructor<?> constructor = GuiManager.class.getConstructor();
+                guiManager = constructor.newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -147,8 +140,9 @@ public enum Fox {
             startTime = System.currentTimeMillis();
 
             registerEvents();
-        }
 
+            new Metrics(getPlugin(), 13867);
+        }
     }
 
     public void stop(final FoxPlugin plugin) {

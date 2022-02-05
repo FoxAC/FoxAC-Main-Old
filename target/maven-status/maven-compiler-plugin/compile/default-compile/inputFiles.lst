@@ -1,3 +1,4 @@
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionK.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerF.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimG.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsF.java
@@ -26,15 +27,15 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\imp
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\CommandInfo.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\type\EvictingList.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\crasher\CrasherD.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\update\UpdateChecker.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\ReflectionsUtil.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Scare.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimF.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraU.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerG.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimI.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerD.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionL.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsP.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionI.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\data\processor\GhostBlockProcessor.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsE.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\inventory\InventoryC.java
@@ -42,12 +43,10 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\imp
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\flight\FlightD.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsH.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\Metrics.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\hitbox\HitBoxB.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\VanishCommand.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\packet\PacketData.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\listener\bukkit\BukkitEventManager.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\packet\processor\ReceivingPacketProcessor.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\speed\SpeedD.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\data\processor\CombatProcessor.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerC.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionH.java
@@ -71,6 +70,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\imp
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsD.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\timer\TimerC.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraD.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\inventory\InventoryE.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\LogUtil.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\reach\SimpleCollisionBox.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\api\CheckInfo.java
@@ -92,7 +92,6 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\Verb
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\payload\PayloadB.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\ServerUtil.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionE.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\reach\ReachA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\timer\TimerA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\type\ConcurrentEvictingList.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\reach\PlayerReachEntity.java
@@ -110,7 +109,6 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\imp
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\config\ConfigValue.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Checks.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraO.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\reach\ReachB.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsM.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\ColorUtil.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\data\processor\ConnectionProcessor.java
@@ -143,6 +141,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\Bloc
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\reach\Ray.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\PlayerUtil.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\inventory\InventoryA.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\timer\TimerD.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\listener\packet\NetworkManager.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraE.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimD.java
@@ -155,7 +154,6 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\i
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraW.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\BoundingBox.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\crasher\CrasherB.java
-C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\speed\SpeedC.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Demo.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Crash.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Alerts.java
@@ -168,9 +166,11 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\api\APIMa
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionD.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\ground\GroundB.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerH.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\Check.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionG.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerB.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionJ.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsO.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsI.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\data\processor\VelocityProcessor.java
@@ -181,6 +181,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\gui\GuiMa
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimM.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsL.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\reach\GetBoundingBox.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\motion\MotionM.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\FoxPlugin.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerE.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\FoxCommand.java

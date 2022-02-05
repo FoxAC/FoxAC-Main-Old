@@ -7,6 +7,7 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
+import org.bukkit.Bukkit;
 
 @CheckInfo(name = "Inventory", type = "D", description = "Checks if player is swinging or attacking while opening inventory.")
 public final class InventoryD extends Check {

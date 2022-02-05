@@ -5,7 +5,7 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aura", description = "Checks for impossible accuracy.", type = "O", experimental = true)
+@CheckInfo(name = "Aura", description = "Checks for impossible accuracy.", type = "O")
 
 public final class AuraO extends Check {
 
@@ -22,7 +22,7 @@ public final class AuraO extends Check {
                     data.getPositionProcessor().getDeltaXZ() > 0.1;
 
             if (invalid) {
-                if (increaseBuffer() > 30) {
+                if (increaseBuffer() > 50) {
                     fail(data.getCombatProcessor().getHitMissRatio());
                 }
             } else {

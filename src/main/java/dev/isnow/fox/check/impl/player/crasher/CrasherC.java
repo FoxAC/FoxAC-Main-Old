@@ -23,6 +23,7 @@ public final class CrasherC extends Check {
             if (wrappedPacketInCustomPayload.getData().length > 15000) {
                 AlertManager.sendAntiExploitAlert("Checks for spamming data.", "Data Spam");
                 data.getPlayer().kickPlayer(ColorUtil.translate(Config.ANTICRASHKICKEDMESSAGE));
+                packet.getProcessor().setCancelled(true);
             }
 
         }

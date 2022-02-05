@@ -8,7 +8,7 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Aim", description = "Checks for lock aim.", type = "J", experimental = true)
+@CheckInfo(name = "Aim", description = "Checks for lock aim.", type = "J")
 public class AimJ extends Check {
     public AimJ(PlayerData data) {
         super(data);

@@ -2,7 +2,6 @@ package dev.isnow.fox.util.reach.reach;
 
 import dev.isnow.fox.util.reach.BoundingBox;
 import dev.isnow.fox.util.reach.CollisionBox;
-import dev.isnow.fox.util.reach.Ray;
 import io.github.retrooper.packetevents.utils.vector.Vector3d;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;

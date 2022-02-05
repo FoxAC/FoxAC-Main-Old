@@ -25,7 +25,7 @@ public class AuraV extends Check {
             if (sent) {
                 if (delay > 40L && delay < 100L) {
                     if (increaseBuffer() > 3) {
-                        fail("delay=" + delay);
+                        fail("delay: " + delay);
                     }
                 } else {
                     decreaseBufferBy(.125);

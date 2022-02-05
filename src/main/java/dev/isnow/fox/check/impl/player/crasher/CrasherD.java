@@ -19,6 +19,7 @@ public final class CrasherD extends Check {
             WrappedPacketInFlying wrapped = new WrappedPacketInFlying(packet.getRawPacket());
             if (wrapped.getYaw() > 1200.0f && (wrapped.getYaw() % 360.0f > 1200.0f)) {
                 fail("deltaYaw: " + wrapped.getYaw() );
+                packet.getProcessor().setCancelled(true);
             }
         }
     }

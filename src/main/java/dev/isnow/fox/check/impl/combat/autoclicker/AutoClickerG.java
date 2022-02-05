@@ -9,14 +9,15 @@ import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.type.Pair;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 
 
-@CheckInfo(name = "AutoClicker", experimental = true, description = "Checks for invalid consistency while clicking.", type = "G")
+@CheckInfo(name = "AutoClicker", experimental = true, description = "Invalid Average Delay.", type = "G")
 public final class AutoClickerG extends Check {
 
-    private final ArrayDeque<Integer> samples = new ArrayDeque<>();
-    private int ticks;
+    private List<Double> delays = new ArrayList<>();
+    private double threshold;
 
     public AutoClickerG(final PlayerData data) {
         super(data);
@@ -24,32 +25,33 @@ public final class AutoClickerG extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isArmAnimation() && !isExempt(ExemptType.AUTOCLICKER)) {
-            if (ticks < 4) {
-                samples.add(ticks);
-            }
+        if (packet.isArmAnimation()) {
+            double skewness = data.getClickProcessor().getSkewness();
+            double outlier = data.getClickProcessor().getOutlier();
+            double currentCps = data.getClickProcessor().getCurrentCps();
+            double kurtosis = data.getClickProcessor().getKurtosis();
+            double median = data.getClickProcessor().getMedian();
 
-            if (samples.size() == 20) {
-                final Pair<List<Double>, List<Double>> outlierPair = MathUtil.getOutliers(samples);
+            if (median < 2.5 && data.getClickProcessor().getMovements().size() >= 20) {
+                if (currentCps > 8) {
+                    delays.add(skewness);
 
-                final int outliers = outlierPair.getX().size() + outlierPair.getY().size();
-                final int duplicates = (int) (samples.size() - samples.stream().distinct().count());
+                    if (delays.size() == 25) {
 
-                debug("outliers=" + outliers + " dupl=" + duplicates);
+                        double average = MathUtil.getAverage(delays);
 
-                if (outliers < 3 && duplicates > 18) {
-                    if ((buffer += 20) > 60) {
-                        fail("outliers: " + outliers + " dupl: " + duplicates);
+                        if (average < -2) {
+                            if (++threshold > 3) {
+                                fail("AVG: " + average);
+                            }
+                        } else {
+                            threshold -= Math.min(threshold, 0.25);
+                        }
+
+                        delays.clear();
                     }
-                } else {
-                    buffer = Math.max(buffer - 8, 0);
                 }
-                samples.clear();
             }
-
-            ticks = 0;
-        } else if (packet.isFlying()) {
-            ++ticks;
         }
     }
 }

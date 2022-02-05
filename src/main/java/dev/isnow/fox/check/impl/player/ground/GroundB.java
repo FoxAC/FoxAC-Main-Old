@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Ground", type = "B", description = "Checks for spoofing ground distance.")
+@CheckInfo(name = "Ground", type = "B", description = "Checks for spoofing fall distance.")
 public final class GroundB extends Check {
 
     private double serverFallDistance;

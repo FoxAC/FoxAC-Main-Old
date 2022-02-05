@@ -5,7 +5,7 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", description = "Checks for impossible ratio.", type = "G", experimental = true)
+@CheckInfo(name = "Aim", description = "Checks for impossible ratio.", type = "G")
 public final class AimG extends Check {
 
 

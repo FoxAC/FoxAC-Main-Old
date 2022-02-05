@@ -19,34 +19,27 @@ public class MotionH extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_12_2)) {
-            return;
-        }
-        final double deltaY = this.data.getPositionProcessor().getDeltaY();
-        final double lastPosY = this.data.getPositionProcessor().getLastY();
-        final boolean onGround = this.data.getPositionProcessor().isOnGround();
-        final boolean step = deltaY % 0.015625 == 0.0 && lastPosY % 0.015625 == 0.0;
-        final double expectedJumpMotion = 0.41999998688697815 + PlayerUtil.getPotionLevel(this.data.getPlayer(), PotionEffectType.JUMP) * 0.1f;
-        final double maxHighJump = 0.41999998688697815 + PlayerUtil.getPotionLevel(this.data.getPlayer(), PotionEffectType.JUMP) * 0.1f + ((this.data.getVelocityProcessor().getTicksSinceVelocity() < 5) ? (Math.max(this.data.getVelocityProcessor().getVelocityY(), 0.0)) : 0.0);
-        final boolean jumped = deltaY > 0.0 && lastPosY % 0.015625 == 0.0 && !onGround && !step;
-        final boolean exempt = this.isExempt(ExemptType.BOAT, ExemptType.CLIMBABLE, ExemptType.CREATIVE, ExemptType.SLIME_ON_TICK, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.UNDERBLOCKWAS, ExemptType.VEHICLE, ExemptType.FLYING, ExemptType.SLIME, ExemptType.UNDERBLOCK, ExemptType.PISTON, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.TELEPORT, ExemptType.WEB);
-        if(data.getPositionProcessor().getSinceSlimeTicks() < 10 && String.format("%.2f", deltaY).equals("1.00")) {
-            return;
-        }
-        if (jumped && !exempt && !this.isExempt(ExemptType.VELOCITY) && deltaY < expectedJumpMotion) {
-            if(deltaY > 0.36 && deltaY < 0.37) {
+        if(packet.isPosition()) {
+            final double deltaY = data.getPositionProcessor().getDeltaY();
+            final double lastPosY = data.getPositionProcessor().getLastY();
+            final boolean onGround = data.getPositionProcessor().isOnGround();
+            final boolean step = deltaY % 0.015625 == 0.0 && lastPosY % 0.015625 == 0.0;
+            final double expectedJumpMotion = 0.41999998688697815 + PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP) * 0.1f;
+            final double maxHighJump = 0.41999998688697815 + PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP) * 0.1f + ((data.getVelocityProcessor().getTicksSinceVelocity() < 5) ? (Math.max(data.getVelocityProcessor().getVelocityY(), 0.0)) : 0.0);
+            final boolean jumped = deltaY > 0.0 && lastPosY % 0.015625 == 0.0 && !onGround && !step;
+            final boolean exempt = isExempt(ExemptType.TELEPORT_DELAY, ExemptType.PEARL, ExemptType.BOAT, ExemptType.CLIMBABLE, ExemptType.CREATIVE, ExemptType.SLIME_ON_TICK, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.UNDERBLOCKWAS, ExemptType.VEHICLE, ExemptType.FLYING, ExemptType.SLIME, ExemptType.UNDERBLOCK, ExemptType.PISTON, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.TELEPORT, ExemptType.WEB);
+            if(data.getPositionProcessor().getSinceSlimeTicks() < 10 && String.format("%.2f", deltaY).equals("1.00")) {
                 return;
             }
-            if(increaseBuffer() > 2) {
-                this.fail(String.format("DeltaY: %.2f", deltaY));
-                resetBuffer();
+            if (jumped && !exempt && !isExempt(ExemptType.VELOCITY) && deltaY < expectedJumpMotion) {
+                if(deltaY > 0.36 && deltaY < 0.37) {
+                    return;
+                }
+                fail("DeltaY: " + deltaY + " [V]");
             }
-        }
-        if (!exempt && !step && deltaY > (this.data.getPositionProcessor().isOnGround() ? 0.6 : maxHighJump)) {
-            this.fail(String.format("DeltaY: %.2f", deltaY));
-        }
-        else {
-            decreaseBuffer();
+            if (!exempt && !step && deltaY > (data.getPositionProcessor().isOnGround() ? 0.6 : maxHighJump)) {
+                fail("DeltaY: " + deltaY + " [NV]");
+            }
         }
     }
 }

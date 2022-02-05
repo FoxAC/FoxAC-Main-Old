@@ -9,12 +9,15 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "AutoClicker", type = "B", description = "Checks the outliers on your clicks")
+import java.util.ArrayList;
+import java.util.List;
+
+@CheckInfo(name = "AutoClicker", type = "B", description = "Vape Autoclicker check")
 public class AutoClickerB extends Check {
 
-    private final EvictingList<Long> tickList = new EvictingList<>(30);
-    private double lastDeviation;
-    private int tick;
+    private int movements;
+    private List<Integer> delays = new ArrayList<>();
+    private double threshold;
 
     public AutoClickerB(final PlayerData data) {
         super(data);
@@ -22,30 +25,32 @@ public class AutoClickerB extends Check {
 
     @Override
     public void handle(final Packet packet) {
+        if(packet.isPosition() && !isExempt(ExemptType.AUTOCLICKER)) {
+            movements++;
+        }
         if (packet.isArmAnimation()) {
-            final boolean exempt = isExempt(ExemptType.DROP, ExemptType.AUTOCLICKER);
-            if (!exempt) tickList.add((long) (tick * 50.0));
+            if (movements < 10) {
+                delays.add(movements);
 
-            if (tickList.isFull()) {
-                final double deviation = MathUtil.getStandardDeviation(tickList);
-                final double difference = Math.abs(deviation - lastDeviation);
+                if (delays.size() == 1000) {
 
-                final boolean invalid = difference < 6;
+                    int outliers = (int) delays.stream()
+                            .filter(delay -> delay > 3)
+                            .count();
 
-                debug("diff: " +deviation+ "devi: " +deviation);
-
-                if (invalid && !exempt) {
-                    if (increaseBuffer() > 15) {
-                        fail("dev: " + deviation);
+                    if (outliers < 7) {
+                        if (++threshold > 1) {
+                            fail("Outliers: " + outliers);
+                        }
+                    } else {
+                        threshold -= Math.min(threshold, 1.5);
                     }
-                } else {
-                    decreaseBuffer();
+
+                    delays.clear();
                 }
 
-                lastDeviation = deviation;
             }
-        } else if (packet.isFlying()) {
-            tick++;
+            movements = 0;
         }
     }
 }

@@ -33,7 +33,6 @@ public final class CommandManager implements CommandExecutor {
         commands.add(new Crash());
         commands.add(new Gui());
         commands.add(new KB());
-        commands.add(new Scare());
         commands.add(new Reload());
         commands.add(new Demo());
 
@@ -70,7 +69,7 @@ public final class CommandManager implements CommandExecutor {
             }
         }
         else {
-            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by RealTrippy & 5170 (" + Fox.INSTANCE.getUpdateChecker().getCurrentVersion() + ")"));
+            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by 5170 (B1)"));
             return true;
         }
         return false;

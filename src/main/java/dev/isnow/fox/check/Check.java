@@ -38,8 +38,6 @@ public abstract class Check {
     public double buffer;
     @Setter
     private ArrayList<String> punishCommands;
-    @Getter@Setter
-    public int custom = 0;
     @Getter
     public boolean banning;
 
@@ -80,19 +78,21 @@ public abstract class Check {
                 AlertManager.handleAlertLag(this, data, Objects.toString(info));
             }
             else {
-                ++vl;
-                data.getMapchecks().put(this, vl);
-                data.setTotalViolations(data.getTotalViolations() + 1);
-                switch (checkType) {
-                    case COMBAT:
-                        data.setCombatViolations(data.getCombatViolations() + 1);
-                        break;
-                    case MOVEMENT:
-                        data.setMovementViolations(data.getMovementViolations() + 1);
-                        break;
-                    case PLAYER:
-                        data.setPlayerViolations(data.getPlayerViolations() + 1);
-                        break;
+                if(!getCheckInfo().experimental()) {
+                    ++vl;
+                    data.getMapchecks().put(this, vl);
+                    data.setTotalViolations(data.getTotalViolations() + 1);
+                    switch (checkType) {
+                        case COMBAT:
+                            data.setCombatViolations(data.getCombatViolations() + 1);
+                            break;
+                        case MOVEMENT:
+                            data.setMovementViolations(data.getMovementViolations() + 1);
+                            break;
+                        case PLAYER:
+                            data.setPlayerViolations(data.getPlayerViolations() + 1);
+                            break;
+                    }
                 }
                 String colour = (vl > 0 && vl < 6 ? ChatColor.GREEN + Integer.toString(vl) : (vl > 5 && vl < 11 ? ChatColor.YELLOW + Integer.toString(vl) : ChatColor.RED + Integer.toString(vl)));
 
@@ -102,7 +102,9 @@ public abstract class Check {
                 }
                 if(this.getVl() >= this.getMaxVl() && Config.GLOBALCMD) {
                     data.setBanning(true);
-                    bannofail();
+                    if (!data.isExempt()) {
+                        PunishmentManager.punish(this, data);
+                    }
                 }
                 if (vl == maxVl) {
                     if (Config.BROADCASTBAN) {
@@ -138,12 +140,6 @@ public abstract class Check {
         return result.toString();
     }
 
-    public final void bannofail() {
-        if (!data.isExempt()) {
-            PunishmentManager.punish(this, data);
-        }
-    }
-
     public final void kick(final String reason) {
         if (!data.isExempt()) {
             fail();
@@ -165,6 +161,7 @@ public abstract class Check {
 
     public final int ticks() { return Fox.INSTANCE.getTickManager().getTicks(); }
 
+
     public final double increaseBuffer() {
         return buffer = Math.min(10000, buffer + 1);
     }
@@ -172,7 +169,6 @@ public abstract class Check {
     public final double increaseBufferBy(final double amount) {
         return buffer = Math.min(10000, buffer + amount);
     }
-
     public final double decreaseBuffer() {
         return buffer = Math.max(0, buffer - 1);
     }

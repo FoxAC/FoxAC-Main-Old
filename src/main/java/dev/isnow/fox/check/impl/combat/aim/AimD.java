@@ -8,7 +8,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks for invalid sensitivity.", type = "D", experimental = true)
+@CheckInfo(name = "Aim", description = "Checks for invalid sensitivity.", type = "D")
 public class AimD
         extends Check {
 

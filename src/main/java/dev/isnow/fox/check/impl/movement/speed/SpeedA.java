@@ -8,72 +8,87 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage")
+@CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage", experimental = true)
 public final class SpeedA extends Check {
     public SpeedA(PlayerData data) {
         super(data);
     }
 
     @Override
-    public void handle(Packet packet) {
+    public void handle(final Packet packet) {
         if (packet.isFlying()) {
-            boolean exempt;
-            if ((double)this.data.getPlayer().getWalkSpeed() < 0.2) {
+            if(data.getPlayer().getWalkSpeed() <= 0.2) {
                 return;
             }
-            boolean sprinting = this.data.getActionProcessor().isSprinting();
-            double lastDeltaX = this.data.getPositionProcessor().getLastDeltaX();
-            double lastDeltaZ = this.data.getPositionProcessor().getLastDeltaZ();
-            double deltaXZ = this.data.getPositionProcessor().getDeltaXZ();
-            double deltaY = this.data.getPositionProcessor().getDeltaY();
-            int groundTicks = this.data.getPositionProcessor().getGroundTicks();
-            int airTicks = this.data.getPositionProcessor().getClientAirTicks();
-            float modifierJump = (float)PlayerUtil.getPotionLevel(this.data.getPlayer(), PotionEffectType.JUMP) * 0.1f;
-            float jumpMotion = 0.42f + modifierJump;
-            double groundLimit = PlayerUtil.getBaseGroundSpeed(this.data.getPlayer());
-            double airLimit = PlayerUtil.getBaseSpeed(this.data.getPlayer());
+            final boolean sprinting = data.getActionProcessor().isSprinting();
 
-            debug("deltaY: " + deltaY + "deltaXY: " + deltaXZ + "deltaXZ: " +deltaXZ+ "airTicks: " + airTicks + "jumpMotion" +jumpMotion);
+            final double lastDeltaX = data.getPositionProcessor().getLastDeltaX();
+            final double lastDeltaZ = data.getPositionProcessor().getLastDeltaZ();
 
-            if (Math.abs(deltaY - (double)jumpMotion) < 1.0E-4 && airTicks == 1 && sprinting) {
-                float f = this.data.getRotationProcessor().getYaw() * ((float)Math.PI / 180);
-                double x = lastDeltaX - Math.sin(f) * (double)0.28f;
-                double z = lastDeltaZ + Math.cos(f) * (double)0.28f;
+            final double deltaXZ = data.getPositionProcessor().getDeltaXZ();
+            final double deltaY = data.getPositionProcessor().getDeltaY();
+
+            final int groundTicks = data.getPositionProcessor().getGroundTicks();
+            final int airTicks = data.getPositionProcessor().getClientAirTicks();
+
+            final float modifierJump = PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.JUMP) * 0.1F;
+            final float jumpMotion = 0.42F + modifierJump;
+
+            double groundLimit = PlayerUtil.getBaseGroundSpeed(data.getPlayer());
+            double airLimit = PlayerUtil.getBaseSpeed(data.getPlayer());
+
+
+            if (Math.abs(deltaY - jumpMotion) < 1.0E-4 && airTicks == 1 && sprinting) {
+                final float f = data.getRotationProcessor().getYaw() * 0.017453292F;
+
+                final double x = lastDeltaX - (Math.sin(f) * 0.2F);
+                final double z = lastDeltaZ + (Math.cos(f) * 0.2F);
+
                 airLimit += Math.hypot(x, z);
             }
-            if (this.isExempt(ExemptType.ICE, ExemptType.SLIME)) {
-                airLimit += 0.34f;
-                groundLimit += 0.34f;
+
+            if (isExempt(ExemptType.ICE, ExemptType.SLIME)) {
+                airLimit += 0.34F;
+                groundLimit += 0.34F;
             }
-            if (this.isExempt(ExemptType.UNDERBLOCK)) {
-                airLimit += 0.91f;
-                groundLimit += 0.91f;
+
+            if (isExempt(ExemptType.UNDERBLOCK)) {
+                airLimit += 0.91F;
+                groundLimit += 0.91F;
             }
-            if ((double)this.data.getPlayer().getWalkSpeed() > 0.98) {
+
+            if (groundTicks < 7) {
+                groundLimit += (0.25F / groundTicks);
+            }
+
+            if(data.getPlayer().getWalkSpeed() > 0.30 && data.getPlayer().isOnGround()) {
                 return;
             }
-            if (this.data.getVelocityProcessor().getVelocityH() != 0.0) {
-                groundLimit += this.data.getVelocityProcessor().getVelocityH() + 0.05;
-                airLimit += this.data.getVelocityProcessor().getVelocityH() + 0.05;
+
+            if (data.getVelocityProcessor().isTakingVelocity()) {
+                groundLimit += data.getVelocityProcessor().getVelocityXZ() + 0.05;
+                airLimit += data.getVelocityProcessor().getVelocityXZ() + 0.05;
             }
-            if (groundTicks < 7) {
-                groundLimit += 0.25f / (float)groundTicks;
-            }
-            if (!(exempt = this.isExempt(ExemptType.NEARSTAIRS, ExemptType.VEHICLE, ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK, ExemptType.VELOCITY_ON_TICK))) {
+
+            final boolean exempt = isExempt(ExemptType.NEARSLABS, ExemptType.NEARICE, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.DEAD, ExemptType.ICE, ExemptType.BOAT, ExemptType.NEARSTAIRS, ExemptType.RESPAWN, ExemptType.VEHICLE, ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK);
+
+            if (!exempt) {
                 if (airTicks > 0) {
                     if (deltaXZ > airLimit) {
-                        if (increaseBuffer() > 8) {
-                            fail("DeltaXZ: " + deltaXZ + " AirLimit: " + airLimit);
+                        if (increaseBuffer() > 3) {
+                            fail("DXZ: " + deltaXZ + " Limit: " + airLimit);
                         }
                     } else {
-                        this.decreaseBufferBy(0.15);
-                    }
-                } else if (deltaXZ > groundLimit) {
-                    if (increaseBuffer() > 8) {
-                        fail("DeltaXZ: " + deltaXZ + " GroundLimit: " + groundLimit);
+                        decreaseBufferBy(0.15);
                     }
                 } else {
-                    this.decreaseBufferBy(0.15);
+                    if (deltaXZ > groundLimit) {
+                        if (increaseBuffer() > 3) {
+                            fail("DXZ: " + deltaXZ + " Limit: " + groundLimit);
+                        }
+                    } else {
+                        decreaseBufferBy(0.15);
+                    }
                 }
             }
         }

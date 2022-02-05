@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks for consistent gcd.", type = "K", experimental = true)
+@CheckInfo(name = "Aim", description = "Checks for consistent gcd.", type = "K")
 public class AimK extends Check {
     public AimK(PlayerData data) {
         super(data);

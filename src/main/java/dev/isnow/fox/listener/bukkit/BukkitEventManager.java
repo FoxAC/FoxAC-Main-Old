@@ -119,7 +119,7 @@ public final class BukkitEventManager implements Listener {
         if (data != null) {
             data.getActionProcessor().handleBukkitPlace();
             Fox.INSTANCE.getReceivingPacketProcessor().handle(data, new Packet(Packet.Direction.RECEIVE,
-                    new NMSPacket(event), Byte.MAX_VALUE, System.currentTimeMillis()));
+                    new NMSPacket(event), Byte.MAX_VALUE, System.currentTimeMillis(), null));
         }
     }
 

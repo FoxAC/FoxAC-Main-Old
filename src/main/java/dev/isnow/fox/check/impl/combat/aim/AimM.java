@@ -4,9 +4,18 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
+import dev.isnow.fox.util.MathUtil;
+import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aim", description = "Checks for invalid deltas.", type = "M", experimental = true)
+@CheckInfo(name = "Aim", description = "Pitch GCD check.", type = "M")
 public final class AimM extends Check {
+
+    private double threshold;
+
+    private float lastPitchDifference;
+    private float lastYawDifference;
+
+    private final double offset = Math.pow(2.0, 24.0);
 
     public AimM(final PlayerData data) {
         super(data);
@@ -14,20 +23,37 @@ public final class AimM extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isRotation()) {
-            final float deltaPitch = data.getRotationProcessor().getDeltaPitch();
-            final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
+        if (packet.isUseEntity()) {
+            WrappedPacketInUseEntity useEntityPacket = new WrappedPacketInUseEntity(packet.getRawPacket());
 
-            final boolean invalid = deltaYaw == 0.0F && deltaPitch >= 20.0F;
+            if (useEntityPacket.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
 
-            debug("deltaPitch: " + deltaPitch + "deltaYaw: " +deltaYaw);
+                float pitchDifference = Math.abs(data.getRotationProcessor().getPitch()
+                        - data.getRotationProcessor().getLastPitch());
 
-            if (invalid) {
-                if (increaseBuffer() > 3) {
-                    fail();
+                float yawDifference = Math.abs(data.getRotationProcessor().getYaw()
+                        - data.getRotationProcessor().getLastYaw());
+
+                float yawAccel = Math.abs(pitchDifference - lastPitchDifference);
+                float pitchAccel = Math.abs(yawDifference - lastYawDifference);
+
+                long gcd = MathUtil.getGcd((long) (pitchDifference * offset), (long) (lastPitchDifference * offset));
+
+                if (yawDifference > 2.0F && yawAccel > 1.0F && pitchAccel > 0.0F && pitchDifference > 0.009f) {
+
+                    if (gcd < 131072L && pitchAccel < 6.5) {
+                        threshold += 0.89;
+
+                        if (threshold > 12.5) {
+                            fail("GCD: " + gcd);
+                        }
+                    } else {
+                        threshold -= Math.min(threshold, 0.25);
+                    }
                 }
-            } else {
-                decreaseBufferBy(0.05);
+
+                lastYawDifference = yawDifference;
+                lastPitchDifference = pitchDifference;
             }
         }
     }

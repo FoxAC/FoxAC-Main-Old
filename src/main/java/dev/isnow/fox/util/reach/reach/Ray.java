@@ -1,4 +1,4 @@
-package dev.isnow.fox.util.reach;
+package dev.isnow.fox.util.reach.reach;
 
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.type.Pair;

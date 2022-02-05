@@ -34,11 +34,10 @@ public final class FlightA extends Check {
                     ExemptType.NEARSTAIRS);
             final boolean invalid = !exempt && difference > 0.001D && !onGround;
 
-            debug("posY=" + data.getPositionProcessor().getY() + " dY=" + deltaY + " at=" + onGround);
 
             if (invalid) {
                 if (increaseBuffer() > 5) {
-                    fail(prediction);
+                    fail("DeltaY: "  + data.getPositionProcessor().getDeltaY());
                 }
             } else {
                 decreaseBufferBy(1);

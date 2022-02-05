@@ -54,15 +54,15 @@ public final class PlayerData {
     private final VelocityProcessor velocityProcessor = new VelocityProcessor(this);
     private final ConnectionProcessor connectionProcessor = new ConnectionProcessor(this);
     private final GhostBlockProcessor ghostBlockProcessor = new GhostBlockProcessor(this);
+
     public PlayerData(final Player player) {
         this.player = player;
         if (Config.LOGGING_ENABLED) logFile = new LogUtil.TextFile("" + player.getUniqueId(), "\\logs");
 
-//        if (player.hasPermission("fox.alerts")) {
-//            AlertManager.toggleAlerts(this);
-//        }
+        if (player.hasPermission("fox.alerts")) {
+            AlertManager.toggleAlerts(this);
+        }
 
-        AlertManager.toggleAlerts(this);
     }
 
     public void dragDown() {

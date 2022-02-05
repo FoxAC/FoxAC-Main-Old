@@ -8,7 +8,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "BadPackets", type = "H", description = "Detects retarded clients.")
+@CheckInfo(name = "BadPackets", type = "H", description = "Detects bad clients.")
 public final class BadPacketsH extends Check {
     public BadPacketsH(final PlayerData data) {
         super(data);

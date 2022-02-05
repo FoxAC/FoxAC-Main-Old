@@ -13,8 +13,10 @@ public class BadPacketsN extends Check {
 
     private int ticks;
     private int stage;
+    private int count;
+    private long lastpacketDelta;
 
-    private double fastBreakBuffer;
+    private double fastBreakBuffer = 0;
 
     public BadPacketsN(PlayerData data) {
         super(data);
@@ -39,6 +41,17 @@ public class BadPacketsN extends Check {
         }
         else if(packet.isBlockDig()) {
             WrappedPacketInBlockDig wrapped = new WrappedPacketInBlockDig(packet.getRawPacket());
+
+            count++;
+            final long packetDelta = System.currentTimeMillis() - lastpacketDelta;
+            if(packetDelta >= 1000) {
+                lastpacketDelta = System.currentTimeMillis();
+                if(count >= 50) {
+                    fail("Nuker [CREATIVE]");
+                }
+                count = 0;
+            }
+
             if(wrapped.getDigType() == WrappedPacketInBlockDig.PlayerDigType.STOP_DESTROY_BLOCK) {
                 stage = 1;
                 fastBreakBuffer = fastBreakBuffer - 1.0E-4;

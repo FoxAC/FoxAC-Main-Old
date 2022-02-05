@@ -5,6 +5,8 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
 @CheckInfo(name = "Ground", type = "C", description = "Checks for invalid vertical ground motion.")
 public final class GroundC extends Check {
@@ -22,9 +24,12 @@ public final class GroundC extends Check {
 
             final boolean step = deltaY % 0.015625 == 0.0 && lastY % 0.015625 == 0.0;
 
-            final boolean exempt = isExempt(ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
+            boolean exempt = isExempt(ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
             final boolean invalid = groundTicks > 5 && deltaY != 0.0 && !step;
 
+            if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isOlderThan(ClientVersion.v_1_8)) {
+                exempt = isExempt(ExemptType.PEARL, ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
+            }
             if (invalid && !exempt) {
                 if (increaseBuffer() > 1) {
                     fail();

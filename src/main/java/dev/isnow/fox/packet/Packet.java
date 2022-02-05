@@ -2,6 +2,9 @@
 
 package dev.isnow.fox.packet;
 
+import dev.isnow.fox.packet.processor.ReceivingPacketProcessor;
+import io.github.retrooper.packetevents.event.eventtypes.CancellableNMSPacketEvent;
+import io.github.retrooper.packetevents.event.impl.PacketPlayReceiveEvent;
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
 import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
@@ -19,6 +22,7 @@ public final class Packet {
     private final NMSPacket rawPacket;
     private final byte packetId;
     private final long timeStamp;
+    private final CancellableNMSPacketEvent processor;
 
     public boolean isReceiving() {
         return direction == Direction.RECEIVE;
@@ -66,6 +70,10 @@ public final class Packet {
 
     public boolean isPosition() {
         return isReceiving() && (packetId == PacketType.Play.Client.POSITION || packetId == PacketType.Play.Client.POSITION_LOOK);
+    }
+
+    public boolean isServerPos() {
+        return isSending() && (packetId == PacketType.Play.Server.POSITION);
     }
 
     public boolean isStopSprinting() {
@@ -193,7 +201,7 @@ public final class Packet {
         return isSending() && packetId == PacketType.Play.Server.ENTITY_TELEPORT;
     }
     public boolean isRelEntityMove() {
-        return isSending() && packetId == PacketType.Play.Server.REL_ENTITY_MOVE;
+        return isSending() && (packetId == PacketType.Play.Server.REL_ENTITY_MOVE || packetId == PacketType.Play.Server.REL_ENTITY_MOVE_LOOK);
     }
 
     public boolean isChat() {

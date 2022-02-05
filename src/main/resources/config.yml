@@ -30,7 +30,7 @@ ghost-block:
   mode: 'FOX'
 
 alerts:
-  message: '&c&lFOX &8>> &c%player% &7is using %check% %type% &8(%colour%&8)'
+  message: '&c&lFOX &8>> &c%player% &7is using %check% %type%%dev% &8(%colour%&8)'
   click-command: '/teleport %player%'
   clear-violations-delay: 15
   console: true
@@ -50,9 +50,9 @@ messages:
   alerts-on: '&c&lFOX &8>> &7Alerts toggled &aOn'
   alerts-off: '&c&lFOX &8>> &7Alerts toggled &cOff'
   vpn-kick: '&c&lFOX &8>> &7Vpns are blacklisted on this server!'
-  payload-kick: '&c&lFOX &8>> &cYou were kicked for invalid payloads!'
+  payload-kick: '&c&lFOX &8>> &cYou were kicked for invalid payload!'
   anticrash-kick: '&c&lFOX &8>> &cYou were kicked for crasher/exploits!'
-  antiexploit-alert: '&c&lFOX AntiExploit&8>> &c%player% &7failed &c%check% &7&l[&d%info%&7&l]'
+  antiexploit-alert: '&c&lFOX AntiExploit&8>> &c%player% &7failed &c%check%%dev% &7&l[&d%info%&7&l]'
   banning: '&c&lFOX &8>> &7Banning &c%player%'
   join-message: '&c&lFOX &8>> &7%player% &djoined with &6%client%'
   client-kick: '&c&lFOX &8>> &cThis client isnt supported!'

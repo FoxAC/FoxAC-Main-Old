@@ -9,16 +9,16 @@ import dev.isnow.fox.util.type.VpnInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 public final class RegistrationListener implements Listener {
 
-    @EventHandler
-    public void onPlayerJoin(final PlayerJoinEvent event) {
-        if(event.getPlayer().getUniqueId() == null) {
-            event.getPlayer().kickPlayer("Failed to load data");
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerJoin(final PlayerMoveEvent event) {
+        if(PlayerDataManager.getInstance().has(event.getPlayer())) {
+            return;
         }
         PlayerDataManager.getInstance().add(event.getPlayer());
         if(Config.VPN_ENABLED) {
@@ -34,7 +34,7 @@ public final class RegistrationListener implements Listener {
             }
         }
     }
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerQuit(final PlayerQuitEvent event) {
         PlayerDataManager.getInstance().remove(event.getPlayer());
         PlayerDataManager.getInstance().suspectedPlayers.remove(event.getPlayer());

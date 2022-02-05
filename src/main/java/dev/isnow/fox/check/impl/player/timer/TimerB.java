@@ -42,7 +42,7 @@ public final class TimerB extends Check {
 
                     final double speed = 50.0 / average;
 
-                    final boolean invalid = deviation < 40.0 && speed < 0.6 && !Double.isNaN(deviation);
+                    final boolean invalid = deviation < 40.0 && speed < 0.6;
 
                     if (invalid) {
                         if (increaseBuffer() > 30) {

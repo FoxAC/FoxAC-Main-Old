@@ -29,33 +29,27 @@ public final class TickManager implements Runnable {
     public void start() {
         assert task == null : "TickProcessor has already been started!";
 
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(),new Runnable() {
-            @Override
-            public void run() {
-                for (final Player p : Bukkit.getOnlinePlayers()) {
-                    AFKManager.INSTANCE.updatePlayer(p);
-                }
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), () -> {
+            for (final Player p : Bukkit.getOnlinePlayers()) {
+                AFKManager.INSTANCE.updatePlayer(p);
             }
         }, 0L, 600L);
         final long[] lastTick = { System.currentTimeMillis() };
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                a = (int)(System.currentTimeMillis() - lastTick[0]);
-                lastTick[0] = System.currentTimeMillis();
-            }
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), () -> {
+            a = (int)(System.currentTimeMillis() - lastTick[0]);
+            lastTick[0] = System.currentTimeMillis();
         }, 1L, 1L);
         task = Bukkit.getScheduler().runTaskTimer(Fox.INSTANCE.getPlugin(), this, 0L, 1L);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                for(Player p : Bukkit.getOnlinePlayers()) {
-                    PacketEvents.get().getPlayerUtils().sendPacket(p, new WrappedPacketOutTransaction(0, (short) ThreadLocalRandom.current().nextInt(32767), false));
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), () -> {
+            for(Player p : Bukkit.getOnlinePlayers()) {
+                if(PlayerDataManager.getInstance().getPlayerData(p) != null) {
+                    PlayerDataManager.getInstance().getPlayerData(p).getConnectionProcessor().sendTransaction();
                 }
             }
         }, 1L, 0L);
     }
+
     public void stop() {
         if (task == null) return;
 

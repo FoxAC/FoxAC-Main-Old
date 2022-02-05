@@ -61,7 +61,7 @@ public class BadPacketsP extends Check {
             AABB targetAABB = new AABB(min, max);
 
             if(!targetAABB.betweenRays(pos, dir, extraDir) && !isRight(min, max)) {
-                fail("AAAB Not between rays, Min: " + min + " Max: " + max);
+                fail("BoundingBox Not between vectors, Min: " + min + " Max: " + max);
             }
         }
         if(packet.isBlockPlace()) {
@@ -106,7 +106,7 @@ public class BadPacketsP extends Check {
                     double stDev = MathUtil.getStandardDeviation(delays);
 
                     if (avg < 4 && stDev < 0.15) {
-                        fail("FastPlace, Dev: " + stDev);
+                        fail("FastPlace");
                     }
 
                     delays.clear();

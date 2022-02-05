@@ -5,9 +5,6 @@ import dev.isnow.fox.check.impl.combat.aim.*;
 import dev.isnow.fox.check.impl.combat.aura.*;
 import dev.isnow.fox.check.impl.combat.autoclicker.*;
 import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
-import dev.isnow.fox.check.impl.combat.hitbox.HitBoxB;
-import dev.isnow.fox.check.impl.combat.reach.ReachA;
-import dev.isnow.fox.check.impl.combat.reach.ReachB;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityA;
 import dev.isnow.fox.check.impl.combat.velocity.VelocityB;
 import dev.isnow.fox.check.impl.movement.flight.FlightA;
@@ -17,8 +14,6 @@ import dev.isnow.fox.check.impl.movement.flight.FlightD;
 import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.movement.speed.SpeedB;
-import dev.isnow.fox.check.impl.movement.speed.SpeedC;
-import dev.isnow.fox.check.impl.movement.speed.SpeedD;
 import dev.isnow.fox.check.impl.player.badpackets.*;
 import dev.isnow.fox.check.impl.player.crasher.CrasherA;
 import dev.isnow.fox.check.impl.player.crasher.CrasherB;
@@ -27,17 +22,16 @@ import dev.isnow.fox.check.impl.player.crasher.CrasherD;
 import dev.isnow.fox.check.impl.player.ground.GroundA;
 import dev.isnow.fox.check.impl.player.ground.GroundB;
 import dev.isnow.fox.check.impl.player.ground.GroundC;
-import dev.isnow.fox.check.impl.player.inventory.InventoryA;
-import dev.isnow.fox.check.impl.player.inventory.InventoryB;
-import dev.isnow.fox.check.impl.player.inventory.InventoryC;
-import dev.isnow.fox.check.impl.player.inventory.InventoryD;
+import dev.isnow.fox.check.impl.player.inventory.*;
 import dev.isnow.fox.check.impl.player.payload.PayloadA;
 import dev.isnow.fox.check.impl.player.payload.PayloadB;
 import dev.isnow.fox.check.impl.player.timer.TimerA;
 import dev.isnow.fox.check.impl.player.timer.TimerB;
 import dev.isnow.fox.check.impl.player.timer.TimerC;
+import dev.isnow.fox.check.impl.player.timer.TimerD;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.Bukkit;
 
 import java.lang.reflect.Constructor;
@@ -93,16 +87,12 @@ public final class CheckManager {
             AutoClickerE.class,
             AutoClickerF.class,
             AutoClickerG.class,
-            ReachA.class,
-            ReachB.class,
+            AutoClickerH.class,
             VelocityA.class,
             VelocityB.class,
             HitBoxA.class,
-            HitBoxB.class,
             SpeedA.class,
             SpeedB.class,
-            SpeedC.class,
-            SpeedD.class,
             FlightA.class,
             FlightB.class,
             FlightC.class,
@@ -115,10 +105,16 @@ public final class CheckManager {
             MotionF.class,
             MotionG.class,
             MotionH.class,
+            MotionI.class,
+            MotionJ.class,
+            MotionK.class,
+            MotionL.class,
+            MotionM.class,
             InventoryA.class,
             InventoryB.class,
             InventoryC.class,
             InventoryD.class,
+            InventoryE.class,
             BadPacketsA.class,
             BadPacketsB.class,
             BadPacketsC.class,
@@ -138,6 +134,7 @@ public final class CheckManager {
             TimerA.class,
             TimerB.class,
             TimerC.class,
+            TimerD.class,
             GroundA.class,
             GroundB.class,
             GroundC.class,
@@ -191,23 +188,24 @@ public final class CheckManager {
         return checkList;
     }
     public static void setup() {
+        int loadedChecks = 0;
         for (final Class<?> clazz : CHECKS) {
             if (Config.ENABLED_CHECKS.contains(clazz.getSimpleName())) {
                 try {
                     CONSTRUCTORSALL.add(clazz.getConstructor(PlayerData.class));
-                    Bukkit.getLogger().info(clazz.getSimpleName() + " is enabled!");
+                    loadedChecks++;
                 } catch (final NoSuchMethodException exception) {
                     exception.printStackTrace();
                 }
             } else {
                 try {
                     CONSTRUCTORSALL.add(clazz.getConstructor(PlayerData.class));
-                    Bukkit.getLogger().info(clazz.getSimpleName() + " is disabled!");
                 } catch (final NoSuchMethodException exception) {
                     exception.printStackTrace();
                 }
             }
         }
+        Bukkit.getConsoleSender().sendMessage(ColorUtil.translate("&aLoaded " + loadedChecks + " Checks!"));
     }
 }
 

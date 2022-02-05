@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", description = "Checks for snapping.", type = "B", experimental = true)
+@CheckInfo(name = "Aim", description = "Checks for snapping.", type = "B")
 public class AimB extends Check {
 
     private float lastDeltaYaw;

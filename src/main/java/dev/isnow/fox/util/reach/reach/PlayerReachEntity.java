@@ -4,6 +4,7 @@ import dev.isnow.fox.data.PlayerData;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import io.github.retrooper.packetevents.utils.vector.Vector3d;
+import org.bukkit.entity.Entity;
 
 public class PlayerReachEntity {
     public Vector3d serverPos;
@@ -11,9 +12,10 @@ public class PlayerReachEntity {
     public ReachInterpolationData newPacketLocation;
     public int lastTransactionHung;
     public int removeTrans = Integer.MAX_VALUE;
+    public Entity entity;
 
-
-    public PlayerReachEntity(double x, double y, double z, PlayerData player) {
+    public PlayerReachEntity(double x, double y, double z, PlayerData player, Entity id) {
+        entity = id;
         serverPos = new Vector3d(x, y, z);
         this.newPacketLocation = new ReachInterpolationData(GetBoundingBox.getBoundingBoxFromPosAndSize(x, y, z, 0.6, 1.8),
                 serverPos.getX(), serverPos.getY(), serverPos.getZ(), PacketEvents.get().getPlayerUtils().getClientVersion(player.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_9));
