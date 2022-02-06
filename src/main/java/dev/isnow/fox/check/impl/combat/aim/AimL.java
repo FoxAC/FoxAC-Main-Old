@@ -35,7 +35,7 @@ public final class AimL extends Check {
                     double std = MathUtil.getStandardDeviation(deltaPitchList);
 
                     if (std < 0.9) {
-                        fail("STD: " + std);
+                        fail("Dev: " + std);
                     }
 
                     deltaPitchList.clear();

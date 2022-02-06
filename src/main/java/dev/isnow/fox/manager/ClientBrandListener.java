@@ -5,7 +5,9 @@ package dev.isnow.fox.manager;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,6 +45,20 @@ public final class ClientBrandListener implements PluginMessageListener, Listene
                 }
 
                 Bukkit.getScheduler().runTask(Fox.INSTANCE.getPlugin(), () -> player.kickPlayer(Config.CLIENT_KICK_MESSAGE));
+            }
+
+            if(clientBrand.contains("Lunar-Client")) {
+                AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%client%", "Lunar Client"));
+            }
+            else if(clientBrand.contains("Badlion")) {
+                AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%client%", "Badlion"));
+            }
+            else if(clientBrand.contains("Tecnix")) {
+                AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%client%", "Tecnix Client"));
+            } else if(clientBrand.equals("Vanilla")){
+                AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%client%", "Vanilla"));
+            } else {
+                AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%client%", "UNKNOWN [" + clientBrand + "]"));
             }
         } catch (final Throwable t) {
             System.out.println("An error occurred with ClientBrandListener. You can ignore this.");

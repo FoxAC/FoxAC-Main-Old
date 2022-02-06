@@ -8,7 +8,7 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
 import org.bukkit.potion.PotionEffectType;
 
-@CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage", experimental = true)
+@CheckInfo(name = "Speed", type = "A", description = "Checks for any modified speed advantage")
 public final class SpeedA extends Check {
     public SpeedA(PlayerData data) {
         super(data);
@@ -76,7 +76,7 @@ public final class SpeedA extends Check {
                 if (airTicks > 0) {
                     if (deltaXZ > airLimit) {
                         if (increaseBuffer() > 3) {
-                            fail("DXZ: " + deltaXZ + " Limit: " + airLimit);
+                            fail("DeltaXZ: " + deltaXZ);
                         }
                     } else {
                         decreaseBufferBy(0.15);
@@ -84,7 +84,7 @@ public final class SpeedA extends Check {
                 } else {
                     if (deltaXZ > groundLimit) {
                         if (increaseBuffer() > 3) {
-                            fail("DXZ: " + deltaXZ + " Limit: " + groundLimit);
+                            fail("DeltaXZ: " + deltaXZ);
                         }
                     } else {
                         decreaseBufferBy(0.15);

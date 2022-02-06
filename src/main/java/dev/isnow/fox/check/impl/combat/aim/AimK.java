@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks for consistent gcd.", type = "K")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 1]", type = "K")
 public class AimK extends Check {
     public AimK(PlayerData data) {
         super(data);
@@ -32,23 +32,19 @@ public class AimK extends Check {
             ++rotations;
             grid[rotations % grid.length] = deviation;
 
-            // If the player wasn't using cinematic, where attacking and weren't spamming their aim
             if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 30.f && deltaPitch < 30.f && !cinematic && attacking) {
                 final boolean reached = rotations > grid.length;
 
-                // If the rotations made were greater than the gcd length
                 if (reached) {
                     double deviationMax = 0;
 
-                    // Get the max deviation from the gcd log
                     for (final double l : grid) {
                         if (deviation != 0 && l != 0)
                             deviationMax = Math.max(Math.max(l, deviation) % Math.min(l, deviation), deviationMax);
                     }
 
-                    // If both the deviation and the max deviation were greater than 0,9
                     if (deviationMax > 0.0 && deviation > 0.0) {
-                        fail("devMax: " + deviationMax + ", dev: " + deviation);
+                        fail("devMax: " + deviationMax + " dev: " + deviation);
 
                         applied = false;
                     }

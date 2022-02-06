@@ -27,9 +27,7 @@ public final class AutoClickerG extends Check {
     public void handle(final Packet packet) {
         if (packet.isArmAnimation()) {
             double skewness = data.getClickProcessor().getSkewness();
-            double outlier = data.getClickProcessor().getOutlier();
             double currentCps = data.getClickProcessor().getCurrentCps();
-            double kurtosis = data.getClickProcessor().getKurtosis();
             double median = data.getClickProcessor().getMedian();
 
             if (median < 2.5 && data.getClickProcessor().getMovements().size() >= 20) {

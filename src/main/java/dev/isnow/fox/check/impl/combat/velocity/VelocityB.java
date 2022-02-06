@@ -40,7 +40,7 @@ public final class VelocityB extends Check {
             double givenVelocity = vData.getVelocityXZ() - calculateVelocity();
             double takenVelocity = data.getPositionProcessor().getDeltaXZ();;
 
-            if (takenVelocity < givenVelocity && !isExempt(ExemptType.WEB, ExemptType.LIQUID, ExemptType.NEAR_WALL)) {
+            if (takenVelocity < givenVelocity && !isExempt(ExemptType.WEB, ExemptType.LIQUID, ExemptType.NEAR_WALL) && !data.getPositionProcessor().isOnClimbable()) {
                 if (hitTicks >= 2) {
                     buffer += 20;
                     if (buffer > 30) {

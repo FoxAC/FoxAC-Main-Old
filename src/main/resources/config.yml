@@ -20,7 +20,7 @@ settings:
   vpn: true
 
 clients:
-  enabled: true
+  enabled: false
   sensitive: true
   blocked:
     - 'Vanilla'
