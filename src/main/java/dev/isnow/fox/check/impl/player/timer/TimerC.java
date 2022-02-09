@@ -3,40 +3,47 @@ package dev.isnow.fox.check.impl.player.timer;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.MathUtil;
-import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Timer", type = "C", description = "Checks for game speed which is too slow.")
+@CheckInfo(name = "Timer", type = "C", description = "Balance timer check.")
 public class TimerC extends Check {
-
-    private final EvictingList<Long> samples = new EvictingList<>(50);
-    private long lastFlyingTime;
-
     public TimerC(PlayerData data) {
         super(data);
     }
 
+    private long balance = 0L;
+    private long lastFlying = 0L;
+
     @Override
     public void handle(Packet packet) {
         if (packet.isFlying()) {
-            final long now = now();
-            final long delta = now - lastFlyingTime;
-            samples.add(delta);
-            if (samples.isFull()) {
-                final double average = samples.stream().mapToDouble(value -> value).average().orElse(1.0);
-                final double speed = 50 / average;
-                final double deviation = MathUtil.getStandardDeviation(samples);
-                if (speed <= 0.75 && deviation < 50) {
-                    if (increaseBuffer() > 10) {
-                        fail(String.format("Speed: %.2f Deviation: %.2f", speed, deviation));
+            final long now = packet.getTimeStamp();
+            handle: {
+                if (isExempt(ExemptType.JOINED, ExemptType.PEARL)) break handle;
+                if (lastFlying == 0L) break handle;
+
+                final long delay = now - lastFlying;
+
+                balance += 50L - delay;
+
+                if (balance > 5L) {
+                    if (increaseBuffer() > 5) {
+                        fail("balance: " + balance);
                     }
-                }
-                else {
-                    decreaseBufferBy(2);
+
+                    balance = 0;
+                } else {
+                    decreaseBufferBy(0.001);
                 }
             }
-            lastFlyingTime = now;
+
+            this.lastFlying = now;
+        } else if (packet.isTeleport()) {
+            if (isExempt(ExemptType.JOINED)) return;
+            if (lastFlying == 0L) return;
+
+            balance -= 50L;
         }
     }
 }

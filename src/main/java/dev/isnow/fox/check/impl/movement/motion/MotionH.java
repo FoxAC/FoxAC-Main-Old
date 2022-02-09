@@ -17,6 +17,8 @@ public class MotionH extends Check {
         super(data);
     }
 
+    private double startMotion;
+
     @Override
     public void handle(Packet packet) {
         if(packet.isPosition()) {

@@ -57,7 +57,7 @@ public final class PlayerData {
 
     public PlayerData(final Player player) {
         this.player = player;
-        if (Config.LOGGING_ENABLED) logFile = new LogUtil.TextFile("" + player.getUniqueId(), "\\logs");
+        if (Config.LOGGING_ENABLED) logFile = new LogUtil.TextFile("" + player.getUniqueId(), "logs");
 
         if (player.hasPermission("fox.alerts")) {
             AlertManager.toggleAlerts(this);

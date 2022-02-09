@@ -3,6 +3,7 @@
 package dev.isnow.fox.packet;
 
 import dev.isnow.fox.packet.processor.ReceivingPacketProcessor;
+import io.github.retrooper.packetevents.event.PacketEvent;
 import io.github.retrooper.packetevents.event.eventtypes.CancellableNMSPacketEvent;
 import io.github.retrooper.packetevents.event.impl.PacketPlayReceiveEvent;
 import io.github.retrooper.packetevents.packettype.PacketType;
@@ -38,6 +39,10 @@ public final class Packet {
 
     public boolean isUseEntity() {
         return isReceiving() && packetId == PacketType.Play.Client.USE_ENTITY;
+    }
+
+    public boolean isSetProtocol() {
+        return isReceiving() && packetId == PacketType.Handshaking.Client.SET_PROTOCOL;
     }
 
     public boolean isRotation() {

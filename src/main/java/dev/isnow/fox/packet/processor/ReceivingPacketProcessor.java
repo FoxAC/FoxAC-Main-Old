@@ -4,6 +4,7 @@ package dev.isnow.fox.packet.processor;
 
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.play.in.blockdig.WrappedPacketInBlockDig;
@@ -95,5 +96,9 @@ public final class ReceivingPacketProcessor  {
                 }
             }
         } catch(Exception ignore) {}
+
+//        if(!packet.isIncomingTransaction() && !packet.isIncomingKeepAlive()) {
+//            AlertManager.packetlog.forEach(player -> player.getPlayer().spigot().sendMessage(PacketType.Play.Client.Util.));
+//        }
     }
 }

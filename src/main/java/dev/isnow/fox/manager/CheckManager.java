@@ -14,11 +14,9 @@ import dev.isnow.fox.check.impl.movement.flight.FlightD;
 import dev.isnow.fox.check.impl.movement.motion.*;
 import dev.isnow.fox.check.impl.movement.speed.SpeedA;
 import dev.isnow.fox.check.impl.movement.speed.SpeedB;
+import dev.isnow.fox.check.impl.movement.speed.SpeedC;
 import dev.isnow.fox.check.impl.player.badpackets.*;
-import dev.isnow.fox.check.impl.player.crasher.CrasherA;
-import dev.isnow.fox.check.impl.player.crasher.CrasherB;
-import dev.isnow.fox.check.impl.player.crasher.CrasherC;
-import dev.isnow.fox.check.impl.player.crasher.CrasherD;
+import dev.isnow.fox.check.impl.player.crasher.*;
 import dev.isnow.fox.check.impl.player.ground.GroundA;
 import dev.isnow.fox.check.impl.player.ground.GroundB;
 import dev.isnow.fox.check.impl.player.ground.GroundC;
@@ -28,7 +26,6 @@ import dev.isnow.fox.check.impl.player.payload.PayloadB;
 import dev.isnow.fox.check.impl.player.timer.TimerA;
 import dev.isnow.fox.check.impl.player.timer.TimerB;
 import dev.isnow.fox.check.impl.player.timer.TimerC;
-import dev.isnow.fox.check.impl.player.timer.TimerD;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.ColorUtil;
@@ -76,7 +73,6 @@ public final class CheckManager {
             AuraQ.class,
             AuraR.class,
             AuraS.class,
-            AuraT.class,
             AuraU.class,
             AuraV.class,
             AuraW.class,
@@ -93,6 +89,7 @@ public final class CheckManager {
             HitBoxA.class,
             SpeedA.class,
             SpeedB.class,
+            SpeedC.class,
             FlightA.class,
             FlightB.class,
             FlightC.class,
@@ -134,7 +131,6 @@ public final class CheckManager {
             TimerA.class,
             TimerB.class,
             TimerC.class,
-            TimerD.class,
             GroundA.class,
             GroundB.class,
             GroundC.class,
@@ -144,6 +140,9 @@ public final class CheckManager {
             CrasherB.class,
             CrasherC.class,
             CrasherD.class,
+            CrasherE.class,
+            CrasherF.class,
+            CrasherG.class,
     };
 
     private static final List<Constructor<?>> CONSTRUCTORSALL = new ArrayList<>();

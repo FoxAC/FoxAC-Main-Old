@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Flight", type = "B", description = "Checks for basic gravity.")
+@CheckInfo(name = "Flight", type = "B", description = "Checks for basic gravity modifications.")
 public final class FlightB extends Check {
     private double minDelta;
 
@@ -22,10 +22,10 @@ public final class FlightB extends Check {
             }
 
             final double dY = this.data.getPositionProcessor().getDeltaY();
-            this.minDelta = Math.min(this.minDelta, dY);
+            this.minDelta = Math.min(minDelta, dY);
             if (this.data.getPositionProcessor().getAirTicks() > 20) {
                 if (dY > this.minDelta) {
-                    fail("DeltaY: " + dY + " MinDelta: " + this.minDelta);
+                    fail("DeltaY: " + dY);
                 }
             }
             else {

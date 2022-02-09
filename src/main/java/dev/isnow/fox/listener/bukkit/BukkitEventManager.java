@@ -81,8 +81,8 @@ public final class BukkitEventManager implements Listener {
                 event.getPlayer().sendMessage(ChatColor.GREEN + "Cancelled the action.");
             }
             else if(event.getMessage().equals("YES")) {
-                new File(Fox.INSTANCE.getPlugin().getDataFolder() + File.separator + "logs").mkdir();
-                for(File file : Objects.requireNonNull(new File(Fox.INSTANCE.getPlugin().getDataFolder() + File.separator + "logs").listFiles())) {
+                new File(Fox.INSTANCE.getPlugin().getDataFolder() + File.separator + "/logs").mkdir();
+                for(File file : Objects.requireNonNull(new File(Fox.INSTANCE.getPlugin().getDataFolder() + File.separator + "/logs").listFiles())) {
                     if(!file.getName().startsWith("config")) {
                         LogUtil.TextFile filetext = new LogUtil.TextFile(file.getName(), file.getPath());
                         LogUtil.resetFile(filetext);

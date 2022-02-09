@@ -30,11 +30,7 @@ public final class FlightD extends Check
             boolean exempt = isExempt(ExemptType.GHOST_BLOCK, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.NEARANVIL, ExemptType.NEARSLIME, ExemptType.VELOCITY, ExemptType.PISTON, ExemptType.VEHICLE,
                     ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.FLYING,
                     ExemptType.WEB, ExemptType.SLIME, ExemptType.CLIMBABLE);
-            if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_17)) {
-                exempt = isExempt(ExemptType.GHOST_BLOCK, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.NEARANVIL, ExemptType.NEARSLIME, ExemptType.VELOCITY, ExemptType.PISTON, ExemptType.VEHICLE,
-                        ExemptType.TELEPORT, ExemptType.LIQUID, ExemptType.BOAT, ExemptType.FLYING,
-                        ExemptType.WEB, ExemptType.SLIME, ExemptType.CLIMBABLE, ExemptType.LIQUID);
-            }
+
             final boolean invalid = (clientAirTicks > airTicksLimit) && deltaY > 0.0;
 
             if (invalid && !exempt) {

@@ -58,7 +58,6 @@ public enum Fox {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private final CommandManager commandManager = new CommandManager(this.getPlugin());
 
-    private final String version = "B1";
     private Object guiManager;
 
     boolean fullyLoaded = false;
@@ -151,12 +150,7 @@ public enum Fox {
 
         tickManager.stop();
 
-        if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
-            Bukkit.getScheduler().cancelTasks(plugin);
-        }
-        else {
-            Bukkit.getScheduler().cancelAllTasks();
-        }
+        Bukkit.getScheduler().cancelTasks(plugin);
         stopPacketEvents();
     }
 
@@ -179,12 +173,7 @@ public enum Fox {
         Bukkit.getServer().getPluginManager().registerEvents(new RegistrationListener(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new BukkitEventManager(), plugin);
         Bukkit.getServer().getPluginManager().registerEvents(new ClientBrandListener(), plugin);
-        if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
-//            Bukkit.getServer().getPluginManager().registerEvents(new GuiManagerV_1_13(), plugin);
-        }
-        else {
-            Bukkit.getServer().getPluginManager().registerEvents(new GuiManager(), plugin);
-        }
+        Bukkit.getServer().getPluginManager().registerEvents(new GuiManager(), plugin);
         PacketEvents.get().getEventManager().registerListener(new NetworkManager());
     }
 

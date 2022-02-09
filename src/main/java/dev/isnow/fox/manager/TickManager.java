@@ -23,6 +23,9 @@ public final class TickManager implements Runnable {
 
     @Getter
     private int a = 0;
+
+    @Getter
+    private float time = System.currentTimeMillis();
     
     private static BukkitTask task;
 
@@ -38,6 +41,9 @@ public final class TickManager implements Runnable {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), () -> {
             a = (int)(System.currentTimeMillis() - lastTick[0]);
             lastTick[0] = System.currentTimeMillis();
+            if(a > 102) {
+                time = System.currentTimeMillis();
+            }
         }, 1L, 1L);
         task = Bukkit.getScheduler().runTaskTimer(Fox.INSTANCE.getPlugin(), this, 0L, 1L);
 

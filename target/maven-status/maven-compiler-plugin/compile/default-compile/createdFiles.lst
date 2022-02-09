@@ -51,6 +51,7 @@ dev\isnow\fox\util\discord\DiscordWebhook$JSONObject.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsB.class
 dev\isnow\fox\data\processor\GhostBlockProcessor.class
 dev\isnow\fox\util\reach\reach\VanillaMath.class
+dev\isnow\fox\command\impl\Packetlog.class
 dev\isnow\fox\util\reach\reach\ReachUtils.class
 dev\isnow\fox\check\impl\combat\aura\AuraP.class
 dev\isnow\fox\manager\AlertManager$ToggleAlertType.class
@@ -83,10 +84,10 @@ dev\isnow\fox\check\impl\combat\aim\AimF.class
 dev\isnow\fox\check\impl\combat\aura\AuraU.class
 dev\isnow\fox\command\impl\Demo.class
 dev\isnow\fox\manager\ClientBrandListener.class
-dev\isnow\fox\check\impl\player\timer\TimerD.class
 dev\isnow\fox\listener\bukkit\BukkitEventManager$1.class
 dev\isnow\fox\exempt\ExemptProcessor.class
 dev\isnow\fox\util\type\AABB.class
+dev\isnow\fox\check\impl\player\crasher\CrasherF.class
 dev\isnow\fox\check\impl\combat\aura\AuraE.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsC.class
 dev\isnow\fox\check\impl\combat\aura\AuraR.class
@@ -98,6 +99,7 @@ dev\isnow\fox\util\Metrics$SimplePie.class
 dev\isnow\fox\check\impl\movement\motion\MotionC.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsE.class
 dev\isnow\fox\util\Verbose.class
+dev\isnow\fox\check\impl\player\crasher\CrasherG.class
 dev\isnow\fox\packet\processor\ReceivingPacketProcessor.class
 dev\isnow\fox\util\ServerUtil.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerG.class
@@ -124,10 +126,10 @@ dev\isnow\fox\util\TimeUtils.class
 dev\isnow\fox\check\impl\combat\aura\AuraC.class
 dev\isnow\fox\check\impl\player\inventory\InventoryE.class
 dev\isnow\fox\util\Metrics$MultiLineChart.class
-dev\isnow\fox\check\impl\combat\aura\AuraT.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsJ.class
 dev\isnow\fox\manager\AlertManager.class
 dev\isnow\fox\check\impl\movement\motion\MotionL.class
+dev\isnow\fox\check\impl\player\crasher\CrasherE.class
 dev\isnow\fox\check\impl\movement\motion\MotionA.class
 dev\isnow\fox\util\reach\reach\PlayerReachEntity.class
 dev\isnow\fox\check\impl\combat\aura\AuraN.class
@@ -138,6 +140,7 @@ dev\isnow\fox\check\impl\player\payload\PayloadA.class
 dev\isnow\fox\check\impl\movement\motion\MotionG.class
 dev\isnow\fox\check\impl\combat\aim\AimM.class
 dev\isnow\fox\command\impl\Debug.class
+dev\isnow\fox\command\impl\Verbose.class
 dev\isnow\fox\check\impl\player\ground\GroundA.class
 dev\isnow\fox\config\Config$1.class
 dev\isnow\fox\data\processor\GhostBlockProcessor$Mode.class
@@ -194,6 +197,7 @@ dev\isnow\fox\data\processor\CombatProcessor.class
 dev\isnow\fox\util\reach\BoundingBox.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsI.class
 dev\isnow\fox\util\ReflectionsUtil.class
+dev\isnow\fox\util\CrasherUtils.class
 dev\isnow\fox\util\LogUtil$TextFile.class
 dev\isnow\fox\util\type\BlockUtil.class
 dev\isnow\fox\check\impl\combat\aim\AimN.class

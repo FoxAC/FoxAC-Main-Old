@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Flight", type = "A", description = "Predicts invalid movements.")
+@CheckInfo(name = "Flight", type = "A", description = "Predicts invalid movements [GRAVITY].")
 public final class FlightA extends Check {
 
     public FlightA(final PlayerData data) {
@@ -33,7 +33,6 @@ public final class FlightA extends Check {
                     ExemptType.TELEPORT_DELAY,
                     ExemptType.NEARSTAIRS);
             final boolean invalid = !exempt && difference > 0.001D && !onGround;
-
 
             if (invalid) {
                 if (increaseBuffer() > 5) {

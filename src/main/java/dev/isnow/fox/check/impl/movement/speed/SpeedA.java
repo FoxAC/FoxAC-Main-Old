@@ -91,6 +91,12 @@ public final class SpeedA extends Check {
                     }
                 }
             }
+            final double diff = data.getPositionProcessor().getDeltaXZ() - data.getPositionProcessor().getLastDeltaXZ();
+
+            final boolean exempt2 = isExempt(ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.VEHICLE, ExemptType.FLYING);
+            if (diff > PlayerUtil.getBaseSpeed(data.getPlayer()) && !exempt2) {
+                fail("DeltaXZ: " + deltaXZ);
+            }
         }
     }
 }

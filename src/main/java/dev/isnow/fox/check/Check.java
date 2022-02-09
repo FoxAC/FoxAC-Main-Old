@@ -75,7 +75,7 @@ public abstract class Check {
                 this.setMaxVl(Config.MAX_VIOLATIONS.get(getClass().getSimpleName()));
             }
             if(Fox.INSTANCE.getTickManager().getA() > 102) {
-                AlertManager.handleAlertLag(this, data, Objects.toString(info));
+                AlertManager.handleAlertLag(this, data);
             }
             else {
                 if(!getCheckInfo().experimental()) {
@@ -116,7 +116,7 @@ public abstract class Check {
     }
 
     public final void fail() {
-        fail("No information.");
+        fail("No information included.");
     }
 
     public final void ban() {
@@ -163,6 +163,7 @@ public abstract class Check {
 
 
     public final double increaseBuffer() {
+//        AlertManager.handleVerbose(this, data);
         return buffer = Math.min(10000, buffer + 1);
     }
 

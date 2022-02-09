@@ -20,7 +20,7 @@ import java.util.Map;
 @UtilityClass
 public final class Config {
 
-    public String CLIENT_JOIN_MESSAGE, LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, VPN_MESSAGE, KBTEST, ALERTSON, PAYLOADKICK, ANTICRASHKICKEDMESSAGE, ANTICRASHALERT, SCARE, ALERTSOFF, CLICKCOMMAND, VANISHON, VANISHOFF, BROADCASTMESSAGE, ALERT_URL, BAN_URL, DISCORDNAME, IMAGEDISCORD;
+    public String VERBOSE_FORMAT, VERBOSEON, VERBOSEOFF, CLIENT_JOIN_MESSAGE, LOG_FORMAT, ALERT_FORMAT, PREFIX, CLIENT_KICK_MESSAGE, KEY, VPN_MESSAGE, KBTEST, ALERTSON, PAYLOADKICK, ANTICRASHKICKEDMESSAGE, ANTICRASHALERT, SCARE, ALERTSOFF, CLICKCOMMAND, VANISHON, VANISHOFF, BROADCASTMESSAGE, ALERT_URL, BAN_URL, DISCORDNAME, IMAGEDISCORD;
 
     public boolean LOGGING_ENABLED, VPN_ENABLED, API_ENABLED, GHOST_BLOCK_ENABLED, GLOBALCMD, WEBHOOK, DISCORDBAN, BANTIMER, BROADCASTBAN, CLIENT_ENABLED, CLIENT_CASE_SENSITIVE;
 
@@ -40,6 +40,7 @@ public final class Config {
             LOG_FORMAT = getString("alerts.log-format");
 
             ALERT_FORMAT = getString("alerts.message");
+            VERBOSE_FORMAT = getString("alerts.verbosemessage");
 
             ANTICRASHKICKEDMESSAGE = getString("messages.anticrash-kick");
             ANTICRASHALERT = getString("messages.antiexploit-alert");
@@ -85,6 +86,9 @@ public final class Config {
 
             ALERTSON = getString("messages.alerts-on");
             ALERTSOFF = getString("messages.alerts-off");
+
+            VERBOSEON = getString("messages.verbose-on");
+            VERBOSEOFF = getString("messages.verbose-off");
 
             VPN_ENABLED = getBoolean("settings.vpn");
             VPN_MESSAGE = ColorUtil.translate(getString("messages.vpn-kick").replaceAll("%nl%", "\n"));
@@ -138,6 +142,7 @@ public final class Config {
                     final int maxViolations = getIntegerChecks("checks." + checkType.toLowerCase() + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".max-violations");
                     final List<String> punishCommand = getListChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".punish-commands");
 
+                    Bukkit.broadcastMessage(check.getSimpleName() + " is " + enabled);
                     if (enabled) {
                         ENABLED_CHECKS.add(check.getSimpleName());
                     }

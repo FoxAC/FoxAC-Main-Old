@@ -25,23 +25,12 @@ public class Gui extends FoxCommand {
         }
         Player p = (Player) sender;
         try {
-            if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
-//                GuiManagerV_1_13 gui = (GuiManagerV_1_13) Fox.INSTANCE.getGuiManager();
-//                gui.openMainMenu(p);
-            }
-            else {
-                GuiManager gui = (GuiManager) Fox.INSTANCE.getGuiManager();
-                gui.openMainMenu(p);
-            }
+            GuiManager gui = (GuiManager) Fox.INSTANCE.getGuiManager();
+            gui.openMainMenu(p);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(PacketEvents.get().getServerUtils().getVersion().isNewerThan(ServerVersion.v_1_12_2)) {
-//            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-        }
-        else {
-            p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
-        }
+        p.playSound(p.getLocation(), Sound.NOTE_PLING, 1, 1);
         return true;
     }
 }

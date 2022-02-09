@@ -237,23 +237,6 @@ public class MathUtil {
         return Math.sqrt(squaredSum.get());
     }
 
-    public <T extends Number> T getModeNiggar(final Collection<T> collect) {
-        final Map<T, Integer> repeated = new HashMap<>();
-
-
-        collect.forEach(val -> {
-            final int number = repeated.getOrDefault(val, 0);
-
-            repeated.put(val, number + 1);
-        });
-
-
-        return repeated.keySet().stream()
-                .map(key -> new Tuple<>(key, repeated.get(key)))
-                .max(Comparator.comparing(Tuple::b, Comparator.naturalOrder()))
-                .orElseThrow(NullPointerException::new).a();
-    }
-
     public float wrapAngleTo180_float(float value) {
         value %= 360F;
 
@@ -311,16 +294,6 @@ public class MathUtil {
         vector.setX(-xz * Math.sin(rotX));
         vector.setZ(xz * Math.cos(rotX));
         return vector;
-    }
-    
-    public static float[] getRotations(final Location one, final Location two) {
-        final double diffX = two.getX() - one.getX();
-        final double diffZ = two.getZ() - one.getZ();
-        final double diffY = two.getY() + 2.0 - 0.4 - (one.getY() + 2.0);
-        final double dist = Math.sqrt(diffX * diffX + diffZ * diffZ);
-        final float yaw = (float) (Math.atan2(diffZ, diffX) * 180.0 / 3.141592653589793) - 90.0f;
-        final float pitch = (float) (-Math.atan2(diffY, dist) * 180.0 / 3.141592653589793);
-        return new float[]{yaw, pitch};
     }
 
     public static float clamp(final float val, final float min, final float max) {

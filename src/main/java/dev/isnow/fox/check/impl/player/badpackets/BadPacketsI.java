@@ -12,8 +12,6 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPac
 @CheckInfo(name = "BadPackets", type = "I", description = "Checks for no position packet in 20 ticks.")
 public final class BadPacketsI extends Check {
 
-    private int streak;
-
     public BadPacketsI(final PlayerData data) {
         super(data);
     }
@@ -23,16 +21,16 @@ public final class BadPacketsI extends Check {
         if (packet.isFlying()) {
             final WrappedPacketInFlying wrapper = new WrappedPacketInFlying(packet.getRawPacket());
 
-            if (wrapper.isPosition() || data.getPlayer().isInsideVehicle()) {
-                streak = 0;
+            if (wrapper.isPosition() || wrapper.isLook() || data.getPlayer().isInsideVehicle()) {
+                resetBuffer();
                 return;
             }
 
-            if (++streak > 20 && !isExempt(ExemptType.LAGGING)) {
-                fail();
+            if (increaseBuffer() > 20 && !isExempt(ExemptType.LAGGING)) {
+                fail("Buffer: " + getBuffer());
             }
         } else if (packet.isSteerVehicle()) {
-            streak = 0;
+            resetBuffer();
         }
     }
 }

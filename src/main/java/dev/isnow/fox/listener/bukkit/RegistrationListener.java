@@ -16,10 +16,7 @@ import org.bukkit.event.player.*;
 public final class RegistrationListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerJoin(final PlayerMoveEvent event) {
-        if(PlayerDataManager.getInstance().has(event.getPlayer())) {
-            return;
-        }
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         PlayerDataManager.getInstance().add(event.getPlayer());
         if(Config.VPN_ENABLED) {
             VpnInfo info = PlayerUtil.isUsingVPN(event.getPlayer());

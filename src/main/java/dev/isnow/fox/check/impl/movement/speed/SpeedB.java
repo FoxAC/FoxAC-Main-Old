@@ -57,9 +57,8 @@ public final class SpeedB extends Check {
             final double movementSpeed = (horizontalDistance - lastHorizontalDistance) / attributeSpeed;
 
             if (movementSpeed > 1.0 && !exempt) {
-                increaseBufferBy(10);
 
-                if (getBuffer() > 20) {
+                if (increaseBufferBy(10) > 20) {
                     fail(movementSpeed);
                 }
             } else {

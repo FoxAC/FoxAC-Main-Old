@@ -35,6 +35,8 @@ public final class CommandManager implements CommandExecutor {
         commands.add(new KB());
         commands.add(new Reload());
         commands.add(new Demo());
+        commands.add(new Verbose());
+        commands.add(new Packetlog());
 
         Collections.sort(commands);
     }
@@ -60,16 +62,16 @@ public final class CommandManager implements CommandExecutor {
                 }
             } else {
                 commandSender.sendMessage(ColorUtil.translate("&c&l&m»»»&7&m-----------------------------&c&l&m«««"));
-                commandSender.sendMessage(ColorUtil.translate("             &cAvailable Commands &d»\n" + " \n"));
+                commandSender.sendMessage(ColorUtil.translate("             &cAvailable Commands &8»\n" + " \n"));
                 for (final FoxCommand Foxcommand : commands) {
-                    commandSender.sendMessage(ColorUtil.translate("&7/fox " + Foxcommand.getCommandInfo().name() + " &d» &6" + Foxcommand.getCommandInfo().purpose()));
+                    commandSender.sendMessage(ColorUtil.translate("&7/fox " + Foxcommand.getCommandInfo().name() + " &8» &c" + Foxcommand.getCommandInfo().purpose()));
                 }
                 commandSender.sendMessage(ColorUtil.translate("&c&l&m»»»&7&m-----------------------------&c&l&m«««"));
                 return true;
             }
         }
         else {
-            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by 5170 (B1)"));
+            commandSender.sendMessage(ColorUtil.translate(Config.PREFIX + "Made by 5170 (" + Fox.INSTANCE.getPlugin().getDescription().getVersion() + ")"));
             return true;
         }
         return false;

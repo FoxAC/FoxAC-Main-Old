@@ -28,6 +28,9 @@ import java.util.Set;
 public final class AlertManager {
 
     private static final Set<PlayerData> alerts = new HashSet<>();
+    private static final Set<PlayerData> verbose = new HashSet<>();
+    public static final Set<PlayerData> packetlog = new HashSet<>();
+
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E, MMMMM d, yyyy hh:mm aaa");
     private static long lastAlert;
 
@@ -37,6 +40,26 @@ public final class AlertManager {
             return ToggleAlertType.REMOVE;
         } else {
             alerts.add(data);
+            return ToggleAlertType.ADD;
+        }
+    }
+
+    public static ToggleAlertType togglePacketlog(final PlayerData data) {
+        if (packetlog.contains(data)) {
+            packetlog.remove(data);
+            return ToggleAlertType.REMOVE;
+        } else {
+            packetlog.add(data);
+            return ToggleAlertType.ADD;
+        }
+    }
+
+    public static ToggleAlertType toggleVerbose(final PlayerData data) {
+        if (verbose.contains(data)) {
+            verbose.remove(data);
+            return ToggleAlertType.REMOVE;
+        } else {
+            verbose.add(data);
             return ToggleAlertType.ADD;
         }
     }
@@ -115,9 +138,25 @@ public final class AlertManager {
         }
     }
 
-    public static void handleAlertLag(final Check check, final PlayerData data, final String info) {
-        if(check.getCheckInfo() != null) {
-            alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(Config.PREFIX + player.getPlayer().getName() + " would flag for " + check.getFullName()) + ", but server skipped " + Fox.INSTANCE.getTickManager().getA() + "MS/" + (Fox.INSTANCE.getTickManager().getA() / 50) + " Ticks."));
+    public static void handleVerbose(final Check check, final PlayerData data) {
+        final TextComponent alertMessage = new TextComponent(ColorUtil.translate(Config.VERBOSE_FORMAT)
+                .replaceAll("%player%", data.getPlayer().getName())
+                .replaceAll("%check%", check.getCheckInfo().name())
+                .replaceAll("%dev%", check.getCheckInfo().experimental() ? "*" : "")
+                .replaceAll("%type%", check.getCheckInfo().type()));
+
+        alertMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.CLICKCOMMAND.replaceAll("%player%", data.getPlayer().getName())));
+        alertMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ColorUtil.translate(
+                "&7➠ " + check.getCheckInfo().description() +
+                        "\n &7(Ping: " + PacketEvents.get().getPlayerUtils().getPing(data.getPlayer()) + ") &8(Click to teleport.)")).create()));
+
+        verbose.forEach(player -> player.getPlayer().spigot().sendMessage(alertMessage));
+    }
+
+    public static void handleAlertLag(final Check check, final PlayerData data) {
+        final float calc = (System.currentTimeMillis() - Fox.INSTANCE.getTickManager().getTime()) / 1000;
+        if(check.getCheckInfo() != null && calc < 5) {
+            alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(Config.PREFIX + data.getPlayer().getName() + " would flag for " + check.getFullName()) + ", but server skipped " + Fox.INSTANCE.getTickManager().getA() + "MS/" + (Fox.INSTANCE.getTickManager().getA() / 50) + " Ticks in the last " + calc + " seconds."));
         }
     }
 
