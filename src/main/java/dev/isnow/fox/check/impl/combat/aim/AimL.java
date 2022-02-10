@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-@CheckInfo(name = "Aim", description = "Checks for pitch consistency.", type = "L")
+@CheckInfo(name = "Aim", description = "Checks for pitch deviation.", type = "L")
 public final class AimL extends Check {
 
     public AimL(final PlayerData data) {

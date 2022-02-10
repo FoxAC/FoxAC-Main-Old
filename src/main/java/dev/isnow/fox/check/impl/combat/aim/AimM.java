@@ -9,9 +9,6 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.Wrapped
 
 @CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 2]", type = "M")
 public final class AimM extends Check {
-
-    private double threshold;
-
     private float lastPitchDifference;
     private float lastYawDifference;
 
@@ -42,13 +39,12 @@ public final class AimM extends Check {
                 if (yawDifference > 2.0F && yawAccel > 1.0F && pitchAccel > 0.0F && pitchDifference > 0.009f) {
 
                     if (gcd < 131072L && pitchAccel < 6.5) {
-                        threshold += 0.89;
 
-                        if (threshold > 12.5) {
+                        if (increaseBufferBy(0.89) > 12.5) {
                             fail("GCD: " + gcd);
                         }
                     } else {
-                        threshold -= Math.min(threshold, 0.25);
+                        decreaseBufferBy(0.25);
                     }
                 }
 

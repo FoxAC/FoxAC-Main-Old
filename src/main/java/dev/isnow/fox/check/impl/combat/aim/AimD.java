@@ -34,13 +34,12 @@ public class AimD
 
             final double divisorYaw = MathUtil.getGcd((long) (deltaYaw * MathUtil.EXPANDER), (long) (lastDeltaYaw * MathUtil.EXPANDER));
 
-            final double epik = data.getRotationProcessor().getGcd() / divisorYaw;
-            debug("epik=" + epik);
+            final double gcdYaw = data.getRotationProcessor().getGcd() / divisorYaw;
             if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 1 && deltaPitch < 1 && attack && !isExempt(ExemptType.CINEMATIC)) {
-                if (epik > 9.9E-7) {
-                    if (buffer++ > 6) {
-                        buffer = 0;
-                        fail("epik: " + epik);
+                if (gcdYaw > 9.9E-7) {
+                    if (increaseBuffer() > 6) {
+                        setBuffer(0);
+                        fail("GCDYaw: " + gcdYaw);
                     }
                 } else {
                     decreaseBufferBy(2);

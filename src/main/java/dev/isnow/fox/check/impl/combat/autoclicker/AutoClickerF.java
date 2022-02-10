@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-@CheckInfo(name = "AutoClicker", type = "F", description = "Invalid STD.")
+@CheckInfo(name = "AutoClicker", type = "F", description = "Checks for invalid standard deviation of delays.")
 public class AutoClickerF extends Check {
-    private List<Double> delays = new ArrayList<>();
+    private final List<Double> delays = new ArrayList<>();
     private double threshold;
 
     public AutoClickerF(PlayerData data) {

@@ -16,8 +16,7 @@ import java.util.List;
 public class AutoClickerB extends Check {
 
     private int movements;
-    private List<Integer> delays = new ArrayList<>();
-    private double threshold;
+    private final List<Integer> delays = new ArrayList<>();
 
     public AutoClickerB(final PlayerData data) {
         super(data);
@@ -39,11 +38,11 @@ public class AutoClickerB extends Check {
                             .count();
 
                     if (outliers < 7) {
-                        if (++threshold > 1) {
+                        if (increaseBuffer() > 1) {
                             fail("Outliers: " + outliers);
                         }
                     } else {
-                        threshold -= Math.min(threshold, 1.5);
+                        decreaseBufferBy(1.5);
                     }
 
                     delays.clear();

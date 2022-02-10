@@ -5,15 +5,13 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
+import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @CheckInfo(name = "Aim", type = "N", description = "Invalid rotation ratio")
 public class AimN extends Check {
-
-    private double threshold, lastSTD;
-    private List<Double> deltaYawList = new ArrayList<>();
 
 
     public AimN(final PlayerData data) {
@@ -22,29 +20,22 @@ public class AimN extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if(packet.isPosLook()) {
-            double yaw = MathUtil.wrapAngleTo180_float(data.getRotationProcessor().getYaw());
+        if(packet.isUseEntity()) {
+            WrappedPacketInUseEntity wrappedPacketInUseEntity = new WrappedPacketInUseEntity(packet.getRawPacket());
 
-            if (yaw > 1.0) {
-                deltaYawList.add(yaw);
+            if(wrappedPacketInUseEntity.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
+                double pitch = Math.abs(data.getRotationProcessor().getPitch() - data.getRotationProcessor().getLastPitch());
+                double yaw = Math.abs(data.getRotationProcessor().getPitch() - data.getRotationProcessor().getLastPitch());
 
-                if (deltaYawList.size() >= 25) {
-                    double std = MathUtil.getStandardDeviation(deltaYawList);
-
-
-                    if (std < 0.02 || Math.abs(std - lastSTD) < 0.001) {
-                        if (++threshold > 2) {
-                            fail("STD: " + std);
-                        }
-                    } else {
-                        threshold -= Math.min(threshold, 0.125);
+                if (pitch > 3.0 && yaw < 0.0001D) {
+                    if (increaseBuffer() > 3) {
+                        fail();
                     }
-
-
-                    lastSTD = std;
-                    deltaYawList.clear();
+                } else {
+                    decreaseBuffer();
                 }
             }
+
         }
     }
 }

@@ -9,7 +9,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
 
-@CheckInfo(name = "Inventory", type = "B", description = "Checks if player is moving while interacting with inventory.")
+@CheckInfo(name = "Inventory", type = "B", description = "Checks if player is moving while interacting with the inventory.")
 public final class InventoryB extends Check {
     public InventoryB(final PlayerData data) {
         super(data);

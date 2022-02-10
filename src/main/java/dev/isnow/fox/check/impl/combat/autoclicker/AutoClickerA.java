@@ -16,7 +16,7 @@ import java.util.List;
 public class AutoClickerA extends Check {
 
     private int movements;
-    private List<Integer> delays = new ArrayList<>();
+    private final List<Integer> delays = new ArrayList<>();
     private double threshold;
 
     public AutoClickerA(PlayerData data) {

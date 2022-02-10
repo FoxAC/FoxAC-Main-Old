@@ -8,7 +8,7 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.TimeUtils;
 
-@CheckInfo(name = "Aim", description = "Checks for jitter.", type = "C")
+@CheckInfo(name = "Aim", description = "Checks for unlikely .", type = "C")
 public class AimC extends Check {
     public AimC(PlayerData data) {
         super(data);
@@ -17,26 +17,18 @@ public class AimC extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation() && TimeUtils.elapsed(data.getCombatProcessor().getLastAttack()) <= 1000L) {
-            final RotationProcessor processor = data.getRotationProcessor();
+        if (packet.isRotation()) {
+            final float deltaPitch = data.getRotationProcessor().getDeltaPitch();
+            final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
 
-            final float deltaYaw = processor.getDeltaYaw();
-            final float lastDeltaYaw = processor.getLastDeltaYaw();
-            final float deltaPitch = processor.getDeltaPitch();
+            final boolean invalid = deltaYaw == 0.0F && deltaPitch >= 20.0F;
 
-            final double divisorYaw = MathUtil.getGcd((long) (deltaYaw * MathUtil.EXPANDER), (long) (lastDeltaYaw * MathUtil.EXPANDER));
-
-            final double epik = data.getRotationProcessor().getGcd() / divisorYaw;
-            debug(epik);
-            if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 1 && deltaPitch < 1) {
-                if (epik > 1.0E-7) {
-                    if (buffer++ > 10) {
-                        buffer = 5;
-                        fail(epik);
-                    }
-                } else {
-                    decreaseBufferBy(2);
+            if (invalid) {
+                if (increaseBuffer() > 1) {
+                    fail();
                 }
+            } else {
+                decreaseBufferBy(0.05);
             }
         }
     }

@@ -8,7 +8,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks for invalid gcd usage.", type = "I")
+@CheckInfo(name = "Aim", description = "Checks f.", type = "I")
 public final class AimI extends Check {
 
     public AimI(final PlayerData data) {

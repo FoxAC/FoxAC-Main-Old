@@ -6,9 +6,8 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", description = "Checks for snappy deltas.", type = "E")
-public final class AimE
-        extends Check {
+@CheckInfo(name = "Aim", description = "Checks for snappy rotations.", type = "E")
+public final class AimE extends Check {
     private float lastDeltaYaw;
     private float lastLastDeltaYaw;
 
@@ -19,25 +18,24 @@ public final class AimE
     @Override
     public void handle(Packet packet) {
         if (packet.isRotation()) {
-            boolean invalid;
-            float deltaYaw = this.data.getRotationProcessor().getDeltaYaw();
-            boolean exempt = this.isExempt(ExemptType.TELEPORT);
-            boolean bl = invalid = deltaYaw < 1.5f && this.lastDeltaYaw > 30.0f && this.lastLastDeltaYaw < 1.5f;
-
-            debug("deltaYaw: " + deltaYaw + "lastDeltaYaw: " +lastDeltaYaw+ "lastlast: " + lastLastDeltaYaw);
-
+            float deltaYaw = data.getRotationProcessor().getDeltaYaw();
+            
+            final boolean exempt = isExempt(ExemptType.TELEPORT);
             if (exempt) {
-                this.lastDeltaYaw = deltaYaw;
-                this.lastLastDeltaYaw = deltaYaw;
+                lastDeltaYaw = deltaYaw;
+                lastLastDeltaYaw = deltaYaw;
+                return;
             }
-            if (invalid && !exempt && increaseBuffer() > 3) {
-                fail();
+
+            final boolean invalid = deltaYaw < 1.5f && lastDeltaYaw > 30.0f && lastLastDeltaYaw < 1.5f;
+            if (invalid && increaseBuffer() > 3) {
+                fail("DeltaYaw: " + deltaYaw + " LastDeltaYaw: " + lastDeltaYaw);
                 
-                this.lastLastDeltaYaw = this.lastDeltaYaw;
-                this.lastDeltaYaw = deltaYaw;
+                lastLastDeltaYaw = lastDeltaYaw;
+                lastDeltaYaw = deltaYaw;
             }
         } else {
-            this.decreaseBufferBy(0.25);
+            decreaseBufferBy(0.25);
         }
     }
 }

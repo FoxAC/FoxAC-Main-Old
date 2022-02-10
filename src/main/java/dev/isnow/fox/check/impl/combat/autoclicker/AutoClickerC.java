@@ -15,10 +15,6 @@ public class AutoClickerC extends Check {
 
     private int movements;
     private List<Integer> delays = new ArrayList<>();
-    private List<Integer> lastDropList = new ArrayList<>();
-    private double threshold, lastSTD;
-    private long time;
-
 
     public AutoClickerC(PlayerData data) {
         super(data);
@@ -39,11 +35,11 @@ public class AutoClickerC extends Check {
                 if (delays.size() >= 20 && getCps > 8.5f) {
 
                     if (movements > 2 && movements < 6) {
-                        threshold = 0;
+                        resetBuffer();
                     } else {
-                        threshold += 0.8;
+                        increaseBufferBy(0.8);
 
-                        if (threshold > 125) {
+                        if (increaseBuffer() > 125) {
                             fail("CPS: " + getCps);
                         }
                     }

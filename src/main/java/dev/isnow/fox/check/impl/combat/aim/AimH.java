@@ -7,7 +7,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks for invalid gcd rotations.", type = "H")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 6]", type = "H")
 public final class AimH
         extends Check {
     public AimH(PlayerData data) {
@@ -23,7 +23,6 @@ public final class AimH
             long expandedLastDeltaPitch = (long)((double)lastDeltaPitch * MathUtil.EXPANDER);
             long gcd = MathUtil.getGcd(expandedDeltaPitch, expandedLastDeltaPitch);
             boolean exempt = deltaPitch == 0.0f || lastDeltaPitch == 0.0f || this.isExempt(ExemptType.CINEMATIC);
-            debug("gcd: " + gcd + "deltaPitch: " +deltaPitch+ "lastDeltaPitch: " + lastDeltaPitch + "expandDelta" +expandedDeltaPitch);
             if (!exempt && gcd < 131072L && gcd > 66000) {
                 if (increaseBuffer() > 5) {
                     fail("GCD: " + gcd);

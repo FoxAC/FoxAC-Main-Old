@@ -9,7 +9,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.helditemslot.WrappedPacketInHeldItemSlot;
 
-@CheckInfo(name = "Inventory", type = "A", description = "Checks for slot change to same slot.")
+@CheckInfo(name = "Inventory", type = "A", description = "Checks if player changed slot into the same slot.")
 public final class InventoryA extends Check {
 
     private int lastSlot = -1;

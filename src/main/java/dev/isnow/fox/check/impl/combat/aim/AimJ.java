@@ -8,51 +8,64 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Aim", description = "Checks for lock aim.", type = "J")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 4]", type = "J")
 public class AimJ extends Check {
     public AimJ(PlayerData data) {
         super(data);
     }
 
-    private final EvictingList<Float> yawAccelSamples = new EvictingList<>(20);
-    private final EvictingList<Float> pitchAccelSamples = new EvictingList<>(20);
+    private float lastDeltaYaw = 0.0f, lastDeltaPitch = 0.0f;
 
     @Override
     public void handle(Packet packet) {
-        if (packet.isRotation() && isExempt(ExemptType.COMBAT)) {
-            float yawAccel = this.data.getRotationProcessor().getJoltYaw();
-            float pitchAccel = this.data.getRotationProcessor().getJoltPitch();
-            float deltaYaw = this.data.getRotationProcessor().getDeltaYaw() % 360.0F;
+        if(packet.isRotation()) {
 
-            this.yawAccelSamples.add(yawAccel);
-            this.pitchAccelSamples.add(pitchAccel);
+            // Get the deltas from the rotation update
+            final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
+            final float deltaPitch = data.getRotationProcessor().getDeltaPitch();
 
-            if (this.yawAccelSamples.isFull() && this.pitchAccelSamples.isFull()) {
+            // Grab the gcd using an expander.
+            final double divisorYaw = MathUtil.getGcd((long) (deltaYaw * MathUtil.EXPANDER), (long) (lastDeltaYaw * MathUtil.EXPANDER));
+            final double divisorPitch = MathUtil.getGcd((long) (deltaPitch * MathUtil.EXPANDER), (long) (lastDeltaPitch * MathUtil.EXPANDER));
 
-                double yawAccelAverage = this.yawAccelSamples.stream().mapToDouble(value -> value).average().orElse(0.0D);
-                double pitchAccelAverage = this.pitchAccelSamples.stream().mapToDouble(value -> value).average().orElse(0.0D);
+            // Get the constant for both rotation updates by dividing by the expander
+            final double constantYaw = divisorYaw / MathUtil.EXPANDER;
+            final double constantPitch = divisorPitch / MathUtil.EXPANDER;
 
-                double yawAccelDeviation = MathUtil.getStandardDeviation(this.yawAccelSamples);
-                double pitchAccelDeviation = MathUtil.getStandardDeviation(this.pitchAccelSamples);
+            // Get the estimated mouse delta from the constant
+            final double currentX = deltaYaw / constantYaw;
+            final double currentY = deltaPitch / constantPitch;
 
-                boolean exemptRotation = (deltaYaw < 1.5F);
-                boolean averageInvalid = (yawAccelAverage < 1.0D || (pitchAccelAverage < 1.0D && !exemptRotation));
-                boolean deviationInvalid = (yawAccelDeviation < 5.0D && pitchAccelDeviation > 5.0D && !exemptRotation);
+            // Get the estimated mouse delta from the old rotations using the new constant
+            final double previousX = lastDeltaYaw / constantYaw;
+            final double previousY = lastDeltaPitch / constantPitch;
 
-                final String format = String.format(
-                        "ya: %.2f, pa: %.2f, yd: %.2f, pd: %.2f",
-                        yawAccelAverage, pitchAccelAverage, yawAccelDeviation, pitchAccelDeviation);
-                debug(format);
-                if (averageInvalid && deviationInvalid) {
-                    if (increaseBuffer() > 10.0D) {
-                        fail(format);
-                        if (buffer > 6.0D)
-                            decreaseBuffer();
-                    }
+            // Make sure the player is attacking or placing to filter out the check
+            final boolean action = data.getCombatProcessor().getHitTicks() < 3 || data.getActionProcessor().getLastPlaceTick() < 3;
+
+            // Make sure the rotation is not very large and not equal to zero and get the modulo of the xys
+            if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 20.f && deltaPitch < 20.f && action) {
+                final double moduloX = currentX % previousX;
+                final double moduloY = currentY % previousY;
+
+                // Get the floor delta of the the modulos
+                final double floorModuloX = Math.abs(Math.floor(moduloX) - moduloX);
+                final double floorModuloY = Math.abs(Math.floor(moduloY) - moduloY);
+
+                // Impossible to have a different constant in two rotations
+                final boolean invalidX = moduloX > 90F && floorModuloX > 0.1F;
+                final boolean invalidY = moduloY > 90F && floorModuloY > 0.1F;
+
+                if (invalidX && invalidY) {
+
+                    if (increaseBuffer() > 6) fail();
                 } else {
-                    decreaseBufferBy(0.75D);
+                    decreaseBuffer();
                 }
             }
+
+            this.lastDeltaYaw = deltaYaw;
+            this.lastDeltaPitch = deltaPitch;
         }
     }
 }

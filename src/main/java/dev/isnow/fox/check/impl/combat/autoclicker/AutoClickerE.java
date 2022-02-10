@@ -52,7 +52,7 @@ public class AutoClickerE extends Check {
                                 threshold++;
 
                                 if (threshold > 6) {
-                                    fail("AVG: " + average);
+                                    fail("Average: " + average);
                                 }
                             } else {
                                 threshold -= Math.min(threshold, .1);

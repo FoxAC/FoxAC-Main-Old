@@ -15,7 +15,6 @@ import java.util.List;
 public final class AutoClickerD extends Check {
 
     private final List<Double> kurtosisList = new ArrayList<>();
-    private double threshold;
 
     public AutoClickerD(final PlayerData data) {
         super(data);
@@ -33,11 +32,11 @@ public final class AutoClickerD extends Check {
                     double average = MathUtil.getAverage(kurtosisList);
 
                     if (average > 10) {
-                        if (++threshold > 5) {
+                        if (increaseBuffer() > 5) {
                             fail("AVG: " + average);
                         }
                     } else {
-                        threshold -= Math.min(threshold, 0.2);
+                        decreaseBufferBy(0.2);
                     }
 
                     kurtosisList.clear();

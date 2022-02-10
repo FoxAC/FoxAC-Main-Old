@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", description = "Checks for snapping.", type = "B")
+@CheckInfo(name = "Aim", description = "Checks for snappy rotaions.", type = "B")
 public class AimB extends Check {
 
     private float lastDeltaYaw;
@@ -19,24 +19,21 @@ public class AimB extends Check {
     @Override
     public void handle(Packet packet) {
         if (packet.isRotation()) {
-            if (this.isExempt(ExemptType.TELEPORT, ExemptType.JOINED)) {
-                return;
+            final float deltaYaw = data.getRotationProcessor().getDeltaYaw();
+
+            final boolean exempt = isExempt(ExemptType.TELEPORT_DELAY, ExemptType.TELEPORT);
+            final boolean invalid = deltaYaw < 2.5F && lastDeltaYaw > 20F && lastLastDeltaYaw < 2.5F;
+
+            if (exempt) {
+                lastDeltaYaw = deltaYaw;
+                lastLastDeltaYaw = deltaYaw;
             }
 
-            final float deltaYaw = this.data.getRotationProcessor().getDeltaYaw();
-
-            debug("deltaYaw: " + deltaYaw);
-
-            if (deltaYaw < 5.0f && this.lastDeltaYaw > 30.0f && this.lastLastDeltaYaw < 5.0f && isExempt(ExemptType.TELEPORT)) {
-                final double low = (deltaYaw + this.lastLastDeltaYaw) / 2.0f;
-                final double high = this.lastDeltaYaw;
-                if(increaseBuffer() > 5) {
-                    fail(low+ " / " +high);
-                } else {
-                    decreaseBufferBy(0.10);
-                }
+            if (invalid && !exempt && increaseBuffer() > 3) fail();
+            else {
+                decreaseBuffer();
             }
-            this.lastLastDeltaYaw = this.lastDeltaYaw;
+            this.lastLastDeltaYaw = lastDeltaYaw;
             this.lastDeltaYaw = deltaYaw;
         }
     }

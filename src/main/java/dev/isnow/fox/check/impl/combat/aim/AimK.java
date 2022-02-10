@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 1]", type = "K")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 5]", type = "K")
 public class AimK extends Check {
     public AimK(PlayerData data) {
         super(data);
@@ -44,7 +44,7 @@ public class AimK extends Check {
                     }
 
                     if (deviationMax > 0.0 && deviation > 0.0) {
-                        fail("devMax: " + deviationMax + " dev: " + deviation);
+                        fail("Dev: " + deviation);
 
                         applied = false;
                     }
