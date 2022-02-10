@@ -78,6 +78,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\i
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraQ.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\BoundingBox.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\crasher\CrasherB.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\movement\speed\SpeedC.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Crash.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Alerts.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\TimeUtils.java
@@ -142,9 +143,11 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\api\impl\
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\reach\VanillaMath.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\command\impl\Gui.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\velocity\VelocityA.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\HookedListWrapper.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\manager\AFKManager.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\reach\reach\PlayerReachEntity.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aim\AimA.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\ListWrapper.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\type\BoundingBox.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\combat\aura\AuraN.java
@@ -152,6 +155,7 @@ C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\manager\P
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsA.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\config\ConfigValue.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\ColorUtil.java
+C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\manager\TickManagerV2.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\type\VpnInfo.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\util\type\BlockUtil.java
 C:\Users\5170\Desktop\Development\foxacnew\src\main\java\dev\isnow\fox\check\impl\player\badpackets\BadPacketsJ.java

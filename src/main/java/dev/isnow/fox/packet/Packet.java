@@ -109,6 +109,11 @@ public final class Packet {
         return PacketType.Play.Client.Util.isInstanceOfFlying(packetId);
     }
 
+    public boolean isFlyingFR() {
+        return (packetId == PacketType.Play.Client.FLYING) && isReceiving();
+    }
+
+
     public boolean isUseEntityAttack() {
         return (isUseEntity() && new WrappedPacketInUseEntity(rawPacket).getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK);
     }

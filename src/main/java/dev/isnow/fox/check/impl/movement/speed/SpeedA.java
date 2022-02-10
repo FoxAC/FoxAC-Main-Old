@@ -17,9 +17,12 @@ public final class SpeedA extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isFlying()) {
-            if(data.getPlayer().getWalkSpeed() <= 0.2) {
+            if(data.getPlayer().getWalkSpeed() <= 0.2 || (data.getPlayer().getWalkSpeed() > 0.30 && data.getPositionProcessor().isOnGround())) {
                 return;
             }
+
+            String modifiers = "";
+
             final boolean sprinting = data.getActionProcessor().isSprinting();
 
             final double lastDeltaX = data.getPositionProcessor().getLastDeltaX();
@@ -45,57 +48,62 @@ public final class SpeedA extends Check {
                 final double z = lastDeltaZ + (Math.cos(f) * 0.2F);
 
                 airLimit += Math.hypot(x, z);
+                modifiers = modifiers + ", jump";
             }
 
-            if (isExempt(ExemptType.ICE, ExemptType.SLIME)) {
+            if (isExempt(ExemptType.ICE, ExemptType.SLIME) || data.getPositionProcessor().getSinceIceTicks() < 20) {
                 airLimit += 0.34F;
                 groundLimit += 0.34F;
+                modifiers = modifiers + ", ice/slime";
             }
 
             if (isExempt(ExemptType.UNDERBLOCK)) {
                 airLimit += 0.91F;
                 groundLimit += 0.91F;
+                modifiers = modifiers + ", underblock";
             }
 
             if (groundTicks < 7) {
                 groundLimit += (0.25F / groundTicks);
+                modifiers = modifiers + ", freshground";
             }
 
-            if(data.getPlayer().getWalkSpeed() > 0.30 && data.getPlayer().isOnGround()) {
-                return;
-            }
 
             if (data.getVelocityProcessor().isTakingVelocity()) {
                 groundLimit += data.getVelocityProcessor().getVelocityXZ() + 0.05;
                 airLimit += data.getVelocityProcessor().getVelocityXZ() + 0.05;
+                modifiers = modifiers + ", velocity";
             }
 
-            final boolean exempt = isExempt(ExemptType.NEARSLABS, ExemptType.NEARICE, ExemptType.LAGGINGHARD, ExemptType.LAGGING, ExemptType.DEAD, ExemptType.ICE, ExemptType.BOAT, ExemptType.NEARSTAIRS, ExemptType.RESPAWN, ExemptType.VEHICLE, ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK);
+            final boolean exempt = isExempt(ExemptType.PISTON, ExemptType.FLYING, ExemptType.TELEPORT, ExemptType.CHUNK);
 
             if (!exempt) {
                 if (airTicks > 0) {
+                    modifiers = modifiers + ", Air";
                     if (deltaXZ > airLimit) {
                         if (increaseBuffer() > 3) {
-                            fail("DeltaXZ: " + deltaXZ);
+                            fail("DeltaXZ: " + deltaXZ + " Modifiers: " + modifiers);
                         }
                     } else {
                         decreaseBufferBy(0.15);
                     }
                 } else {
+                    modifiers = modifiers + ", Ground";
                     if (deltaXZ > groundLimit) {
                         if (increaseBuffer() > 3) {
-                            fail("DeltaXZ: " + deltaXZ);
+                            fail("DeltaXZ: " + deltaXZ + " Modifiers: " + modifiers);
                         }
                     } else {
                         decreaseBufferBy(0.15);
                     }
                 }
             }
+
             final double diff = data.getPositionProcessor().getDeltaXZ() - data.getPositionProcessor().getLastDeltaXZ();
 
             final boolean exempt2 = isExempt(ExemptType.VELOCITY, ExemptType.TELEPORT, ExemptType.VEHICLE, ExemptType.FLYING);
             if (diff > PlayerUtil.getBaseSpeed(data.getPlayer()) && !exempt2) {
-                fail("DeltaXZ: " + deltaXZ);
+                fail("DeltaXZ: " + deltaXZ + " [PRED]");
             }
         }
     }

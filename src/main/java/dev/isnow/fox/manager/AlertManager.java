@@ -155,6 +155,7 @@ public final class AlertManager {
 
     public static void handleAlertLag(final Check check, final PlayerData data) {
         final float calc = (System.currentTimeMillis() - Fox.INSTANCE.getTickManager().getTime()) / 1000;
+
         if(check.getCheckInfo() != null && calc < 5) {
             alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(Config.PREFIX + data.getPlayer().getName() + " would flag for " + check.getFullName()) + ", but server skipped " + Fox.INSTANCE.getTickManager().getA() + "MS/" + (Fox.INSTANCE.getTickManager().getA() / 50) + " Ticks in the last " + calc + " seconds."));
         }

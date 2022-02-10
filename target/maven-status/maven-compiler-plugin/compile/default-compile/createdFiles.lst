@@ -37,6 +37,7 @@ dev\isnow\fox\listener\bukkit\RegistrationListener.class
 dev\isnow\fox\check\impl\player\inventory\InventoryC.class
 dev\isnow\fox\data\processor\PositionProcessor$CollisionType.class
 dev\isnow\fox\check\impl\combat\aim\AimD.class
+dev\isnow\fox\manager\TickManagerV2.class
 dev\isnow\fox\check\impl\movement\flight\FlightA.class
 dev\isnow\fox\listener\bukkit\BukkitEventManager$2.class
 dev\isnow\fox\check\Check$CheckType.class
@@ -82,8 +83,11 @@ dev\isnow\fox\util\BlockUtil.class
 dev\isnow\fox\util\Metrics$JsonObjectBuilder$JsonObject.class
 dev\isnow\fox\check\impl\combat\aim\AimF.class
 dev\isnow\fox\check\impl\combat\aura\AuraU.class
+dev\isnow\fox\manager\Initable.class
 dev\isnow\fox\command\impl\Demo.class
 dev\isnow\fox\manager\ClientBrandListener.class
+dev\isnow\fox\manager\TickManagerV2$1.class
+dev\isnow\fox\util\ListWrapper.class
 dev\isnow\fox\listener\bukkit\BukkitEventManager$1.class
 dev\isnow\fox\exempt\ExemptProcessor.class
 dev\isnow\fox\util\type\AABB.class
@@ -158,6 +162,7 @@ dev\isnow\fox\FoxPlugin.class
 dev\isnow\fox\check\impl\combat\hitbox\HitBoxA.class
 dev\isnow\fox\check\impl\movement\motion\MotionF.class
 dev\isnow\fox\check\impl\combat\autoclicker\AutoClickerD.class
+dev\isnow\fox\check\impl\movement\speed\SpeedC.class
 dev\isnow\fox\util\Metrics$SimpleBarChart.class
 dev\isnow\fox\check\impl\player\badpackets\BadPacketsO.class
 dev\isnow\fox\exempt\type\ExemptType.class
@@ -176,6 +181,7 @@ dev\isnow\fox\check\impl\player\timer\TimerB.class
 dev\isnow\fox\check\impl\player\crasher\CrasherD.class
 dev\isnow\fox\check\impl\combat\aura\AuraJ.class
 dev\isnow\fox\command\impl\Gui.class
+dev\isnow\fox\util\HookedListWrapper.class
 dev\isnow\fox\check\impl\movement\motion\MotionH.class
 dev\isnow\fox\util\type\HitboxExpansion.class
 dev\isnow\fox\util\Metrics$AdvancedBarChart.class

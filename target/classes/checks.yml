@@ -405,6 +405,12 @@ checks:
         punish-commands:
           - ''
           - ''
+      c:
+        enabled: true
+        max-violations: 10
+        punish-commands:
+          - ''
+          - ''
   player:
     inventory:
       a:

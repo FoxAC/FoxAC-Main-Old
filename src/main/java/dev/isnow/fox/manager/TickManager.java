@@ -7,13 +7,18 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.type.Pair;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
+import io.github.retrooper.packetevents.utils.reflection.Reflection;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import sun.misc.Unsafe;
 
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class TickManager implements Runnable {
@@ -41,19 +46,13 @@ public final class TickManager implements Runnable {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), () -> {
             a = (int)(System.currentTimeMillis() - lastTick[0]);
             lastTick[0] = System.currentTimeMillis();
-            if(a > 102) {
+            if(a > 103) {
                 time = System.currentTimeMillis();
             }
         }, 1L, 1L);
         task = Bukkit.getScheduler().runTaskTimer(Fox.INSTANCE.getPlugin(), this, 0L, 1L);
+        new TickManagerV2().start();
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Fox.INSTANCE.getPlugin(), () -> {
-            for(Player p : Bukkit.getOnlinePlayers()) {
-                if(PlayerDataManager.getInstance().getPlayerData(p) != null) {
-                    PlayerDataManager.getInstance().getPlayerData(p).getConnectionProcessor().sendTransaction();
-                }
-            }
-        }, 1L, 0L);
     }
 
     public void stop() {

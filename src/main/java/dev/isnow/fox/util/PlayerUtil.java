@@ -3,7 +3,10 @@
 package dev.isnow.fox.util;
 
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.util.type.VpnInfo;
+import dev.isnow.fox.util.vpn.VPNResponse;
+import dev.isnow.fox.util.vpn.json.JSONException;
+import dev.isnow.fox.util.vpn.json.JSONObject;
+import dev.isnow.fox.util.vpn.json.JsonReader;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.experimental.UtilityClass;
@@ -17,6 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -46,33 +50,22 @@ public class PlayerUtil {
         return false;
     }
 
-    public VpnInfo isUsingVPN(final Player player) {
-        try {
-            final URL url = new URL("http://check.getipintel.net/check.php?ip=" + player.getAddress().getAddress().getHostAddress() + "&contact=amongus@gmail.com&oflags=c");
-            final HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
-            connection.connect();
-            if (!(connection.getResponseCode() == HttpURLConnection.HTTP_OK)) {
-                Bukkit.getLogger().warning("[FOX] Vpn checker does not work! error code: " + connection.getResponseCode());
-            }
-            final String[] code = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().split(",");
-            connection.disconnect();
-            if(code[0].equals("0")) {
-                return new VpnInfo("N/A", false);
-            } else if(code[0].equals("1")) {
-                return new VpnInfo(new Locale("", code[1]).getDisplayCountry(), true);
-            } else {
-                return new VpnInfo("N/A", false);
-            }
-        }
-        catch (Exception e) {
-            Bukkit.broadcastMessage("exception");
-            e.printStackTrace();
-            return new VpnInfo("N/A", false);
-        }
+    public static VPNResponse getVPNResponse(String ip) throws JSONException, IOException {
+        JSONObject result = JsonReader.readJsonFromUrl(String
+                .format("https://funkemunky.cc/vpn?ip=%s&license=%s",
+                        ip, "none"));
 
+        return VPNResponse.fromJson(result);
     }
+    public VPNResponse isUsingVPN(final Player player) {
+        try {
+            return getVPNResponse(player.getAddress().getAddress().getHostAddress());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public boolean isHoldingSword(final Player player) {
         return player.getItemInHand().getType().toString().toLowerCase().contains("sword");
@@ -83,7 +76,7 @@ public class PlayerUtil {
     }
 
     public boolean is1_8(final Player player) {
-        return PacketEvents.getAPI().getPlayerUtils().getClientVersion(player).getProtocolVersion() >= 47;
+        return PacketEvents.get().getPlayerUtils().getClientVersion(player).getProtocolVersion() >= 47;
     }
 
     public float getBaseSpeed(final Player player, final float base) {

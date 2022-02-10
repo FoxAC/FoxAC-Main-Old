@@ -9,6 +9,7 @@ import dev.isnow.fox.util.reach.reach.PlayerReachEntity;
 import dev.isnow.fox.util.reach.reach.ReachUtils;
 import dev.isnow.fox.util.reach.reach.SimpleCollisionBox;
 import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 import io.github.retrooper.packetevents.packetwrappers.play.out.entity.WrappedPacketOutEntity;
 import io.github.retrooper.packetevents.packetwrappers.play.out.entityteleport.WrappedPacketOutEntityTeleport;
@@ -37,6 +38,7 @@ public class HitBoxA extends Check {
     private final ConcurrentLinkedQueue<Integer> playerAttackQueue = new ConcurrentLinkedQueue<>();
 
     private boolean hasSentPreWavePacket = false;
+    private boolean lastPosition, position;
 
     public HitBoxA(PlayerData data) {
         super(data);
@@ -84,21 +86,27 @@ public class HitBoxA extends Check {
             }
 
         } else if (packet.isFlyingType()) {
-            tickFlying();
+            if (!data.getPositionProcessor().isTeleported()) {
+                position = packet.isPosition();
+                tickFlying();
+            }
+            lastPosition = position;
         }
     }
 
     private void tickFlying() {
-        double maxReach = 3.002;
+        double maxReach = 3;
 
         Integer attackQueue = playerAttackQueue.poll();
         while (attackQueue != null) {
             PlayerReachEntity reachEntity = entityMap.get(attackQueue);
             SimpleCollisionBox targetBox = reachEntity.getPossibleCollisionBoxes();
 
-            targetBox.expand(0.1f);
+            targetBox.expand(0.1005f);
 
-            targetBox.expand(0.0005);
+            if (!position || !lastPosition) {
+                targetBox.expand(0.05);
+            }
 
 
             Location from = new Location(null, data.getPositionProcessor().getLastX(), data.getPositionProcessor().getLastY(), data.getPositionProcessor().getLastZ(), data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getLastPitch());
@@ -134,10 +142,12 @@ public class HitBoxA extends Check {
                 }
             }
 
-            if(minDistance == Double.MAX_VALUE && increaseBuffer() > 2) {
-                fail();
-            } else if(minDistance > maxReach && increaseBuffer() > 2){
-                fail();
+            if(minDistance == Double.MAX_VALUE) {
+                fail("Hit outside the hitbox (Couldn't calculate intercept)");
+                resetBuffer();
+            } else if(minDistance > maxReach){
+                fail("Reach: " + minDistance);
+                resetBuffer();
             } else {
                 decreaseBufferBy(0.1);
             }
@@ -153,6 +163,11 @@ public class HitBoxA extends Check {
     public void checkReach(int entityID) {
         if (entityMap.containsKey(entityID))
             playerAttackQueue.add(entityID);
+    }
+
+    public void tickEndEvent() {
+        data.getConnectionProcessor().sendTransaction();
+        hasSentPreWavePacket = false;
     }
 
     private void handleSpawnPlayer(Entity entity, Vector3d spawnPosition) {

@@ -5,7 +5,7 @@ import dev.isnow.fox.manager.AFKManager;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.util.PlayerUtil;
-import dev.isnow.fox.util.type.VpnInfo;
+import dev.isnow.fox.util.vpn.VPNResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,11 +19,14 @@ public final class RegistrationListener implements Listener {
     public void onPlayerJoin(final PlayerJoinEvent event) {
         PlayerDataManager.getInstance().add(event.getPlayer());
         if(Config.VPN_ENABLED) {
-            VpnInfo info = PlayerUtil.isUsingVPN(event.getPlayer());
-            if(!info.getIsVpn()) {
+            VPNResponse info = PlayerUtil.isUsingVPN(event.getPlayer());
+            if(info == null || !info.isSuccess()) {
                 return;
             }
-            event.getPlayer().kickPlayer(Config.VPN_MESSAGE.replaceAll("%country%", info.getCountry()));
+            if(!info.isProxy()) {
+                return;
+            }
+            event.getPlayer().kickPlayer(Config.VPN_MESSAGE.replaceAll("%country%", info.getCountryName()));
             for(Player p : Bukkit.getOnlinePlayers()) {
                 if(p.hasPermission("fox.alerts")) {
                     AlertManager.sendMessage(event.getPlayer().getName() + " tried to join using a vpn/proxy");
