@@ -162,6 +162,10 @@ public final class AlertManager {
     }
 
     public static void sendMessage(final String message) {
+        alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(message)));
+    }
+
+    public static void sendVPNMessage(final String message) {
         alerts.forEach(player -> player.getPlayer().sendMessage(ColorUtil.translate(Config.PREFIX + message)));
     }
 

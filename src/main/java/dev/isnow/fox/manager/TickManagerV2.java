@@ -19,6 +19,7 @@ import java.util.Optional;
 public class TickManagerV2 implements Initable{
 
     boolean hasTicked = true;
+    boolean messageSent = false;
 
     private static void tickRelMove() {
         for (PlayerData player : PlayerDataManager.getInstance().getAllData()) {
@@ -63,9 +64,11 @@ public class TickManagerV2 implements Initable{
 
         Bukkit.getScheduler().runTaskTimer(Fox.INSTANCE.getPlugin(), () -> {
             if (!hasTicked) {
-                Bukkit.broadcastMessage("Couldn't hook into TickEndEvent!");
+                if(!messageSent) {
+                    Bukkit.getConsoleSender().sendMessage("§cFOX §8>> §fCouldn't hook into TickEndEvent! Using BukkitRunnables (Reach check wont be able to detect 3.005!)....");
+                    messageSent = true;
+                }
                 tickRelMove();
-                Bukkit.getPluginManager().disablePlugin(Fox.INSTANCE.getPlugin());
             }
 
             hasTicked = false;

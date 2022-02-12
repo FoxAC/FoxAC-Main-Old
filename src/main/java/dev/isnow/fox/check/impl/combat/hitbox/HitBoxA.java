@@ -142,12 +142,11 @@ public class HitBoxA extends Check {
                 }
             }
 
-            if(minDistance == Double.MAX_VALUE) {
+            if(minDistance == Double.MAX_VALUE && increaseBuffer() > 3) {
                 fail("Hit outside the hitbox (Couldn't calculate intercept)");
                 resetBuffer();
             } else if(minDistance > maxReach){
                 fail("Reach: " + minDistance);
-                resetBuffer();
             } else {
                 decreaseBufferBy(0.1);
             }

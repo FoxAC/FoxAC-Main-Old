@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.steervehicle.WrappedPacketInSteerVehicle;
 
-@CheckInfo(name = "Crasher", description = "Detects invalid vehicle packets.", type = "A")
+@CheckInfo(name = "Crasher", description = "Detects invalid steer vehicle packets.", type = "A")
 public final class CrasherA extends Check {
 
     public CrasherA(final PlayerData data) {
@@ -24,7 +24,7 @@ public final class CrasherA extends Check {
             final boolean invalid = forwardValue > .98F || sideValue > .98F;
 
             if (invalid) {
-                fail(forwardValue);
+                fail("FV: " + forwardValue);
                 packet.getProcessor().setCancelled(true);
             }
         }

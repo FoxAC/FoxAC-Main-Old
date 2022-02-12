@@ -60,7 +60,7 @@ public final class ClientBrandListener implements PluginMessageListener, Listene
             } else if(clientBrand.equals("fabric")) {
                 AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%player%", data.getPlayer().getName()).replaceAll("%client%", "Fabric"));
             }
-            else if(clientBrand.contains("fml") | clientBrand.contains("forge")){
+            else if(clientBrand.contains("fml,forge")){
                     AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%player%", data.getPlayer().getName()).replaceAll("%client%", "Forge"));
             } else {
                 AlertManager.sendMessage(ColorUtil.translate(Config.CLIENT_JOIN_MESSAGE).replaceAll("%player%", data.getPlayer().getName()).replaceAll("%client%", "UNKNOWN [" + clientBrand + "]"));

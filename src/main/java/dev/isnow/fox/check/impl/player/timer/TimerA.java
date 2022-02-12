@@ -7,7 +7,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MovingStats;
 
-@CheckInfo(name = "Timer", type = "A", description = "Detects game speed modifications.")
+@CheckInfo(name = "Timer", type = "A", description = "Checks for game speed which is too fast.")
 public final class  TimerA extends Check {
 
     private final MovingStats movingStats = new MovingStats(20);

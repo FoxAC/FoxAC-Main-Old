@@ -3,16 +3,12 @@ package dev.isnow.fox.check.impl.combat.aim;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.data.processor.RotationProcessor;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.MathUtil;
-import dev.isnow.fox.util.TimeUtils;
 
-@CheckInfo(name = "Aim", description = "Checks for unlikely rotations.", type = "C")
-public class AimC extends Check {
-    public AimC(PlayerData data) {
+@CheckInfo(name = "Aim", description = "Checks for invalid rotations [YAW + PITCH].", type = "T")
+public class AimT extends Check {
+    public AimT(PlayerData data) {
         super(data);
-
     }
 
     @Override
@@ -24,8 +20,8 @@ public class AimC extends Check {
             final boolean invalid = deltaYaw == 0.0F && deltaPitch >= 20.0F;
 
             if (invalid) {
-                if (increaseBuffer() > 1) {
-                    fail();
+                if (increaseBuffer() > 3) {
+                    fail("DeltaPitch: " + deltaPitch + " DeltaYaw: " + deltaYaw);
                 }
             } else {
                 decreaseBufferBy(0.05);

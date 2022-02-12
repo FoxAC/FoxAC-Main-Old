@@ -7,7 +7,7 @@ import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
 
-@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 2]", type = "M")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 6]", type = "M")
 public final class AimM extends Check {
     private float lastPitchDifference;
     private float lastYawDifference;

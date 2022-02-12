@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Timer", type = "C", description = "Balance timer check.")
+@CheckInfo(name = "Timer", type = "C", description = "Checks for game speed which is too fast [Balanced].")
 public class TimerC extends Check {
     public TimerC(PlayerData data) {
         super(data);

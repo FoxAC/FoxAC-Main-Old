@@ -5,7 +5,7 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 
-@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 6]", type = "F")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 2]", type = "F")
 public class AimF
         extends Check {
     public AimF(PlayerData data) {

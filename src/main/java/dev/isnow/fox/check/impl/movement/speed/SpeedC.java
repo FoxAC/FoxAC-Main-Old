@@ -3,6 +3,7 @@ package dev.isnow.fox.check.impl.movement.speed;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 
 @CheckInfo(name = "Speed", type = "C", description = "Checks for invalid deceleration when rotating, by Nik.")
@@ -24,7 +25,7 @@ public class SpeedC extends Check {
 
             final double squaredAccel = accel * 100;
 
-            if(deltaYaw > 1.5F && deltaXZ > .150 && squaredAccel < 1.0E-5) {
+            if(deltaYaw > 1.5F && deltaXZ > .150 && squaredAccel < 1.0E-5 && !isExempt(ExemptType.CLIMBABLE)) {
                 fail("DeltaYaw: " + deltaYaw + " DeltaXZ: " + deltaXZ + " Acceleration: " + accel);
             }
         }

@@ -7,7 +7,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 6]", type = "H")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 3]", type = "H")
 public final class AimH
         extends Check {
     public AimH(PlayerData data) {

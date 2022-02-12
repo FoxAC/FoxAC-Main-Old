@@ -29,7 +29,7 @@ public final class RegistrationListener implements Listener {
             event.getPlayer().kickPlayer(Config.VPN_MESSAGE.replaceAll("%country%", info.getCountryName()));
             for(Player p : Bukkit.getOnlinePlayers()) {
                 if(p.hasPermission("fox.alerts")) {
-                    AlertManager.sendMessage(event.getPlayer().getName() + " tried to join using a vpn/proxy");
+                    AlertManager.sendVPNMessage(event.getPlayer().getName() + " tried to join using a vpn/proxy");
                 }
             }
         }

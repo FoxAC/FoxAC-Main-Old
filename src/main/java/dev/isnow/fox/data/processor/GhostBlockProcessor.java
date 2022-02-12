@@ -14,9 +14,7 @@ public final class GhostBlockProcessor {
 
     private final PlayerData data;
 
-    private boolean onGhostBlock, yGround, lastYGround;
-
-    private int ghostTicks, buffer;
+    private boolean onGhostBlock;
 
     public GhostBlockProcessor(final PlayerData data) {
         this.data = data;
@@ -49,10 +47,9 @@ public final class GhostBlockProcessor {
                     && Math.abs(deltaY - predictedY) > 1E-5;
 
             this.onGhostBlock = onGhostBlock || underGhostBlock;
-
-            if (onGhostBlock && airTicks > 5 && !isBridingUp) {
+            if (onGhostBlock && airTicks > 10 && !isBridingUp) {
                 data.dragDown();
-                data.getPlayer().sendMessage("Lagged Back for ghost blocks [EXPERIMENTAL]");
+                data.getPlayer().sendMessage("Lagged Back for ghost blocks [EXPERIMENTAL] ClientAirTicks: " + airTicks);
             }
         }
     }

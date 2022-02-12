@@ -135,6 +135,8 @@ public enum ExemptType {
 
     VEHICLE(data -> data.getPositionProcessor().getSinceVehicleTicks() < 20),
 
+    VEHICLE_NO_DELAY(data -> data.getPositionProcessor().isInVehicle()),
+
     LIQUID(data -> data.getPositionProcessor().getSinceLiquidTicks() < 4),
 
     NEARSTAIRS(data -> {
@@ -183,7 +185,7 @@ public enum ExemptType {
 
     UNDERBLOCK(data -> data.getPositionProcessor().isBlockNearHead()),
 
-    UNDERBLOCKWAS(data -> data.getPositionProcessor().getSinceBlockNearHeadTicks() <= 2),
+    UNDERBLOCKWAS(data -> data.getPositionProcessor().getSinceBlockNearHeadTicks() <= 10),
 
     PISTON(data -> data.getPositionProcessor().isNearPiston()),
 

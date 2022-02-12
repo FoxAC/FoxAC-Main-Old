@@ -3,13 +3,18 @@ package dev.isnow.fox.check.impl.player.badpackets;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
+import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.type.AABB;
 import io.github.retrooper.packetevents.packetwrappers.play.in.blockdig.WrappedPacketInBlockDig;
 import io.github.retrooper.packetevents.packetwrappers.play.in.blockplace.WrappedPacketInBlockPlace;
 import io.github.retrooper.packetevents.utils.player.Direction;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.LinkedList;
@@ -24,6 +29,9 @@ public class BadPacketsP extends Check {
 
     private int movements;
 
+    private WrappedPacketInBlockPlace wrapper = null;
+
+
     public BadPacketsP(PlayerData data) {
         super(data);
     }
@@ -32,8 +40,38 @@ public class BadPacketsP extends Check {
     public void handle(Packet packet) {
         if(packet.isFlying()) {
             ++movements;
-        }
+            if (wrapper != null) {
+                final Vector eyeLocation = data.getPlayer().getEyeLocation().toVector();
+                final Vector blockLocation = new Vector(
+                        wrapper.getBlockPosition().getX(),
+                        wrapper.getBlockPosition().getY(),
+                        wrapper.getBlockPosition().getZ()
+                );
 
+                final Vector directionToDestination = blockLocation.clone().subtract(eyeLocation);
+                final Vector playerDirection = data.getPlayer().getEyeLocation().getDirection();
+
+                final float angle = directionToDestination.angle(playerDirection);
+                final float distance = (float) eyeLocation.distance(blockLocation);
+
+                final boolean exempt = blockLocation.getX() == -1.0 && blockLocation.getY() == -1.0 && blockLocation.getZ() == -1.0
+                        || isExempt(ExemptType.GHOST_BLOCK);
+                final boolean invalid = angle > 1.0F && distance > 1.5;
+
+                if (invalid && !exempt) {
+                    if (increaseBuffer() > 3) {
+                        fail("Not looking at the block properly. Angle: " + angle);
+                    }
+                } else {
+                    decreaseBuffer();
+                }
+            }
+
+            wrapper = null;
+        }
+        if(packet.isBlockPlace()) {
+            wrapper = new WrappedPacketInBlockPlace(packet.getRawPacket());
+        }
         if(packet.isArmAnimation()) {
             ls = System.currentTimeMillis();
         }
@@ -115,10 +153,28 @@ public class BadPacketsP extends Check {
 
             movements = 0;
 
+            if(direction == Direction.UP || direction == Direction.DOWN) {
+                return;
+            }
+            // 216 normal
+            // 303 speed 1
+            // 346 speed 2
+            double limit = 0.216;
+            limit = data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) ? limit + (PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.SPEED) * 0.4F) : limit;
+
+            final boolean invalid = data.getPositionProcessor().getDeltaXZ() > limit && isBridgingV2();
+            if(invalid) {
+                fail("Sprinting while bridging, DeltaXZ: " + data.getPositionProcessor().getDeltaXZ());
+            }
+
         }
 
-
     }
+
+    public boolean isBridgingV2() {
+        return data.getPlayer().getLocation().clone().subtract(0, 2, 0).getBlock().getType() == Material.AIR && data.getPlayer().getLocation().clone().subtract(0, 1, 0).getBlock().getType().isSolid() && data.getRotationProcessor().getPitch() > 70 && data.getRotationProcessor().getPitch() < 81;
+    }
+
     private Location getBlockAgainst(final Direction direction, final Location blockLocation) {
         if (Direction.UP.equals(direction)) {
             return blockLocation.clone().add(0, -1, 0);

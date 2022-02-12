@@ -6,7 +6,7 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.in.steervehicle.WrappedPacketInSteerVehicle;
 
-@CheckInfo(name = "Crasher", description = "Detects invalid vehicle packets (METHOD 2).", type = "B")
+@CheckInfo(name = "Crasher", description = "Detects invalid vehicle packets [METHOD 2].", type = "B")
 public final class CrasherB extends Check {
 
     public CrasherB(final PlayerData data) {
@@ -24,7 +24,7 @@ public final class CrasherB extends Check {
 
             if (invalid) {
                 if (++buffer > 30) {
-                    fail("Invalid Vehicle");
+                    fail();
                     packet.getProcessor().setCancelled(true);
                     buffer /= 2;
                 }

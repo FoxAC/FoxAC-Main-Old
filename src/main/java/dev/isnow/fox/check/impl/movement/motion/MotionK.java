@@ -17,7 +17,7 @@ public class MotionK extends Check {
 
     @Override
     public void handle(Packet packet) {
-        if(packet.isFlying() && data.getPositionProcessor().getSinceBlockNearHeadTicks() < 5 && !isExempt(ExemptType.PEARL, ExemptType.NEARCACTUS, ExemptType.TELEPORT, ExemptType.VELOCITY_ON_TICK, ExemptType.FIRE, ExemptType.RESPAWN, ExemptType.JOINED)) {
+        if(packet.isFlying() && data.getPositionProcessor().getSinceBlockNearHeadTicks() > 10 && !isExempt(ExemptType.PEARL, ExemptType.NEARCACTUS, ExemptType.TELEPORT, ExemptType.VELOCITY_ON_TICK, ExemptType.FIRE, ExemptType.RESPAWN, ExemptType.JOINED)) {
             if(data.getPositionProcessor().isInAir() && data.getPositionProcessor().getDeltaY() < 0  && data.getPositionProcessor().getSinceGroundTicks() > 3 && data.getPositionProcessor().getSinceJumpingTicks() < 8) {
                 debug(data.getPositionProcessor().getDeltaY());
                 if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_16) && data.getPositionProcessor().getBlocks().stream().anyMatch(block -> block.getType() == Material.SNOW)) {

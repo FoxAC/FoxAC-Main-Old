@@ -17,7 +17,7 @@ api:
 
 settings:
   api: false
-  vpn: true
+  vpn: true # Credits to funkemunky for his amazing vpn api!
 
 clients:
   enabled: false
@@ -52,7 +52,7 @@ messages:
   alerts-off: '&c&lFOX &8>> &7Alerts toggled &cOff'
   verbose-on: '&c&lFOX &8>> &7Verbose toggled &aOn'
   verbose-off: '&c&lFOX &8>> &7Verbose toggled &cOff'
-  vpn-kick: '&c&lFOX &8>> &7Vpns are blacklisted on this server!'
+  vpn-kick: "&c&lFOX &8| &rAntiVPN Detection.%nl%%nl%&7Your IP has been detected as a VPN/Proxy/Tor [%country%]. %nl%&7Please disconnect from your VPN/Proxy/Tor to continiue playing.%nl%%nl%&8&oIf you believe this is a mistake, contact staff at our discord."
   payload-kick: '&c&lFOX &8>> &cYou were kicked for invalid payload!'
   anticrash-kick: '&c&lFOX &8>> &cYou were kicked for crasher/exploits!'
   antiexploit-alert: '&c&lFOX AntiExploit&8>> &c%player% &7failed &c%check%%dev% &7&l[&d%info%&7&l]'
