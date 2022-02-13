@@ -137,7 +137,7 @@ public class HitBoxA extends Check {
                     }
 
                     if (intercept != null) {
-                        minDistance = Math.min(eyePos.distance(intercept), minDistance);
+                        minDistance = Math.abs(Math.min(eyePos.distance(intercept), minDistance));
                     }
                 }
             }
@@ -145,7 +145,7 @@ public class HitBoxA extends Check {
             if(minDistance == Double.MAX_VALUE && increaseBuffer() > 3) {
                 fail("Hit outside the hitbox (Couldn't calculate intercept)");
                 resetBuffer();
-            } else if(minDistance > maxReach){
+            } else if(minDistance > maxReach && minDistance < 20){
                 fail("Reach: " + minDistance);
             } else {
                 decreaseBufferBy(0.1);

@@ -60,6 +60,8 @@ public final class CheckManager {
             AimR.class,
             AimS.class,
             AimT.class,
+            AimU.class,
+            AimV.class,
             AuraA.class,
             AuraB.class,
             AuraC.class,
@@ -168,6 +170,9 @@ public final class CheckManager {
                     check.setMaxVl(50);
                 }
                 checkList.add(check);
+                if(check instanceof HitBoxA) {
+                    data.setHitboxA((HitBoxA) check);
+                }
             } catch (final Exception exception) {
                 System.err.println("Failed to load checks for " + data.getPlayer().getName());
                 exception.printStackTrace();

@@ -4,6 +4,7 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.data.processor.RotationProcessor;
+import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 import dev.isnow.fox.util.TimeUtils;
@@ -23,7 +24,7 @@ public class AimC extends Check {
 
             final boolean invalid = deltaYaw == 0.0F && deltaPitch >= 20.0F;
 
-            if (invalid) {
+            if (invalid && !isExempt(ExemptType.JOINED)) {
                 if (increaseBuffer() > 1) {
                     fail();
                 }

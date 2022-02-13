@@ -85,6 +85,54 @@ checks:
         punish-commands:
           - ''
           - ''
+      o:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      p:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      q:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      r:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      s:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      t:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      u:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      v:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     aura:
       a:
         enabled: true
@@ -270,7 +318,7 @@ checks:
     hitbox:
       a:
         enabled: true
-        max-violations: 8
+        max-violations: 6
         punish-commands:
           - ''
           - ''
@@ -283,7 +331,7 @@ checks:
           - ''
       b:
         enabled: true
-        max-violations: 20
+        max-violations: 15
         punish-commands:
           - ''
           - ''
@@ -297,7 +345,7 @@ checks:
           - ''
       b:
         enabled: true
-        max-violations: 20
+        max-violations: 35
         punish-commands:
           - ''
           - ''
@@ -358,7 +406,7 @@ checks:
           - ''
       h:
         enabled: true
-        max-violations: 8
+        max-violations: 20
         punish-commands:
           - ''
           - ''
@@ -543,7 +591,7 @@ checks:
     timer:
       a:
         enabled: true
-        max-violations: 50
+        max-violations: 25
         punish-commands:
           - ''
           - ''
@@ -555,7 +603,7 @@ checks:
           - ''
       c:
         enabled: true
-        max-violations: 10
+        max-violations: 20
         punish-commands:
           - ''
           - ''

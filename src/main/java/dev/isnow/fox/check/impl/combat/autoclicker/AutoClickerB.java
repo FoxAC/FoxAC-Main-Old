@@ -31,7 +31,7 @@ public class AutoClickerB extends Check {
             if (movements < 10) {
                 delays.add(movements);
 
-                if (delays.size() == 100) {
+                if (delays.size() == 1000) {
 
                     int outliers = (int) delays.stream()
                             .filter(delay -> delay > 3)

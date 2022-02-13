@@ -22,6 +22,14 @@ public class MathUtil {
         return Math.abs(System.currentTimeMillis() - time);
     }
 
+
+    public double getReversedModulus(float div, float a, double remainder) {
+        if (a < remainder)
+            return (remainder - a);
+
+        return (div + remainder - a);
+    }
+
     public double getVariance(final Collection<? extends Number> data) {
         int count = 0;
 

@@ -23,12 +23,8 @@ public class TickManagerV2 implements Initable{
 
     private static void tickRelMove() {
         for (PlayerData player : PlayerDataManager.getInstance().getAllData()) {
-            Optional<Check> hitboxA = player.getChecks().stream().filter(check -> check.getFullName().equals("HitBoxA")).findFirst();
-
-            if(hitboxA.isPresent() && hitboxA.get() instanceof HitBoxA) {
-                HitBoxA hitbox = (HitBoxA) hitboxA.get();
-
-                hitbox.tickEndEvent();
+            if(player.getHitboxA() != null) {
+                player.getHitboxA().tickEndEvent();
             }
         }
     }
@@ -41,11 +37,6 @@ public class TickManagerV2 implements Initable{
             Field connectionsList = Reflection.getField(connection.getClass(), List.class, 1);
             List<Object> endOfTickObject = (List<Object>) connectionsList.get(connection);
 
-            // Use a list wrapper to check when the size method is called
-            // Unsure why synchronized is needed because the object itself gets synchronized
-            // but whatever.  At least plugins can't break it, I guess.
-            //
-            // Pledge injects into another list, so we should be safe injecting into this one
             List<?> wrapper = Collections.synchronizedList(new HookedListWrapper<Object>(endOfTickObject) {
                 @Override
                 public void onIterator() {

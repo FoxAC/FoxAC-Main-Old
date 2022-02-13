@@ -22,9 +22,9 @@ public final class AimA extends Check {
             final long expandedDeltaPitch = (long)(deltaPitch * MathUtil.EXPANDER);
             final long expandedLastDeltaPitch = (long)(lastDeltaPitch * MathUtil.EXPANDER);
             final long gcd = MathUtil.getGcd(expandedDeltaPitch, expandedLastDeltaPitch);
-            final boolean exempt = deltaPitch == 0.0f || lastDeltaPitch == 0.0f || this.isExempt(ExemptType.CINEMATIC_TIME, ExemptType.CINEMATIC);
+            final boolean exempt = deltaPitch == 0.0f || lastDeltaPitch == 0.0f || isExempt(ExemptType.CINEMATIC_TIME, ExemptType.CINEMATIC);
             if (!exempt && gcd < 131072L) {
-                if (increaseBuffer() > 20.0) {
+                if (increaseBuffer() > 20) {
                     fail("GCD: " + gcd);
                 }
             }

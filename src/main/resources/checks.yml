@@ -121,6 +121,18 @@ checks:
         punish-commands:
           - ''
           - ''
+      u:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
+      v:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     aura:
       a:
         enabled: true

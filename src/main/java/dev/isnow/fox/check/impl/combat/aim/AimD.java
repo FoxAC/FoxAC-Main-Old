@@ -8,7 +8,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks for invalid sensitivity.", type = "D")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 8].", type = "D")
 public class AimD
         extends Check {
 
@@ -35,11 +35,11 @@ public class AimD
             final double divisorYaw = MathUtil.getGcd((long) (deltaYaw * MathUtil.EXPANDER), (long) (lastDeltaYaw * MathUtil.EXPANDER));
 
             final double gcdYaw = data.getRotationProcessor().getGcd() / divisorYaw;
-            if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 1 && deltaPitch < 1 && attack && !isExempt(ExemptType.CINEMATIC)) {
+            if (deltaYaw > 0.0 && deltaPitch > 0.0 && deltaYaw < 1 && deltaPitch < 1 && attack && !isExempt(ExemptType.CINEMATIC_TIME)) {
                 if (gcdYaw > 9.9E-7) {
                     if (increaseBuffer() > 6) {
                         setBuffer(0);
-                        fail("GCDYaw: " + gcdYaw);
+                        fail("GCD: " + data.getRotationProcessor().getGcd());
                     }
                 } else {
                     decreaseBufferBy(2);

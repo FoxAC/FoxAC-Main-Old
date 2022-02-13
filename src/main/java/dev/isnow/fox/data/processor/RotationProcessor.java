@@ -45,7 +45,6 @@ public final class RotationProcessor {
 
         deltaYaw = Math.abs(yaw - lastYaw) % 360F;
         deltaPitch = Math.abs(pitch - lastPitch);
-
         lastJoltPitch = joltPitch;
         lastJoltYaw = joltYaw;
 

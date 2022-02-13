@@ -28,7 +28,7 @@ public final class PlayerDataManager {
     }
 
     public boolean has(final Player player) {
-        return this.playerDataMap.containsKey(player.getUniqueId());
+        return playerDataMap.containsKey(player.getUniqueId());
     }
 
     public void remove(final Player player) {

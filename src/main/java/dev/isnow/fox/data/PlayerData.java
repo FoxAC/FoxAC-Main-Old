@@ -2,6 +2,7 @@ package dev.isnow.fox.data;
 
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
+import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.processor.*;
 import dev.isnow.fox.exempt.ExemptProcessor;
@@ -54,6 +55,8 @@ public final class PlayerData {
     private final VelocityProcessor velocityProcessor = new VelocityProcessor(this);
     private final ConnectionProcessor connectionProcessor = new ConnectionProcessor(this);
     private final GhostBlockProcessor ghostBlockProcessor = new GhostBlockProcessor(this);
+
+    private HitBoxA hitboxA;
 
     public PlayerData(final Player player) {
         this.player = player;

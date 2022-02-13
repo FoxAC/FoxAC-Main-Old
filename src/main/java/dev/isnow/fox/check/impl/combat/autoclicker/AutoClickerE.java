@@ -16,8 +16,8 @@ import java.util.List;
 public class AutoClickerE extends Check {
 
     private int movements;
-    private List<Integer> delays = new ArrayList<>();
-    private List<Double> stdDelays = new ArrayList<>();
+    private final List<Integer> delays = new ArrayList<>();
+    private final List<Double> stdDelays = new ArrayList<>();
     private double threshold, lastAverage, lastDelta;
     public AutoClickerE(PlayerData data) {
         super(data);
