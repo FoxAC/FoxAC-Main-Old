@@ -32,6 +32,7 @@ public class CrasherG extends Check {
 
             if (byteBuf.capacity() == 0) {
                 packet.getProcessor().setCancelled(true);
+                fail("invalid byteBuf.");
             }
 
             if (channel == null || channel.isEmpty()) {

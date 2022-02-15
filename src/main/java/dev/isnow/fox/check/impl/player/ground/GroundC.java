@@ -24,11 +24,11 @@ public final class GroundC extends Check {
 
             final boolean step = deltaY % 0.015625 == 0.0 && lastY % 0.015625 == 0.0;
 
-            boolean exempt = isExempt(ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
+            boolean exempt = isExempt(ExemptType.GHOST_BLOCK, ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
             final boolean invalid = groundTicks > 5 && deltaY != 0.0 && !step;
 
             if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isOlderThan(ClientVersion.v_1_8)) {
-                exempt = isExempt(ExemptType.PEARL, ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
+                exempt = isExempt(ExemptType.GHOST_BLOCK, ExemptType.PEARL, ExemptType.LONG_BUKKIT_PLACING, ExemptType.TELEPORT, ExemptType.BOAT, ExemptType.WEB, ExemptType.LIQUID, ExemptType.PISTON, ExemptType.CHUNK);
             }
             if (invalid && !exempt) {
                 if (increaseBuffer() > 1) {

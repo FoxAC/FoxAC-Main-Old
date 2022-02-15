@@ -25,8 +25,10 @@ public class SpeedC extends Check {
 
             final double squaredAccel = accel * 100;
 
-            if(deltaYaw > 1.5F && deltaXZ > .150 && squaredAccel < 1.0E-5 && !isExempt(ExemptType.CLIMBABLE)) {
+            if(deltaYaw > 1.5F && deltaXZ > .150 && squaredAccel < 1.0E-5 && !isExempt(ExemptType.CLIMBABLE, ExemptType.JOINED, ExemptType.TELEPORT) && increaseBuffer() > 3) {
                 fail("DeltaYaw: " + deltaYaw + " DeltaXZ: " + deltaXZ + " Acceleration: " + accel);
+            } else {
+                decreaseBufferBy(0.2);
             }
         }
 

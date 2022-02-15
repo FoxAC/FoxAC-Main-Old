@@ -5,11 +5,8 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.processor.GhostBlockProcessor;
 import dev.isnow.fox.manager.CheckManager;
 import dev.isnow.fox.util.ColorUtil;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -141,8 +138,6 @@ public final class Config {
 
                     final int maxViolations = getIntegerChecks("checks." + checkType.toLowerCase() + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".max-violations");
                     final List<String> punishCommand = getListChecks("checks." + checkType + "." + checkInfo.name().toLowerCase() + "." + checkInfo.type().toLowerCase() + ".punish-commands");
-
-                    Bukkit.broadcastMessage(check.getSimpleName() + " is " + enabled);
                     if (enabled) {
                         ENABLED_CHECKS.add(check.getSimpleName());
                     }

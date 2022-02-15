@@ -34,7 +34,7 @@ public class TimerC extends Check {
 
                     balance = 0;
                 } else {
-                    decreaseBufferBy(0.001);
+                    decreaseBufferBy(0.1);
                 }
             }
 

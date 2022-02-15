@@ -11,6 +11,8 @@ import dev.isnow.fox.manager.PlayerDataManager;
 import dev.isnow.fox.manager.PunishmentManager;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.ColorUtil;
+import io.github.retrooper.packetevents.PacketEvents;
+import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -18,6 +20,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -59,6 +63,16 @@ public abstract class Check {
             checkType = CheckType.MOVEMENT;
         } else if (packageName.contains("player")) {
             checkType = CheckType.PLAYER;
+        }
+    }
+
+    public List<Double> getPossibleEyeHeights() { // We don't return sleeping eye height
+        if (PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_14)) { // Elytra, sneaking (1.14), standing
+            return Arrays.asList(0.4, 1.27, 1.62);
+        } else if (PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_9)) { // Elytra, sneaking, standing
+            return Arrays.asList(0.4, 1.54, 1.62);
+        } else { // Only sneaking or standing
+            return Arrays.asList(1.54, 1.62);
         }
     }
 

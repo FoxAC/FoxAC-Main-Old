@@ -51,7 +51,7 @@ public final class SpeedA extends Check {
                 modifiers = modifiers + ", jump";
             }
 
-            if (isExempt(ExemptType.ICE, ExemptType.SLIME) || data.getPositionProcessor().getSinceIceTicks() < 20) {
+            if (isExempt(ExemptType.SLIME) || data.getPositionProcessor().getSinceIceTicks() < 20) {
                 airLimit += 0.34F;
                 groundLimit += 0.34F;
                 modifiers = modifiers + ", ice/slime";
@@ -101,20 +101,13 @@ public final class SpeedA extends Check {
                 } else {
                     modifiers = modifiers + ", Ground";
                     if (deltaXZ > groundLimit) {
-                        if (increaseBuffer() > 3) {
+                        if (increaseBuffer() > 7) {
                             fail("DeltaXZ: " + deltaXZ + " Modifiers:" + modifiers);
                         }
                     } else {
-                        decreaseBufferBy(0.15);
+                        decreaseBufferBy(0.2);
                     }
                 }
-            }
-
-            final double diff = data.getPositionProcessor().getDeltaXZ() - data.getPositionProcessor().getLastDeltaXZ();
-
-            final boolean exempt2 = isExempt(ExemptType.VELOCITY, ExemptType.TELEPORT_DELAY, ExemptType.VEHICLE, ExemptType.FLYING);
-            if (diff > PlayerUtil.getBaseSpeed(data.getPlayer()) && !exempt2) {
-                fail("DeltaXZ: " + deltaXZ + " [PRED]");
             }
         }
     }

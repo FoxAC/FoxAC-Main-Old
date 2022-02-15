@@ -3,12 +3,10 @@ package dev.isnow.fox.check.impl.combat.aim;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
-import dev.isnow.fox.util.type.EvictingList;
 
-@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 4]", type = "J")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 5]", type = "J")
 public class AimJ extends Check {
     public AimJ(PlayerData data) {
         super(data);

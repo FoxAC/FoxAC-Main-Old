@@ -33,9 +33,9 @@ public final class AutoClickerH extends Check {
                         ++invalid;
                     }
 
-                    if (++total == 40) {
+                    if (++total == 120) {
 
-                        if (invalid >= 40) {
+                        if (invalid >= 120) {
                             if(PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isNewerThanOrEquals(ClientVersion.v_1_17)) {
                                 if(increaseBuffer() > 10) {
                                     fail();

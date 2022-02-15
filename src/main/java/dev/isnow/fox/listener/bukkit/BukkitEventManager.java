@@ -125,7 +125,7 @@ public final class BukkitEventManager implements Listener {
 
     @EventHandler
     public void onThrow(ProjectileLaunchEvent event) {
-        if(event.getEntity().getShooter() != null && event.getEntity().getShooter() instanceof Player) {
+        if(event.getEntity() != null && event.getEntity().getShooter() != null && event.getEntity().getShooter() instanceof Player && PlayerDataManager.getInstance().getPlayerData((Player) event.getEntity().getShooter()) != null) {
             PlayerDataManager.getInstance().getPlayerData((Player) event.getEntity().getShooter()).setEnderpearlTime(System.currentTimeMillis());
         }
     }

@@ -31,8 +31,8 @@ public class MotionJ extends Check {
             final boolean invalid = deltaY > limit && onClimbable;
 
             if (invalid && !exempt) {
-                if (increaseBuffer() > 3 || deltaY > (limit * 5.0F)) {
-                    fail("DeltaY: " + deltaY);
+                if (increaseBuffer() > 6 || deltaY > (limit * 5.0F)) {
+                    fail("DeltaY: " + deltaY + " Limit: " + limit);
                 }
             } else {
                 decreaseBufferBy(0.25);

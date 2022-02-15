@@ -13,7 +13,6 @@ import io.github.retrooper.packetevents.packetwrappers.play.in.blockplace.Wrappe
 import io.github.retrooper.packetevents.utils.player.Direction;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
@@ -55,12 +54,12 @@ public class BadPacketsP extends Check {
                 final float distance = (float) eyeLocation.distance(blockLocation);
 
                 final boolean exempt = blockLocation.getX() == -1.0 && blockLocation.getY() == -1.0 && blockLocation.getZ() == -1.0
-                        || isExempt(ExemptType.GHOST_BLOCK);
+                        || isExempt(ExemptType.GHOST_BLOCK, ExemptType.LAGGING, ExemptType.TELEPORT_DELAY);
                 final boolean invalid = angle > 1.0F && distance > 1.5;
 
                 if (invalid && !exempt) {
                     if (increaseBuffer() > 3) {
-                        fail("Not looking at the block properly. Angle: " + angle);
+                        fail("AngleCos: " + Math.acos(angle));
                     }
                 } else {
                     decreaseBuffer();
@@ -156,12 +155,11 @@ public class BadPacketsP extends Check {
             if(direction == Direction.UP || direction == Direction.DOWN) {
                 return;
             }
-            // 216 normal
-            // 303 speed 1
-            // 346 speed 2
-            double limit = 0.216;
-            limit = data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) ? limit + (PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.SPEED) * 0.4F) : limit;
 
+            double limit = 0.270;
+            limit = data.getPlayer().hasPotionEffect(PotionEffectType.SPEED) ? limit + ((PlayerUtil.getPotionLevel(data.getPlayer(), PotionEffectType.SPEED) * 0.05)) : limit;
+
+            debug(data.getPositionProcessor().getDeltaXZ());
             final boolean invalid = data.getPositionProcessor().getDeltaXZ() > limit && isBridgingV2();
             if(invalid) {
                 fail("Sprinting while bridging, DeltaXZ: " + data.getPositionProcessor().getDeltaXZ());

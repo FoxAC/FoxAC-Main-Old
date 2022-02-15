@@ -2,7 +2,6 @@ package dev.isnow.fox.listener.bukkit;
 
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.config.Config;
-import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.manager.AFKManager;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
@@ -14,7 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public final class RegistrationListener implements Listener {
@@ -42,7 +42,7 @@ public final class RegistrationListener implements Listener {
                 if(!event.getPlayer().isOnline()) {
                     cancel();
                 }
-                if(PlayerDataManager.getInstance().getPlayerData(event.getPlayer()).getPositionProcessor().getY() == 0) {
+                if(PlayerDataManager.getInstance().getPlayerData(event.getPlayer()) != null && PlayerDataManager.getInstance().getPlayerData(event.getPlayer()).getPositionProcessor().getY() == 0) {
                     event.getPlayer().kickPlayer(ColorUtil.translate("&cFailed to load your data."));
                 }
             }

@@ -59,7 +59,7 @@ public final class SpeedB extends Check {
             if (movementSpeed > 1.0 && !exempt) {
 
                 if (increaseBufferBy(10) > 20) {
-                    fail(movementSpeed);
+                    fail("Friction: " + movementSpeed);
                 }
             } else {
                 decreaseBufferBy(1);

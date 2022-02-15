@@ -26,7 +26,7 @@ public final class GroundA extends Check {
             final boolean invalid = clientGround != serverGround;
 
             if (invalid && !exempt) {
-                if (increaseBuffer() > 3) {
+                if (increaseBuffer() > 12) {
                     fail();
                 }
             }

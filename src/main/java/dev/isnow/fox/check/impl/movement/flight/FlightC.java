@@ -21,8 +21,10 @@ public final class FlightC extends Check {
 
             final boolean exempt = isExempt(ExemptType.FLYING, ExemptType.TELEPORT_DELAY, ExemptType.CREATIVE, ExemptType.PLACING);
             stableY = data.getPositionProcessor().getY() == data.getPositionProcessor().getLastY() && data.getPositionProcessor().isInAir() ? stableY + 1.0 : 0.0;
-            if (stableY > 2.0 && !exempt) {
+            if (stableY > 2.0 && !exempt && increaseBuffer() > 10) {
                 fail("Y: " + stableY);
+            } else {
+                decreaseBuffer();
             }
         }
     }

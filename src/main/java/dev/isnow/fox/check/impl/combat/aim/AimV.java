@@ -23,7 +23,7 @@ public class AimV extends Check {
 
             if(accelPitch <= 0.001 && !exempt) {
                 if(++buffer > 7)
-                    fail("DeltaPitch: " + accelPitch);
+                    fail();
             } else if(buffer > 0) buffer -= 0.1025;
         }
 

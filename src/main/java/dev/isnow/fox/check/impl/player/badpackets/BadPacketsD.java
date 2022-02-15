@@ -3,7 +3,6 @@ package dev.isnow.fox.check.impl.player.badpackets;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
 import org.bukkit.Location;
@@ -15,14 +14,12 @@ public class BadPacketsD extends Check {
         super(data);
     }
 
-    private long balance = 0L;
-    private long lastFlying = 0L;
-
     private double posYaw, teleportTicks, ticks;
     private Location serverPosLoc;
 
     @Override
     public void handle(Packet packet) {
+        if(data.getGhostBlockProcessor().isOnGhostBlock()) return;
         if (packet.isServerPos()) {
             WrappedPacketOutPosition positionPacket =
                     new WrappedPacketOutPosition(packet.getRawPacket());

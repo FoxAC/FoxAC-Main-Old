@@ -22,14 +22,8 @@ public class InventoryE extends Check {
     @Override
     public void handle(Packet packet) {
         if(packet.isFlying()) {
-            debug(data.getPositionProcessor().getDeltaXZ());
             if(inInventory && System.currentTimeMillis() - lastInvOpen > 300 && data.getPositionProcessor().getDeltaXZ() > 0.2 && !data.getPositionProcessor().isInAir() && !isExempt(ExemptType.VELOCITY)) {
-                if(increaseBuffer() > 10) {
-                    fail("DeltaXZ: " + data.getPositionProcessor().getDeltaXZ());
-                }
-            }
-            else {
-                decreaseBuffer();
+                data.getPlayer().closeInventory();
             }
         }
         if(packet.isCloseWindow()) {

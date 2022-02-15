@@ -133,6 +133,12 @@ checks:
         punish-commands:
           - ''
           - ''
+      w:
+        enabled: true
+        max-violations: 8
+        punish-commands:
+          - ''
+          - ''
     aura:
       a:
         enabled: true
@@ -257,12 +263,6 @@ checks:
       v:
         enabled: true
         max-violations: 10
-        punish-commands:
-          - ''
-          - ''
-      w:
-        enabled: true
-        max-violations: 15
         punish-commands:
           - ''
           - ''

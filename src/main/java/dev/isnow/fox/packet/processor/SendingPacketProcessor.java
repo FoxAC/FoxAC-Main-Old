@@ -22,6 +22,9 @@ public final class SendingPacketProcessor  {
 
             data.getPositionProcessor().handleTeleport(wrapper);
         }
+        if(packet.isServerPos()) {
+            data.getGhostBlockProcessor().handleServrPos();
+        }
         data.getChecks().forEach(check -> check.handle(packet));
     }
 }

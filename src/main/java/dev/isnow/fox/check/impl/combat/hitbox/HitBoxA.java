@@ -1,44 +1,22 @@
 package dev.isnow.fox.check.impl.combat.hitbox;
 
+import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.manager.PlayerDataManager;
+import dev.isnow.fox.data.processor.CombatProcessor;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.reach.reach.PlayerReachEntity;
-import dev.isnow.fox.util.reach.reach.ReachUtils;
-import dev.isnow.fox.util.reach.reach.SimpleCollisionBox;
+import dev.isnow.fox.util.mc.AxisAlignedBB;
+import dev.isnow.fox.util.mc.MathHelper;
+import dev.isnow.fox.util.mc.MovingObjectPosition;
+import dev.isnow.fox.util.mc.Vec3;
 import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
-import io.github.retrooper.packetevents.packetwrappers.play.out.entity.WrappedPacketOutEntity;
-import io.github.retrooper.packetevents.packetwrappers.play.out.entityteleport.WrappedPacketOutEntityTeleport;
-import io.github.retrooper.packetevents.packetwrappers.play.out.namedentityspawn.WrappedPacketOutNamedEntitySpawn;
-import io.github.retrooper.packetevents.utils.player.ClientVersion;
-import io.github.retrooper.packetevents.utils.vector.Vector3d;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-@CheckInfo(name = "HitBox", type = "A", description = "Modified HitBox (Detected using transaction packets)")
+@CheckInfo(name = "HitBox", type = "A", description = "Modified Reach / HitBox")
 public class HitBoxA extends Check {
-
-    public final ConcurrentHashMap<Integer, PlayerReachEntity> entityMap = new ConcurrentHashMap<>();
-    private final ConcurrentLinkedQueue<Integer> playerAttackQueue = new ConcurrentLinkedQueue<>();
-
-    private boolean hasSentPreWavePacket = false;
-    private boolean lastPosition, position;
 
     public HitBoxA(PlayerData data) {
         super(data);
@@ -46,153 +24,83 @@ public class HitBoxA extends Check {
 
     @Override
     public void handle(final Packet packet) {
-        if (packet.isSpawnEntity()) {
-            WrappedPacketOutNamedEntitySpawn spawn = new WrappedPacketOutNamedEntitySpawn(packet.getRawPacket());
-            Entity entity = spawn.getEntity();
-            if (entity != null && entity.getType() == EntityType.PLAYER) {
-                handleSpawnPlayer(entity, spawn.getPosition());
-            }
-        } else if (packet.isRelEntityMove()) {
-            WrappedPacketOutEntity.WrappedPacketOutRelEntityMove move = new WrappedPacketOutEntity.WrappedPacketOutRelEntityMove(packet.getRawPacket());
-
-            PlayerReachEntity reachEntity = entityMap.get(move.getEntityId());
-            if (reachEntity != null) {
-                // We can't hang two relative moves on one transaction
-                if (reachEntity.lastTransactionHung == data.getConnectionProcessor().getLastTransactionSent().get())
-                    data.getConnectionProcessor().sendTransaction();
-                reachEntity.lastTransactionHung = data.getConnectionProcessor().getLastTransactionSent().get();
-                handleMoveEntity(move.getEntityId(), move.getDeltaX(), move.getDeltaY(), move.getDeltaZ(), true);
-            }
-        } else if (packet.isEntityTeleport()) {
-            WrappedPacketOutEntityTeleport teleport = new WrappedPacketOutEntityTeleport(packet.getRawPacket());
-
-            PlayerReachEntity reachEntity = entityMap.get(teleport.getEntityId());
-            if (reachEntity != null) {
-                // We can't hang two relative moves on one transaction
-                if (reachEntity.lastTransactionHung == data.getConnectionProcessor().lastTransactionSent.get()) data.getConnectionProcessor().sendTransaction();
-                reachEntity.lastTransactionHung = data.getConnectionProcessor().lastTransactionSent.get();
-
-                Vector3d pos = teleport.getPosition();
-                handleMoveEntity(teleport.getEntityId(), pos.getX(), pos.getY(), pos.getZ(), false);
-            }
-        } else if (packet.isUseEntity()) {
-            WrappedPacketInUseEntity action = new WrappedPacketInUseEntity(packet.getRawPacket());
-
-            if (data.getPlayer().getGameMode() == GameMode.CREATIVE) return;
-            //if (data.getPositionProcessor().isInVehicle()) return;
-
-            if (action.getAction() == WrappedPacketInUseEntity.EntityUseAction.ATTACK) {
-                checkReach(action.getEntityId());
-            }
-
-        } else if (packet.isFlyingType()) {
-            if (!data.getPositionProcessor().isTeleported()) {
-                position = packet.isPosition();
-                tickFlying();
-            }
-            lastPosition = position;
-        }
-    }
-
-    private void tickFlying() {
-        double maxReach = 3;
-
-        Integer attackQueue = playerAttackQueue.poll();
-        while (attackQueue != null) {
-            PlayerReachEntity reachEntity = entityMap.get(attackQueue);
-            SimpleCollisionBox targetBox = reachEntity.getPossibleCollisionBoxes();
-
-            targetBox.expand(0.1005f);
-
-            if (!position || !lastPosition) {
-                targetBox.expand(0.05);
-            }
-
-
-            Location from = new Location(null, data.getPositionProcessor().getLastX(), data.getPositionProcessor().getLastY(), data.getPositionProcessor().getLastZ(), data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getLastPitch());
-
-            double minDistance = Double.MAX_VALUE;
-
-            // https://bugs.mojang.com/browse/MC-67665
-            List<Vector> possibleLookDirs = new ArrayList<>(Arrays.asList(
-                    ReachUtils.getLook(data.getRotationProcessor().getLastYaw(), data.getRotationProcessor().getPitch()),
-                    ReachUtils.getLook(data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch())
-            ));
-
-            // 1.7 players do not have any of these issues! They are always on the latest look vector
-            if (PacketEvents.get().getPlayerUtils().getClientVersion(data.getPlayer()).isOlderThan(ClientVersion.v_1_8)) {
-                possibleLookDirs = Collections.singletonList(ReachUtils.getLook(data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch()));
-            }
-
-            for (Vector lookVec : possibleLookDirs) {
-                for (double eye : Arrays.asList(1.54, 1.62)) {
-                    Vector eyePos = new Vector(from.getX(), from.getY() + eye, from.getZ());
-                    Vector endReachPos = eyePos.clone().add(new Vector(lookVec.getX() * 6, lookVec.getY() * 6, lookVec.getZ() * 6));
-
-                    Vector intercept = ReachUtils.calculateIntercept(targetBox, eyePos, endReachPos);
-
-                    if (ReachUtils.isVecInside(targetBox, eyePos)) {
-                        minDistance = 0;
-                        break;
-                    }
-
-                    if (intercept != null) {
-                        minDistance = Math.abs(Math.min(eyePos.distance(intercept), minDistance));
-                    }
+        if (packet.isUseEntityInteractAt()) {
+            WrappedPacketInUseEntity interactAt = new WrappedPacketInUseEntity(packet.getRawPacket());
+            if (interactAt.getEntity() instanceof Player) {
+                if(!interactAt.getTarget().isPresent()) {
+                    return;
+                }
+                if (Math.abs(interactAt.getTarget().get().x) > 0.400001 || Math.abs(interactAt.getTarget().get().z) > 0.400001) {
+                    fail("Missed hitbox.");
                 }
             }
-
-            if(minDistance == Double.MAX_VALUE && increaseBuffer() > 3) {
-                fail("Hit outside the hitbox (Couldn't calculate intercept)");
-                resetBuffer();
-            } else if(minDistance > maxReach && minDistance < 20){
-                fail("Reach: " + minDistance);
-            } else {
-                decreaseBufferBy(0.1);
+        }
+        if (packet.isFlying()) {
+            final CombatProcessor combatProcessor = data.getCombatProcessor();
+            if(combatProcessor.getTarget() == null || combatProcessor.getLastTarget() == null) {
+                return;
             }
+            if (combatProcessor.getHitTicks() == 1 && combatProcessor.getTarget().getEntityId() == combatProcessor.getLastTarget().getEntityId()) {
+                final int totalTicks = Fox.INSTANCE.getTickManager().getTicks();
+                final int ticksMS = PacketEvents.get().getPlayerUtils().getPing(data.getPlayer()) / 50;
 
-            attackQueue = playerAttackQueue.poll();
+                final Vector originLoc = new Vector(data.getPositionProcessor().getX(), data.getPositionProcessor().getY(), data.getPositionProcessor().getZ());
+
+
+                //credits to medusa xD
+                double distance = data.getTargetLocations().stream()
+                        .filter(pair -> Math.abs(totalTicks - pair.getY() - ticksMS) < 4)
+                        .mapToDouble(pair -> {
+
+                            final Vector victimVec = pair.getX().toVector();
+                            final AxisAlignedBB targetBox = new AxisAlignedBB(victimVec);
+
+                            Vec3 origin = getPositionEyes(originLoc.getX(),
+                                    originLoc.getY(), originLoc.getZ(), data.getPlayer().getEyeHeight());
+                            Vec3 look = getVectorForRotation(data.getRotationProcessor().getPitch(), data.getRotationProcessor().getYaw());
+                            look = origin.addVector(look.xCoord * 6,
+                                    look.yCoord * 6,
+                                    look.zCoord * 6);
+
+
+                            MovingObjectPosition collision = targetBox.calculateIntercept(origin, look);
+
+                            return (collision == null || collision.hitVec == null || look == null) ? victimVec.clone().setY(0).
+                                    distance(originLoc.clone().setY(0)) - 0.5f : collision.hitVec.distanceTo(origin) - 0.225f;
+
+                        }).min().orElse(0);
+
+
+                //don't ask
+                if(data.getPositionProcessor().getDeltaXZ() <= 0.01f)
+                    distance -= 0.03125f;
+
+                final double bufferIncrease = distance <= 3.05 ? 1 : 1.75;
+
+                if (distance > 3.05) {
+                    buffer += bufferIncrease;
+                    if (buffer > 3.6) {
+                        fail("Reach: " + (float) distance);
+                    }
+                } else if (buffer > 0 && distance >= 0.185) buffer -= (distance * 0.005);
+
+            }
         }
-
-        for (PlayerReachEntity entity : entityMap.values()) {
-            entity.onMovement();
-        }
-    }
-
-    public void checkReach(int entityID) {
-        if (entityMap.containsKey(entityID))
-            playerAttackQueue.add(entityID);
     }
 
     public void tickEndEvent() {
         data.getConnectionProcessor().sendTransaction();
-        hasSentPreWavePacket = false;
     }
 
-    private void handleSpawnPlayer(Entity entity, Vector3d spawnPosition) {
-        entityMap.put(entity.getEntityId(), new PlayerReachEntity(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(), data, entity));
+    public final Vec3 getVectorForRotation(float pitch, float yaw) {
+        float f = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
+        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f3 = MathHelper.sin(-pitch * 0.017453292F);
+        return new Vec3((f1 * f2), f3, (f * f2));
     }
 
-    private void handleMoveEntity(int entityId, double deltaX, double deltaY, double deltaZ, boolean isRelative) {
-        PlayerReachEntity reachEntity = entityMap.get(entityId);
-
-        if (reachEntity != null) {
-            // Only send one transaction before each wave, without flushing
-            if (!hasSentPreWavePacket) data.getConnectionProcessor().sendTransaction();
-            hasSentPreWavePacket = true; // Also functions to mark we need a post wave transaction
-
-            // Update the tracked server's entity position
-            if (isRelative)
-                reachEntity.serverPos = reachEntity.serverPos.add(new Vector3d(deltaX, deltaY, deltaZ));
-            else
-                reachEntity.serverPos = new Vector3d(deltaX, deltaY, deltaZ);
-
-            int lastTrans = data.getConnectionProcessor().getLastTransactionSent().get();
-            Vector3d newPos = reachEntity.serverPos;
-
-            data.getConnectionProcessor().addRealTimeTask(lastTrans, () -> reachEntity.onFirstTransaction(newPos.getX(), newPos.getY(), newPos.getZ(), data));
-            data.getConnectionProcessor().addRealTimeTask(lastTrans + 1, reachEntity::onSecondTransaction);
-        }
+    public Vec3 getPositionEyes(final double x, double y, double z, double eyeHeight) {
+        return new Vec3(x, y + eyeHeight, z);
     }
-
 }

@@ -6,13 +6,11 @@ import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.MathUtil;
-import dev.isnow.fox.util.type.EvictingList;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@CheckInfo(name = "AutoClicker", type = "B", description = "Vape Autoclicker check.", experimental = true)
+@CheckInfo(name = "AutoClicker", type = "B", description = "Detects Vape autoclicker [METHOD 1].", experimental = true)
 public class AutoClickerB extends Check {
 
     private int movements;

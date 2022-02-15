@@ -47,6 +47,9 @@ public final class VelocityProcessor {
         this.velocityZ = velocityZ;
         this.velocityXZ = MathUtil.hypot(velocityX, velocityZ);
         this.velocityID = (short)ThreadLocalRandom.current().nextInt(Short.MAX_VALUE);
+        if(velocityID == 0) {
+            this.velocityID = (short)ThreadLocalRandom.current().nextInt(Short.MAX_VALUE);
+        }
         PacketEvents.get().getPlayerUtils().sendPacket(this.data.getPlayer(), new WrappedPacketOutTransaction(0, this.velocityID, false));
         this.pendingVelocities.put(this.velocityID, new Vector(velocityX, velocityY, velocityZ));
     }

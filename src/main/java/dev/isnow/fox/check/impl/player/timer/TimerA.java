@@ -24,7 +24,7 @@ public final class  TimerA extends Check {
         if (packet.isFlying()) {
             final long now = now();
 
-            final boolean exempt = this.isExempt(ExemptType.LAGGINGHARD, ExemptType.RESPAWN, ExemptType.TELEPORT, ExemptType.JOINED, ExemptType.VEHICLE);
+            final boolean exempt = this.isExempt(ExemptType.LAGGINGHARD, ExemptType.RESPAWN, ExemptType.TELEPORT, ExemptType.LONG_JOINED, ExemptType.VEHICLE);
 
             debug(exempt);
             handle: {
@@ -42,9 +42,10 @@ public final class  TimerA extends Check {
                     allowance += 50;
                     allowance -= delay;
 
-                    if (allowance > Math.ceil(threshold)) fail("Dev: " + deviation);
+                    if (allowance > Math.ceil(threshold) && increaseBuffer() > 5) fail("Dev: " + deviation);
                 } else {
                     allowance = 0;
+                    decreaseBufferBy(0.25);
                 }
             }
 

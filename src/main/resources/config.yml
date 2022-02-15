@@ -27,7 +27,7 @@ clients:
 
 ghost-block:
   enabled: true
-  mode: 'FOX'
+  mode: 'FOX2'
 
 alerts:
   message: '&c&lFOX &8>> &c%player% &7is using %check% %type%%dev% &8(%colour%&8)'

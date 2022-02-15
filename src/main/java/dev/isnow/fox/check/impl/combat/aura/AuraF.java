@@ -22,9 +22,14 @@ public class AuraF extends Check {
                 blockDigged = true;
             } else if (packet.isUseEntity()) {
                 entityUsed = true;
-            } else if (packet.isFlyingType()) {
-                if (blockDigged && blockPlaced && entityUsed)
-                    fail();
+            } else {
+                if (blockDigged && blockPlaced && entityUsed) {
+                    if(increaseBuffer() > 2) {
+                        fail();
+                    }
+                } else {
+                    resetBuffer();
+                }
                 blockPlaced = false;
                 blockDigged = false;
                 entityUsed = false;

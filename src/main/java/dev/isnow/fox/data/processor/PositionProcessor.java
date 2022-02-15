@@ -50,7 +50,7 @@ public final class PositionProcessor {
     private float jumpPadTime;
 
     private boolean flying, jumping, inVehicle, inWater, inLava, inLiquid, fullySubmergedInLiquidStat, inAir, inWeb,
-            blockNearHead, wasblockNearHead, onClimbable, onSolidGround, nearVehicle, onSlime,
+            blockNearHead, wasblockNearHead, onClimbable, onSolidGround, lastOnSolidGround, nearVehicle, onSlime,
             onIce, nearPiston, nearStair, nearCactus, nearWall;
 
     private int ticks, airTicks, clientAirTicks, sinceVehicleTicks, sinceFlyingTicks,
@@ -59,7 +59,7 @@ public final class PositionProcessor {
             groundTicks, teleportTicks, sinceTeleportTicks, sinceSlimeTicks, solidGroundTicks,
             iceTicks, slimeTicks, sinceIceTicks, sinceJumpingTicks, sinceGroundTicks, sinceBlockNearHeadTicks, ticksSincePlace;
 
-    private boolean onGround, lastOnGround, mathematicallyOnGround;
+    private boolean onGround, lastOnGround, mathematicallyOnGround, lastMathematicallyOnGround, collisionOnGround, lastCollisionOnGround;
 
     private final Deque<Vector> teleportList = new ArrayDeque<>();
     private boolean teleported;
@@ -133,6 +133,7 @@ public final class PositionProcessor {
             deltaZ = this.z - lastZ;
             deltaXZ = Math.hypot(deltaX, deltaZ);
 
+            lastMathematicallyOnGround = mathematicallyOnGround;
             mathematicallyOnGround = y % 0.015625 == 0.0;
 
             handleCollisions();
@@ -305,6 +306,7 @@ public final class PositionProcessor {
         inWeb = blocks.stream().anyMatch(block -> block.getType().toString().contains("WEB"));
         inAir = blocks.stream().allMatch(block -> block.getType() == Material.AIR) && nearbyEntities.stream().noneMatch(entity -> entity.getType() == EntityType.BOAT);
         onIce = blocks.stream().anyMatch(block -> block.getType().toString().contains("ICE"));
+        lastOnSolidGround = onSolidGround;
         onSolidGround = blocks.stream().anyMatch(block -> block.getType().isSolid());
         nearStair = blocks.stream().anyMatch(block -> block.getType().toString().contains("STAIR"));
         nearCactus = blocks.stream().anyMatch(block -> block.getType() == Material.CACTUS);
@@ -321,6 +323,8 @@ public final class PositionProcessor {
         blockNearHead = blocks.stream().filter(block -> block.getLocation().getY() - data.getPositionProcessor().getY() >= 1.0).anyMatch(block -> block.getType() != Material.AIR);
         blocksAbove = blocks.stream().filter(block -> block.getLocation().getY() - data.getPositionProcessor().getY() >= 1.0).collect(Collectors.toList());
         blocksBelow = blocks.stream().filter(block -> block.getLocation().getY() - data.getPositionProcessor().getY() < 0.0).collect(Collectors.toList());
+        lastCollisionOnGround = collisionOnGround;
+        collisionOnGround = blocksBelow.stream().allMatch(block -> block.getType().isSolid());
         onSlime = blocks.stream().anyMatch(block -> block.getType().toString().equalsIgnoreCase("SLIME_BLOCK"));
         nearPiston = blocks.stream().anyMatch(block -> block.getType().toString().contains("PISTON"));
     }

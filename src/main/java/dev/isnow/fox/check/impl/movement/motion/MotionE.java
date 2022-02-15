@@ -36,7 +36,7 @@ public final class MotionE extends Check {
             final boolean invalid = delta > getLimit() && deltaXZ > 0.1 && sprinting && onGround;
 
             if (invalid && !exempt) {
-                if (increaseBuffer() > 4) {
+                if (increaseBuffer() > 8) {
                     fail("Delta: " + delta);
                 }
             } else {

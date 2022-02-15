@@ -26,7 +26,7 @@ public final class BadPacketsI extends Check {
                 return;
             }
 
-            if (increaseBuffer() > 20 && !isExempt(ExemptType.LAGGING)) {
+            if (increaseBuffer() > 20 && !isExempt(ExemptType.FLYING, ExemptType.LAGGING)) {
                 fail("Buffer: " + getBuffer());
             }
         } else if (packet.isSteerVehicle()) {

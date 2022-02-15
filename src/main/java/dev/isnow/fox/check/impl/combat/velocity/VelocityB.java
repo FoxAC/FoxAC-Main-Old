@@ -38,11 +38,14 @@ public final class VelocityB extends Check {
                     Math.abs(data.getVelocityProcessor().getVelocityY()) < 0.005 ||
                     Math.abs(data.getVelocityProcessor().getVelocityZ()) < 0.005) return;
             double givenVelocity = vData.getVelocityXZ() - calculateVelocity();
-            double takenVelocity = data.getPositionProcessor().getDeltaXZ();;
+            double takenVelocity = data.getPositionProcessor().getDeltaXZ();
 
+            if(Math.max(0, MathUtil.preciseRound(takenVelocity / givenVelocity, 3) * 100) == 0) {
+                return;
+            }
             if (takenVelocity < givenVelocity && !isExempt(ExemptType.WEB, ExemptType.LIQUID, ExemptType.NEAR_WALL) && !data.getPositionProcessor().isOnClimbable()) {
                 if (hitTicks >= 2) {
-                    buffer += 20;
+                    buffer += 10;
                     if (buffer > 30) {
                         fail(Math.max(0, MathUtil.preciseRound(takenVelocity / givenVelocity, 3) * 100) + "%");
                     }
