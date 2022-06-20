@@ -67,7 +67,6 @@ public final class RotationProcessor {
 
         final boolean exponentialYaw = String.valueOf(yawAccelAccel).contains("E");
         final boolean exponentialPitch = String.valueOf(pitchAccelAccel).contains("E");
-
         if (sensitivity < 100 && (exponentialYaw || exponentialPitch)) {
             cinematicTicks += 3;
         } else if (invalidYaw || invalidPitch) {

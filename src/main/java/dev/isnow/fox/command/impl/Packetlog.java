@@ -2,11 +2,9 @@ package dev.isnow.fox.command.impl;
 
 import dev.isnow.fox.command.CommandInfo;
 import dev.isnow.fox.command.FoxCommand;
-import dev.isnow.fox.config.Config;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.manager.AlertManager;
 import dev.isnow.fox.manager.PlayerDataManager;
-import dev.isnow.fox.util.ColorUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

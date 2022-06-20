@@ -58,7 +58,7 @@ public final class Config {
             VANISHON = getString("messages.vanish-on");
             VANISHOFF = getString("messages.vanish-off");
 
-            KEY = getString("api.key");
+            KEY = getString("key");
 
             GHOST_BLOCK_ENABLED = getBoolean("ghost-block.enabled");
             GHOST_BLOCK_MODE = GhostBlockProcessor.Mode.valueOf(getString("ghost-block.mode"));

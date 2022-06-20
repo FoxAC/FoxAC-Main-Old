@@ -10,36 +10,20 @@ import dev.isnow.fox.util.ColorUtil;
 import dev.isnow.fox.util.LogUtil;
 import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.event.player.*;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 public final class BukkitEventManager implements Listener {
 
-    private HashMap<UUID, Projectile> selfdmg = new HashMap<>();
-
-    public static ArrayList<Player> wannadelet = new ArrayList<>();
-
-    public static ArrayList<UUID> selfdmg2 = new ArrayList<>();
-
-    public static ArrayList<UUID> dmg = new ArrayList<>();
+    public static ArrayList<Player> wannadelete = new ArrayList<>();
 
     @EventHandler
     public void onPlayerInteract(final PlayerInteractEvent event) {
@@ -48,36 +32,13 @@ public final class BukkitEventManager implements Listener {
             data.getActionProcessor().handleInteract(event);
         }
     }
-    @EventHandler
-    public void onSelfDamage(ProjectileLaunchEvent event) {
-        if(event.getEntity().getType() == EntityType.ARROW || event.getEntity().getType() == EntityType.SNOWBALL) {
-            if(event.getEntity().getShooter() != null && event.getEntity().getShooter() instanceof Player) {
-                selfdmg.put(((Player) event.getEntity().getShooter()).getUniqueId(), event.getEntity());
-            }
-        }
-    }
-
-    @EventHandler
-    public void onDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player) {
-            if (!dmg.contains(event.getEntity().getUniqueId())) {
-                dmg.add(event.getEntity().getUniqueId());
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        dmg.remove(event.getEntity().getUniqueId());
-                    }
-                }.runTaskLater(Fox.INSTANCE.getPlugin(), 180);
-            }
-        }
-    }
 
     @EventHandler
     public void onChat(PlayerChatEvent event) {
-        if(wannadelet.contains(event.getPlayer())) {
+        if(wannadelete.contains(event.getPlayer())) {
             event.setCancelled(true);
             if(event.getMessage().startsWith("cancel")) {
-                wannadelet.remove(event.getPlayer());
+                wannadelete.remove(event.getPlayer());
                 event.getPlayer().sendMessage(ChatColor.GREEN + "Cancelled the action.");
             }
             else if(event.getMessage().equals("YES")) {
@@ -89,7 +50,7 @@ public final class BukkitEventManager implements Listener {
                     }
                 }
                 event.getPlayer().sendMessage(ColorUtil.translate("&aCompleted resetting the files!"));
-                wannadelet.remove(event.getPlayer());
+                wannadelete.remove(event.getPlayer());
             }
             else {
                 event.getPlayer().sendMessage(ChatColor.GREEN + "Please respond to the action started before, or cancel it by typing \"cancel\".");
@@ -97,22 +58,6 @@ public final class BukkitEventManager implements Listener {
         }
     }
 
-    @EventHandler
-    public void onSelfDamage2(EntityDamageByEntityEvent event) {
-        if(event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
-            if(event.getEntity() instanceof Player) {
-                if(selfdmg.get(event.getEntity().getUniqueId()) == event.getDamager()) {
-                    selfdmg2.add(event.getEntity().getUniqueId());
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                          selfdmg2.remove(event.getEntity().getUniqueId());
-                        }
-                    }.runTaskLater(Fox.INSTANCE.getPlugin(), 5);
-                }
-            }
-        }
-    }
     @EventHandler
     public void onBlockPlace(final BlockPlaceEvent event) {
         final PlayerData data = PlayerDataManager.getInstance().getPlayerData(event.getPlayer());
@@ -138,5 +83,12 @@ public final class BukkitEventManager implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent event) {
         PlayerDataManager.getInstance().getPlayerData(event.getPlayer()).getActionProcessor().handleDrop();
+    }
+
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent event) {
+        if(PlayerDataManager.getInstance().getPlayerData(event.getPlayer()) != null) { // RELOAD NPE
+            PlayerDataManager.getInstance().getPlayerData(event.getPlayer()).getPositionProcessor().handleTeleport(event);
+        }
     }
 }

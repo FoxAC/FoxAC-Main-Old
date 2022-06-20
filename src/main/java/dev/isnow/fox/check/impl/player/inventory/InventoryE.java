@@ -22,7 +22,7 @@ public class InventoryE extends Check {
     @Override
     public void handle(Packet packet) {
         if(packet.isFlying()) {
-            if(inInventory && System.currentTimeMillis() - lastInvOpen > 300 && data.getPositionProcessor().getDeltaXZ() > 0.2 && !data.getPositionProcessor().isInAir() && !isExempt(ExemptType.VELOCITY)) {
+            if(inInventory && System.currentTimeMillis() - lastInvOpen > 300 && data.getPositionProcessor().getDeltaXZ() > 0.2 && !data.getPositionProcessor().isInAir() && !isExempt(ExemptType.VELOCITY, ExemptType.TELEPORT)) {
                 data.getPlayer().closeInventory();
             }
         }

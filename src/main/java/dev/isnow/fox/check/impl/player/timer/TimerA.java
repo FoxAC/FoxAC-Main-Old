@@ -24,7 +24,7 @@ public final class  TimerA extends Check {
         if (packet.isFlying()) {
             final long now = now();
 
-            final boolean exempt = this.isExempt(ExemptType.LAGGINGHARD, ExemptType.RESPAWN, ExemptType.TELEPORT, ExemptType.LONG_JOINED, ExemptType.VEHICLE);
+            final boolean exempt = this.isExempt(ExemptType.NEARANVIL, ExemptType.LAGGINGHARD, ExemptType.RESPAWN, ExemptType.TELEPORT_DELAY_2TICK, ExemptType.LONG_JOINED, ExemptType.VEHICLE);
 
             debug(exempt);
             handle: {

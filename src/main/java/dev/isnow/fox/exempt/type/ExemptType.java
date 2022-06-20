@@ -4,19 +4,16 @@ package dev.isnow.fox.exempt.type;
 
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.listener.bukkit.BukkitEventManager;
 import dev.isnow.fox.manager.AFKManager;
 import dev.isnow.fox.util.PlayerUtil;
 import dev.isnow.fox.util.ServerUtil;
 import io.github.retrooper.packetevents.PacketEvents;
 import lombok.Getter;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 @Getter
@@ -29,11 +26,11 @@ public enum ExemptType {
 
     TPS(data -> ServerUtil.getTPS() < 17.0D),
 
-    HURT(data -> BukkitEventManager.dmg.contains(data.getPlayer().getUniqueId())),
-
     NEAR_WALL(data -> data.getPositionProcessor().isNearWall()),
 
     TELEPORT(data -> data.getPositionProcessor().isTeleported()),
+
+    TELEPORT_DELAY_2TICK(data -> data.getPositionProcessor().getTeleportTicks() < 3),
 
     TELEPORT_DELAY(data -> data.getPositionProcessor().getTeleportTicks() < 5),
 
@@ -59,29 +56,8 @@ public enum ExemptType {
         return Math.abs(expectedJumpMotion - deltaY) < 1E-5 && !onGround && lastOnGround && !step;
     }),
 
-    PEARL(data -> {
-       if(data.getEnderpearlTime() != 0) {
-           if(System.currentTimeMillis() - data.getEnderpearlTime() < 5000L) {
-               return true;
-           }
-           else {
-               return false;
-           }
-       }
-       return false;
-    }),
+    PEARL(data -> data.getEnderpearlTime() != 0 && System.currentTimeMillis() - data.getEnderpearlTime() < 5000L),
 
-//    public boolean isPearl(long enderpearlTime) {
-//       if(enderpearlTime != 0) {
-//           if(System.currentTimeMillis() - enderpearlTime < 5000L) {
-//               return true;
-//           }
-//           else {
-//               return false;
-//           }
-//       }
-//       return false;
-//    }
 
     AFK(data -> AFKManager.INSTANCE.isAFK(data.getPlayer())),
 
@@ -101,25 +77,9 @@ public enum ExemptType {
 
     FIRE(data -> data.getPlayer().getFireTicks() > 0),
 
-    NEARSLIME(data -> {
-        AtomicBoolean istrue = new AtomicBoolean(false);
-        data.getPositionProcessor().getBlocks().forEach(block -> {
-            if(block.getType().toString().contains("SLIME")) {
-                istrue.set(true);
-            }
-        });
-        return istrue.get();
-    }),
+    NEARSLIME(data -> data.getPositionProcessor().getBlocks().stream().anyMatch(block -> block.getType().toString().contains("SLIME"))),
 
-    NEARANVIL(data -> {
-        AtomicBoolean istrue = new AtomicBoolean(false);
-        data.getPositionProcessor().getBlocks().forEach(block -> {
-            if(block.getType().toString().contains("ANVIL")) {
-                istrue.set(true);
-            }
-        });
-        return istrue.get();
-    }),
+    NEARANVIL(data -> data.getPositionProcessor().getBlocks().stream().anyMatch(block -> block.getType().toString().contains("ANVIL"))),
 
     DIGGING(data -> Fox.INSTANCE.getTickManager().getTicks() - data.getActionProcessor().getLastDiggingTick() < 10),
 
@@ -137,55 +97,25 @@ public enum ExemptType {
 
     VEHICLE_NO_DELAY(data -> data.getPositionProcessor().isInVehicle()),
 
+    VEHICLE_DELAY_2TICK(data -> data.getPositionProcessor().getSinceVehicleTicks() < 3) ,
+
     LIQUID(data -> data.getPositionProcessor().getSinceLiquidTicks() < 4),
 
-    NEARSTAIRS(data -> {
-        AtomicBoolean istrue = new AtomicBoolean(false);
-        data.getPositionProcessor().getBlocksBelow().forEach(block -> {
-            if(block.getType().toString().contains("STAIRS")) {
-                istrue.set(true);
-            }
-        });
-        return istrue.get();
-    }),
+    NEARSTAIRS(data -> data.getPositionProcessor().isNearStair()),
 
-    NEARSLABS(data -> {
-        AtomicBoolean istrue = new AtomicBoolean(false);
-        data.getPositionProcessor().getBlocksBelow().forEach(block -> {
-            if(block.getType().toString().contains("SLAB")) {
-                istrue.set(true);
-            }
-        });
-        return istrue.get();
-    }),
+    NEARSLABS(data -> data.getPositionProcessor().getBlocks().stream().noneMatch(block -> block.getType().toString().contains("SLAB"))),
 
-    NEARICE(data -> {
-        AtomicBoolean istrue = new AtomicBoolean(false);
-        data.getPositionProcessor().getBlocks().forEach(block -> {
-            if(block.getType() == Material.ICE || block.getType() == Material.PACKED_ICE) {
-                istrue.set(true);
-            }
-        });
-        return istrue.get();
-    }),
+    NEARICE(data -> data.getPositionProcessor().getBlocks().stream().noneMatch(block -> block.getType().toString().contains("ICE"))),
 
     DROP(data -> data.getActionProcessor().getLastDropTick() > 10),
 
-    ONBED(data -> {
-        AtomicBoolean istrue = new AtomicBoolean(false);
-        data.getPositionProcessor().getBlocks().forEach(block -> {
-            if(block.getType().toString().contains("BED")) {
-                istrue.set(true);
-            }
-        });
-        return istrue.get();
-    }),
+    ONBED(data -> data.getPositionProcessor().getBlocksBelow().stream().noneMatch(block -> block.getType().toString().contains("BED"))),
 
     GETTINGCOMBOED(data -> data.getCombatProcessor().getHitTicks() <= 10),
 
     UNDERBLOCK(data -> data.getPositionProcessor().isBlockNearHead()),
 
-    UNDERBLOCKWAS(data -> data.getPositionProcessor().getSinceBlockNearHeadTicks() <= 10),
+    WASUNDERBLOCK(data -> data.getPositionProcessor().getSinceBlockNearHeadTicks() <= 10),
 
     PISTON(data -> data.getPositionProcessor().isNearPiston()),
 
@@ -219,7 +149,7 @@ public enum ExemptType {
 
     GHOST_BLOCK(data -> data.getGhostBlockProcessor().isOnGhostBlock()),
 
-    WEBRN(data -> data.getPositionProcessor().isInWeb()),
+    INWEB(data -> data.getPositionProcessor().isInWeb()),
 
     CINEMATIC(data -> data.getRotationProcessor().isCinematic()),
 

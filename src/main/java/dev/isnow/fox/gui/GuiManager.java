@@ -384,7 +384,7 @@ public class GuiManager implements Listener {
             Player player = (Player) e.getWhoClicked();
             e.setCancelled(true);
             if(e.getCurrentItem().getType() == Material.LAVA_BUCKET) {
-                if(BukkitEventManager.wannadelet.contains(player)) {
+                if(BukkitEventManager.wannadelete.contains(player)) {
                     player.sendMessage(ChatColor.GREEN + "Please respond to the action started before, or cancel by typing \"cancel\".");
                     return;
                 }
@@ -392,7 +392,7 @@ public class GuiManager implements Listener {
                 player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ARE YOU SURE U WANT TO DO THIS?");
                 player.sendMessage(ChatColor.GRAY + "This action is not reversible!");
                 player.sendMessage(ChatColor.GREEN + "Please say YES or \"cancel\" to cancel the delete action.");
-                BukkitEventManager.wannadelet.add(player);
+                BukkitEventManager.wannadelete.add(player);
             }
             else if(e.getCurrentItem().getType() == Material.SKULL_ITEM) {
                 player.sendMessage(ChatColor.RED + "Not implemented yet.");

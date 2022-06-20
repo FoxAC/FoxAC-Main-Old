@@ -10,6 +10,7 @@ import dev.isnow.fox.util.BlockUtil;
 import dev.isnow.fox.util.PlayerUtil;
 import lombok.Getter;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 
@@ -18,6 +19,8 @@ import org.bukkit.block.BlockFace;
 public final class GhostBlockProcessor {
 
     private final PlayerData data;
+
+    private Location lastNoAnvilLocation;
 
     private boolean onGhostBlock;
 
@@ -57,6 +60,7 @@ public final class GhostBlockProcessor {
                     && Math.abs(deltaY - predictedY) > 1E-5;
 
             this.onGhostBlock = onGhostBlock || underGhostBlock;
+
             if (onGhostBlock && airTicks > 13 && !isBridingUp) {
                 handleGhostblock();
             }
@@ -65,40 +69,57 @@ public final class GhostBlockProcessor {
 
     public void handleClientPosition() {
         if(Config.GHOST_BLOCK_MODE== Mode.FOX2) {
+            if(!data.getExemptProcessor().isExempt(ExemptType.NEARANVIL)) {
+                lastNoAnvilLocation = new Location(data.getPlayer().getWorld(), data.getPositionProcessor().getX(), data.getPositionProcessor().getY(), data.getPositionProcessor().getZ(), data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch());
+            }
+
             if(PlayerUtil.isOnBoat(data) || sinceServerPosTicks < 3 ||data.getExemptProcessor().isExempt(ExemptType.CLIMBABLE, ExemptType.SLIME, ExemptType.VEHICLE, ExemptType.LIQUID, ExemptType.BUKKIT_PLACING, ExemptType.WEB)) {
                 ghostBlockflags = 0;
                 return;
             }
 
-            boolean ground = data.getPositionProcessor().isOnGround() || data.getPositionProcessor().isLastOnGround();
+            final boolean ground = data.getPositionProcessor().isOnGround() || data.getPositionProcessor().isLastOnGround();
 
-            boolean serverYGround = data.getPositionProcessor().isMathematicallyOnGround() || data.getPositionProcessor().isLastMathematicallyOnGround();
+            final boolean serverYGround = data.getPositionProcessor().isMathematicallyOnGround() || data.getPositionProcessor().isLastMathematicallyOnGround();
 
-            boolean serverGround = data.getPositionProcessor().isOnSolidGround() || data.getPositionProcessor().isLastOnSolidGround();
+            final boolean serverGround = data.getPositionProcessor().isOnSolidGround() || data.getPositionProcessor().isLastOnSolidGround();
+
+            final boolean nearAnvil = data.getPositionProcessor().isColliding(PositionProcessor.CollisionType.TWOORMORE, Material.ANVIL);
 
             if (ground && serverYGround && !serverGround) {
                 onGhostBlock = true;
                 if(++ghostBlockflags > 1) {
                     handleGhostblock();
                     ghostBlockflags = 0;
+                    return;
                 }
             }
+
+            if(nearAnvil) {
+                handleAnvilGhostBlock();
+            }
+
         }
     }
 
-    public void handleServrPos() {
+    public void handleServerPos() {
         sinceServerPosTicks = 0;
     }
 
     public void handleGhostblock() {
-        data.getPlayer().teleport(getGroundLocation());
-        AlertManager.sendVPNMessage(data.getPlayer().getName() + " Lagged Back for ghost blocks [EXPERIMENTAL] ClientAirTicks: " + data.getPositionProcessor().getClientAirTicks());
+        data.getPlayer().teleport(PlayerUtil.getBehind(data.getPlayer(), 2));
+        AlertManager.sendVPNMessage(data.getPlayer().getName() + " Lagged Back for ghost blocks [EXPERIMENTAL]");
+    }
+
+    public void handleAnvilGhostBlock() {
+        data.getPlayer().teleport(lastNoAnvilLocation);
+        AlertManager.sendVPNMessage(data.getPlayer().getName() + " Lagged Back for anvil ghost blocks [EXPERIMENTAL]");
     }
 
     public Location getGroundLocation() {
         World world = data.getPlayer().getWorld();
 
-        Location location = new Location(world, data.getPositionProcessor().getX(), data.getPositionProcessor().getY(), data.getPositionProcessor().getZ());
+        Location location = new Location(world, data.getPositionProcessor().getX(), data.getPositionProcessor().getY(), data.getPositionProcessor().getZ(), data.getRotationProcessor().getYaw(), data.getRotationProcessor().getPitch());
         int i = 0;
         while (!BlockUtil.getBlockAsync(location).getRelative(BlockFace.DOWN).getType().isSolid()
                 && location.getY() != 0) {

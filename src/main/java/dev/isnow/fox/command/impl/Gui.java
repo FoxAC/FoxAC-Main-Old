@@ -5,8 +5,6 @@ import dev.isnow.fox.command.CommandInfo;
 import dev.isnow.fox.command.FoxCommand;
 import dev.isnow.fox.gui.GuiManager;
 import dev.isnow.fox.util.ColorUtil;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

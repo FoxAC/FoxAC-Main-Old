@@ -4,7 +4,6 @@ import dev.isnow.fox.Fox;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.data.processor.CombatProcessor;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.mc.AxisAlignedBB;
 import dev.isnow.fox.util.mc.MathHelper;
@@ -27,27 +26,21 @@ public class HitBoxA extends Check {
         if (packet.isUseEntityInteractAt()) {
             WrappedPacketInUseEntity interactAt = new WrappedPacketInUseEntity(packet.getRawPacket());
             if (interactAt.getEntity() instanceof Player) {
-                if(!interactAt.getTarget().isPresent()) {
-                    return;
-                }
-                if (Math.abs(interactAt.getTarget().get().x) > 0.400001 || Math.abs(interactAt.getTarget().get().z) > 0.400001) {
-                    fail("Missed hitbox.");
+                if(interactAt.getTarget().isPresent() && (Math.abs(interactAt.getTarget().get().x) > 0.400001 || Math.abs(interactAt.getTarget().get().z) > 0.400001)) {
+                    fail("Missed hitbox [INTERACT].");
                 }
             }
         }
         if (packet.isFlying()) {
-            final CombatProcessor combatProcessor = data.getCombatProcessor();
-            if(combatProcessor.getTarget() == null || combatProcessor.getLastTarget() == null) {
+            if(data.getCombatProcessor().getTarget() == null || data.getCombatProcessor().getLastTarget() == null) {
                 return;
             }
-            if (combatProcessor.getHitTicks() == 1 && combatProcessor.getTarget().getEntityId() == combatProcessor.getLastTarget().getEntityId()) {
+            if (data.getCombatProcessor().getHitTicks() == 1 && data.getCombatProcessor().getTarget().getEntityId() == data.getCombatProcessor().getLastTarget().getEntityId()) {
                 final int totalTicks = Fox.INSTANCE.getTickManager().getTicks();
                 final int ticksMS = PacketEvents.get().getPlayerUtils().getPing(data.getPlayer()) / 50;
 
                 final Vector originLoc = new Vector(data.getPositionProcessor().getX(), data.getPositionProcessor().getY(), data.getPositionProcessor().getZ());
 
-
-                //credits to medusa xD
                 double distance = data.getTargetLocations().stream()
                         .filter(pair -> Math.abs(totalTicks - pair.getY() - ticksMS) < 4)
                         .mapToDouble(pair -> {

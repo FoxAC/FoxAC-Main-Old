@@ -4,8 +4,6 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
-import org.bukkit.entity.Entity;
 
 @CheckInfo(name = "Aura", type = "I", description = "Amongus check")
 public class AuraI extends Check {

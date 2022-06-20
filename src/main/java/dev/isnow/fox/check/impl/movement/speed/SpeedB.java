@@ -33,7 +33,7 @@ public final class SpeedB extends Check {
 
             final boolean lastOnGround = data.getPositionProcessor().isLastOnGround();
 
-            final boolean exempt = this.isExempt(ExemptType.WEB, ExemptType.WEBRN, ExemptType.TELEPORT_DELAY, ExemptType.PISTON, ExemptType.VELOCITY_ON_TICK,
+            final boolean exempt = this.isExempt(ExemptType.WEB, ExemptType.INWEB, ExemptType.TELEPORT_DELAY, ExemptType.PISTON, ExemptType.VELOCITY_ON_TICK,
                     ExemptType.FLYING, ExemptType.VEHICLE, ExemptType.CLIMBABLE, ExemptType.LIQUID, ExemptType.CHUNK, ExemptType.GHOST_BLOCK);
 
             attributeSpeed += PlayerUtil.getPotionLevel(player, PotionEffectType.SPEED) * (float) 0.2 * attributeSpeed;

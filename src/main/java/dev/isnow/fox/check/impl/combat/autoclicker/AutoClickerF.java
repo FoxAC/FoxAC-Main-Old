@@ -8,9 +8,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 @CheckInfo(name = "AutoClicker", type = "F", description = "Checks for invalid standard deviation of delays.")

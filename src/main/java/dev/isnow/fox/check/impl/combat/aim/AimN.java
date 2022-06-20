@@ -4,11 +4,7 @@ import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
-import dev.isnow.fox.util.MathUtil;
 import io.github.retrooper.packetevents.packetwrappers.play.in.useentity.WrappedPacketInUseEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @CheckInfo(name = "Aim", type = "N", description = "Invalid rotation ratio")
 public class AimN extends Check {

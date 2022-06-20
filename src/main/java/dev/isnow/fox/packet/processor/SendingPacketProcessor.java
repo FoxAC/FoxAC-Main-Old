@@ -5,7 +5,6 @@ package dev.isnow.fox.packet.processor;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.packetwrappers.play.out.entityvelocity.WrappedPacketOutEntityVelocity;
-import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
 
 public final class SendingPacketProcessor  {
 
@@ -17,13 +16,8 @@ public final class SendingPacketProcessor  {
                 data.getVelocityProcessor().handle(wrapper.getVelocity().getX(), wrapper.getVelocity().getY(), wrapper.getVelocity().getZ());
             }
         }
-        if (packet.isTeleport()) {
-            final WrappedPacketOutPosition wrapper = new WrappedPacketOutPosition(packet.getRawPacket());
-
-            data.getPositionProcessor().handleTeleport(wrapper);
-        }
         if(packet.isServerPos()) {
-            data.getGhostBlockProcessor().handleServrPos();
+            data.getGhostBlockProcessor().handleServerPos();
         }
         data.getChecks().forEach(check -> check.handle(packet));
     }

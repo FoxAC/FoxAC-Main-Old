@@ -52,7 +52,7 @@ public final class RegistrationListener implements Listener {
     public void onPlayerQuit(final PlayerQuitEvent event) {
         PlayerDataManager.getInstance().remove(event.getPlayer());
         PlayerDataManager.getInstance().suspectedPlayers.remove(event.getPlayer());
-        BukkitEventManager.wannadelet.remove(event.getPlayer());
+        BukkitEventManager.wannadelete.remove(event.getPlayer());
         AFKManager.INSTANCE.removePlayer(event.getPlayer());
     }
 }

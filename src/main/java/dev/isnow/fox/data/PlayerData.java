@@ -103,7 +103,7 @@ public final class PlayerData {
     }
 
     public ClientVersion getVersion() {
-        if(version == null || !version.isResoled()) {
+        if(version == null || !version.isResolved()) {
             version = PlayerUtil.getClientVersion(player);
         }
         return version;

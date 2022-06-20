@@ -7,7 +7,7 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 8]", type = "O")
+@CheckInfo(name = "Aim", description = "Checks if player is following AIM GCD properly. [Method 8]", type = "O", experimental = true)
 public class AimO extends Check {
     public AimO(PlayerData data) {
         super(data);
@@ -34,7 +34,7 @@ public class AimO extends Check {
                         fail("GCD: " + divisorPitch);
                     }
                 } else {
-                    decreaseBufferBy(0.05);
+                    decreaseBufferBy(0.1);
                 }
             }
         }

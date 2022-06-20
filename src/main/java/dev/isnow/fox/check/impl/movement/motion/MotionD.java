@@ -40,7 +40,7 @@ public final class MotionD extends Check {
 
 
                 if (!data.getPositionProcessor().isOnGround() && increaseBuffer() > 15 && !isExempt(ExemptType.FLYING)) {
-                    fail("Jesus, DeltaY: " + data.getPositionProcessor().getDeltaY());
+                    fail("DeltaY: " + data.getPositionProcessor().getDeltaY());
                 } else {
                     decreaseBufferBy(0.5);
                 }
@@ -65,7 +65,7 @@ public final class MotionD extends Check {
 
             if (invalid && !exempt) {
                 if (increaseBuffer() > 4) {
-                    fail();
+                    fail("DeltaY: " + data.getPositionProcessor().getDeltaY());
                 }
             } else {
                 decreaseBuffer();
@@ -82,7 +82,7 @@ public final class MotionD extends Check {
 
             if (invalid1 && !exempt1) {
                 if (increaseBuffer() > 5) {
-                    fail();
+                    fail("DeltaY: " + data.getPositionProcessor().getDeltaY());
                 }
             } else {
                 decreaseBufferBy(0.50);
@@ -128,7 +128,7 @@ public final class MotionD extends Check {
 
             if (invalid2 && !exempt2) {
                 if (increaseBuffer() > 2) {
-                    fail("Underwater");
+                    fail("DeltaY: " + data.getPositionProcessor().getDeltaY());
                 }
             } else {
                 decreaseBufferBy(0.25);

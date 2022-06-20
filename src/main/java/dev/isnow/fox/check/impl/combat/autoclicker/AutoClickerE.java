@@ -7,12 +7,10 @@ import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
-@CheckInfo(name = "AutoClicker", type = "E", description = "Vape lite Autoclicker check")
+@CheckInfo(name = "AutoClicker", type = "E", description = "Detects Vape autoclicker [METHOD 2].")
 public class AutoClickerE extends Check {
 
     private int movements;

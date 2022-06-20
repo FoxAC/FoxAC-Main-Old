@@ -5,9 +5,7 @@ package dev.isnow.fox.util;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicDouble;
 import dev.isnow.fox.util.type.Pair;
-import dev.isnow.fox.util.type.Tuple;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import java.util.*;

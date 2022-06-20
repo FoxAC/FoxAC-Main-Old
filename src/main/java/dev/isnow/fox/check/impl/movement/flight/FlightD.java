@@ -6,8 +6,6 @@ import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.PlayerUtil;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.utils.player.ClientVersion;
 import org.bukkit.potion.PotionEffectType;
 
 @CheckInfo(name = "Flight", type = "D", description = "Checks for gravity modifications.")

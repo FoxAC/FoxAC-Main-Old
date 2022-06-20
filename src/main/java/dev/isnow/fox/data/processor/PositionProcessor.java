@@ -9,15 +9,16 @@ import dev.isnow.fox.util.type.BoundingBox;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.packetwrappers.play.in.clientcommand.WrappedPacketInClientCommand;
 import io.github.retrooper.packetevents.packetwrappers.play.in.flying.WrappedPacketInFlying;
-import io.github.retrooper.packetevents.packetwrappers.play.out.position.WrappedPacketOutPosition;
 import io.github.retrooper.packetevents.utils.server.ServerVersion;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
@@ -46,8 +47,6 @@ public final class PositionProcessor {
 
     private Location placementLocation, lastPlacementLocation;
     private boolean placementUnder;
-
-    private float jumpPadTime;
 
     private boolean flying, jumping, inVehicle, inWater, inLava, inLiquid, fullySubmergedInLiquidStat, inAir, inWeb,
             blockNearHead, wasblockNearHead, onClimbable, onSolidGround, lastOnSolidGround, nearVehicle, onSlime,
@@ -103,7 +102,6 @@ public final class PositionProcessor {
         if(ticksSincePlace > 7) {
             placementUnder = false;
         }
-        placementUnder = false;
         if (wrapper.isPosition()) {
             lastlastX = lastX;
             lastlastZ = lastZ;
@@ -119,9 +117,9 @@ public final class PositionProcessor {
             this.prevFriction = friction;
             friction = handleFriction();
 
-            this.x = wrapper.getX();
-            this.y = wrapper.getY();
-            this.z = wrapper.getZ();
+            this.x = wrapper.getPosition().x;
+            this.y = wrapper.getPosition().y;
+            this.z = wrapper.getPosition().z;
 
             lastDeltaX = deltaX;
             lastDeltaY = deltaY;
@@ -148,7 +146,6 @@ public final class PositionProcessor {
                         teleported = true;
                         teleportTicks = 0;
                         sinceTeleportTicks = 0;
-
                         teleportList.remove(wantedLocation);
                         break;
                     }
@@ -365,11 +362,11 @@ public final class PositionProcessor {
         nearVehicle = nearbyEntities.stream().anyMatch(entity -> entity instanceof Vehicle) || nearbyEntities.stream().anyMatch(entity -> entity instanceof Boat);
     }
 
-    public void handleTeleport(final WrappedPacketOutPosition wrapper) {
+    public void handleTeleport(final PlayerTeleportEvent e) {
         final Vector requestedLocation = new Vector(
-                wrapper.getPosition().x,
-                wrapper.getPosition().y,
-                wrapper.getPosition().z
+                e.getTo().getX(),
+                e.getTo().getY(),
+                e.getTo().getZ()
         );
 
         teleportList.add(requestedLocation);
@@ -385,7 +382,14 @@ public final class PositionProcessor {
         if (collisionType == CollisionType.ALL) {
             return blocks.stream().allMatch(block -> block.getType() == blockType);
         }
-        return blocks.stream().anyMatch(block -> block.getType() == blockType);
+        else if(collisionType == CollisionType.TWOORMORE) {
+            data.getPlayer().sendMessage(String.valueOf(blocks.stream().filter(block -> block.getType() == blockType).count()));
+            long howmany = blocks.stream().filter(block -> block.getType() == blockType).count();
+            return howmany == 3 || howmany > 4;
+        }
+        else {
+            return blocks.stream().anyMatch(block -> block.getType() == blockType);
+        }
     }
 
     public Block getBlock(final Location location) {
@@ -396,8 +400,16 @@ public final class PositionProcessor {
         }
     }
 
+    public Block getBlock(World world, final int x, final int y, final int z) {
+        if (world.isChunkLoaded(z >> 4, y >> 4)) {
+            return world.getBlockAt(new Location(world, x, y, z));
+        } else {
+            return null;
+        }
+    }
+
     public enum CollisionType {
-        ANY, ALL
+        ANY, ALL, TWOORMORE
     }
 
     public float handleFriction() {

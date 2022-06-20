@@ -12,8 +12,8 @@
 #─██████─────────██████████████─████████──████████─
 #──────────────────────────────────────────────────
 
-api:
-  key: ''
+# License key
+key: ''
 
 settings:
   api: false
@@ -32,7 +32,7 @@ ghost-block:
 alerts:
   message: '&c&lFOX &8>> &c%player% &7is using %check% %type%%dev% &8(%colour%&8)'
   messageverbose: '&c&lFOX VERBOSE &8>> &c%player% &7verbosed %check% %type%%dev%'
-  click-command: '/teleport %player%'
+  click-command: '/tp %player%'
   clear-violations-delay: 15
   console: true
   log: false

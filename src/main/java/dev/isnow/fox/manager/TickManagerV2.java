@@ -2,8 +2,6 @@ package dev.isnow.fox.manager;
 
 
 import dev.isnow.fox.Fox;
-import dev.isnow.fox.check.Check;
-import dev.isnow.fox.check.impl.combat.hitbox.HitBoxA;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.HookedListWrapper;
 import io.github.retrooper.packetevents.utils.nms.NMSUtils;
@@ -14,7 +12,6 @@ import sun.misc.Unsafe;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class TickManagerV2 implements Initable{
 

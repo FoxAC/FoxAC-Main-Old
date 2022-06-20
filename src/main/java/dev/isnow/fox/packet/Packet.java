@@ -2,10 +2,7 @@
 
 package dev.isnow.fox.packet;
 
-import dev.isnow.fox.packet.processor.ReceivingPacketProcessor;
-import io.github.retrooper.packetevents.event.PacketEvent;
 import io.github.retrooper.packetevents.event.eventtypes.CancellableNMSPacketEvent;
-import io.github.retrooper.packetevents.event.impl.PacketPlayReceiveEvent;
 import io.github.retrooper.packetevents.packettype.PacketType;
 import io.github.retrooper.packetevents.packetwrappers.NMSPacket;
 import io.github.retrooper.packetevents.packetwrappers.play.in.entityaction.WrappedPacketInEntityAction;
@@ -193,7 +190,7 @@ public final class Packet {
         return isSending() && packetId == PacketType.Play.Server.TRANSACTION;
     }
 
-    public boolean isTeleport() { return isSending() && packetId == PacketType.Play.Server.POSITION; }
+    public boolean isTeleport() { return isSending() && packetId == PacketType.Play.Server.ENTITY_TELEPORT; }
 
     public boolean isVelocity() {
         return isSending() && packetId == PacketType.Play.Server.ENTITY_VELOCITY;

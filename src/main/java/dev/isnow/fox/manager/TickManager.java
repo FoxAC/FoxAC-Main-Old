@@ -5,21 +5,12 @@ package dev.isnow.fox.manager;
 import dev.isnow.fox.Fox;
 import dev.isnow.fox.data.PlayerData;
 import dev.isnow.fox.util.type.Pair;
-import io.github.retrooper.packetevents.PacketEvents;
-import io.github.retrooper.packetevents.packetwrappers.play.out.transaction.WrappedPacketOutTransaction;
-import io.github.retrooper.packetevents.utils.reflection.Reflection;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import sun.misc.Unsafe;
-
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public final class TickManager implements Runnable {
 

@@ -17,7 +17,7 @@ public final class SpeedA extends Check {
     @Override
     public void handle(final Packet packet) {
         if (packet.isFlying()) {
-            if(data.getPlayer().getWalkSpeed() <= 0.2 || (data.getPlayer().getWalkSpeed() > 0.30 && data.getPositionProcessor().isOnGround())) {
+            if(data.getPositionProcessor().isOnGround() && (data.getPlayer().getWalkSpeed() < 0.2 || data.getPlayer().getWalkSpeed() > 0.30)) {
                 return;
             }
 
@@ -57,7 +57,7 @@ public final class SpeedA extends Check {
                 modifiers = modifiers + ", ice/slime";
             }
 
-            if (isExempt(ExemptType.UNDERBLOCKWAS)) {
+            if (isExempt(ExemptType.WASUNDERBLOCK)) {
                 airLimit += 0.91F;
                 groundLimit += 0.91F;
                 modifiers = modifiers + ", underblock";
@@ -68,7 +68,7 @@ public final class SpeedA extends Check {
                 modifiers = modifiers + ", freshground";
             }
 
-            if (data.getPositionProcessor().isNearStair()) {
+            if (isExempt(ExemptType.NEARSTAIRS)) {
                 airLimit += 0.91F;
                 groundLimit += 0.91F;
                 modifiers = modifiers + ", stairs";

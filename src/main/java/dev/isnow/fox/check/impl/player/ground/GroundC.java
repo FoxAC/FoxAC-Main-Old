@@ -8,7 +8,7 @@ import dev.isnow.fox.packet.Packet;
 import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.utils.player.ClientVersion;
 
-@CheckInfo(name = "Ground", type = "C", description = "Checks for invalid vertical ground motion.")
+@CheckInfo(name = "Ground", type = "C", description = "Detects no-fall.")
 public final class GroundC extends Check {
     public GroundC(final PlayerData data) {
         super(data);

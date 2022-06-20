@@ -3,13 +3,11 @@ package dev.isnow.fox.check.impl.combat.aim;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 @CheckInfo(name = "Aim", description = "Checks for pitch deviation.", type = "L")
 public final class AimL extends Check {

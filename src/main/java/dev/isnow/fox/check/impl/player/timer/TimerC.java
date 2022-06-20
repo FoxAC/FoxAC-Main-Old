@@ -20,7 +20,7 @@ public class TimerC extends Check {
         if (packet.isFlying()) {
             final long now = packet.getTimeStamp();
             handle: {
-                if (isExempt(ExemptType.JOINED, ExemptType.PEARL)) break handle;
+                if (isExempt(ExemptType.TELEPORT_DELAY_2TICK, ExemptType.JOINED, ExemptType.PEARL)) break handle;
                 if (lastFlying == 0L) break handle;
 
                 final long delay = now - lastFlying;

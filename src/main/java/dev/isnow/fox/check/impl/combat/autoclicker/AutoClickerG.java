@@ -3,12 +3,9 @@ package dev.isnow.fox.check.impl.combat.autoclicker;
 import dev.isnow.fox.check.Check;
 import dev.isnow.fox.check.api.CheckInfo;
 import dev.isnow.fox.data.PlayerData;
-import dev.isnow.fox.exempt.type.ExemptType;
 import dev.isnow.fox.packet.Packet;
 import dev.isnow.fox.util.MathUtil;
-import dev.isnow.fox.util.type.Pair;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 

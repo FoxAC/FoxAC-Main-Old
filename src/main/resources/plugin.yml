@@ -9,7 +9,7 @@ commands:
   fox:
     description: Commands for Fox Anticheat.
     usage: /fox
-    aliases: [foxac, fac, fag]
+    aliases: [foxac, fac, foxanticheat]
     permission: fox.commands
   alerts:
     description: toggle alerts

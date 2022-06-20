@@ -39,7 +39,6 @@ dev\isnow\fox\data\processor\PositionProcessor$CollisionType.class
 dev\isnow\fox\check\impl\combat\aim\AimD.class
 dev\isnow\fox\manager\TickManagerV2.class
 dev\isnow\fox\check\impl\movement\flight\FlightA.class
-dev\isnow\fox\listener\bukkit\BukkitEventManager$2.class
 dev\isnow\fox\check\Check$CheckType.class
 dev\isnow\fox\util\mc\Vec3i.class
 dev\isnow\fox\check\impl\combat\aura\AuraK.class
@@ -91,7 +90,6 @@ dev\isnow\fox\command\impl\Demo.class
 dev\isnow\fox\manager\ClientBrandListener.class
 dev\isnow\fox\manager\TickManagerV2$1.class
 dev\isnow\fox\util\ListWrapper.class
-dev\isnow\fox\listener\bukkit\BukkitEventManager$1.class
 dev\isnow\fox\util\vpn\json\JSONException.class
 dev\isnow\fox\exempt\ExemptProcessor.class
 dev\isnow\fox\listener\bukkit\RegistrationListener$1.class
